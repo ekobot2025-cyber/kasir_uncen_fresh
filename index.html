@@ -230,6 +230,17 @@
 
       <!-- Accounting Sheets Menu Links -->
       <div class="group-title">Laporan Keuangan Resmi</div>
+      <div class="menu-card" onclick="openSheet('sheet-lap-rekap')" style="background:linear-gradient(135deg, #f0fdfa, #ecfeff); border:1px solid #cffafe;">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:#0891b2; color:#ffffff;">📑</div>
+          <div>
+            <div class="menu-card-title" style="color:#0891b2; font-weight:800;">Rekap Laporan Keuangan</div>
+            <div class="menu-card-desc" style="color:#0e7490;">Gabungan Laba Rugi, Neraca, &amp; Arus Kas</div>
+          </div>
+        </div>
+        <div style="color:#0891b2; font-weight:bold;">➔</div>
+      </div>
+      
       <div class="menu-card" onclick="openSheet('sheet-lap-labarugi')">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:var(--blue-light); color:var(--blue);">📊</div>
@@ -1004,12 +1015,167 @@
     <div class="mb" id="detail-tx-content"></div>
     <div class="mf" style="flex-wrap:wrap; gap:8px;">
       <button class="btn btn-s" style="flex:1; min-width:80px;" onclick="closeSheet('sheet-detail-tx')">Tutup</button>
-      <button class="btn btn-y" style="flex:2; min-width:140px;" onclick="closeSheet('sheet-detail-tx'); tampilkanFaktur(lastTxForStruk)">Lihat Faktur Customer ➔</button>
+        <button class="btn btn-y" style="flex:2; min-width:140px;" onclick="closeSheet('sheet-detail-tx'); tampilkanFaktur(lastTxForStruk)">Lihat Faktur Customer ➔</button>
     </div>
   </div>
 </div>
 
-<!-- ===================== ACCOUNTING SHEETS ===================== -->
+<!-- REKAPITULASI SHEET -->
+<div class="mo" id="sheet-lap-rekap">
+  <div class="md" style="max-width:800px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="mh">
+      <h3 class="mt">Rekapitulasi Laporan Keuangan</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-rekap')">✕</button>
+    </div>
+    
+    <div class="mb" style="padding:16px; overflow-y:auto; flex:1;">
+      <div id="print-area-rekap" class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:16px; border:1px solid var(--border); padding:20px; font-family:'Outfit', sans-serif; background:#fff; color:#0f172a;">
+        
+        <div style="background:var(--primary); color:#ffffff; padding:14px; text-align:center; border-radius:var(--radius-sm); margin-bottom:8px;">
+          <h2 style="font-family:'Outfit'; font-weight:800; font-size:18px; text-transform:uppercase; margin:0; letter-spacing:0.5px;" id="rekap-header-kios">UNCEN FRESH</h2>
+          <div style="font-size:12px; font-weight:700; text-transform:uppercase; margin-top:2px;">Laporan Rekapitulasi Keuangan</div>
+          <div style="font-size:10px; font-weight:500; opacity:0.9; margin-top:2px;" id="rekap-periode-label">Periode: Semua Waktu</div>
+        </div>
+        
+        <!-- 1. LABA RUGI -->
+        <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; display:flex; flex-direction:column; gap:6px; text-align:left;">
+          <div style="font-weight:800; font-size:12px; color:var(--primary); border-bottom:2px solid var(--primary-light); padding-bottom:3px; margin-bottom:4px; display:flex; align-items:center; gap:4px;">
+            <span>📊</span> LAPORAN LABA RUGI
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px;">
+            <span>Pendapatan Penjualan Air</span>
+            <span id="rekap-pendapatan">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--red);">
+            <span>Harga Pokok Penjualan (HPP)</span>
+            <span id="rekap-hpp">(Rp 0)</span>
+          </div>
+          <hr style="border:none; border-top:1px dashed var(--border); margin:3px 0;">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:11px; color:var(--primary);">
+            <span>LABA KOTOR</span>
+            <span id="rekap-laba-kotor">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-top:2px;">
+            <span>Beban Operasional Umum</span>
+            <span id="rekap-beban">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--red);">
+            <span>Total Beban Operasional</span>
+            <span id="rekap-total-beban">(Rp 0)</span>
+          </div>
+          <hr style="border:none; border-top:2px double var(--border); margin:3px 0;">
+          <div style="display:flex; justify-content:space-between; font-weight:900; font-size:12px; color:var(--blue);">
+            <span>LABA BERSIH OPERASIONAL</span>
+            <span id="rekap-laba-bersih">Rp 0</span>
+          </div>
+        </div>
+        
+        <!-- 2. NERACA KEUANGAN -->
+        <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; display:flex; flex-direction:column; gap:6px; text-align:left;">
+          <div style="font-weight:800; font-size:12px; color:var(--primary); border-bottom:2px solid var(--primary-light); padding-bottom:3px; margin-bottom:4px; display:flex; align-items:center; gap:4px;">
+            <span>📋</span> LAPORAN NERACA KEUANGAN
+          </div>
+          <div style="font-weight:800; font-size:10px; color:var(--text-secondary); text-transform:uppercase;">AKTIVA (ASET)</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Kas / Uang Tunai Kios</span>
+            <span id="rekap-kas">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Piutang Dagang (Kasbon)</span>
+            <span id="rekap-piutang">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Persediaan Dagang (Stok HPP)</span>
+            <span id="rekap-persediaan">Rp 0</span>
+          </div>
+          <hr style="border:none; border-top:1px dashed var(--border); margin:3px 0;">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:11px; color:var(--primary);">
+            <span>TOTAL AKTIVA</span>
+            <span id="rekap-total-aktiva">Rp 0</span>
+          </div>
+          <div style="font-weight:800; font-size:10px; color:var(--text-secondary); text-transform:uppercase; margin-top:6px;">KEWAJIBAN &amp; EKUITAS (PASIVA)</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Hutang Usaha Supplier</span>
+            <span id="rekap-hutang-usaha">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Modal Awal Pemilik</span>
+            <span id="rekap-modal-awal">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Laba Usaha Berjalan</span>
+            <span id="rekap-laba-berjalan">Rp 0</span>
+          </div>
+          <hr style="border:none; border-top:1px dashed var(--border); margin:3px 0;">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:11px; color:var(--blue);">
+            <span>TOTAL PASIVA</span>
+            <span id="rekap-total-pasiva">Rp 0</span>
+          </div>
+        </div>
+        
+        <!-- 3. ARUS KAS (CASH FLOW) -->
+        <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; display:flex; flex-direction:column; gap:6px; text-align:left;">
+          <div style="font-weight:800; font-size:12px; color:var(--primary); border-bottom:2px solid var(--primary-light); padding-bottom:3px; margin-bottom:4px; display:flex; align-items:center; gap:4px;">
+            <span>💰</span> LAPORAN ARUS KAS (CASH FLOW)
+          </div>
+          <div style="font-weight:800; font-size:10px; color:#b45309;">1. ARUS KAS AKTIVITAS OPERASIONAL</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Penerimaan Kas Pelanggan</span>
+            <span id="rekap-kas-masuk">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px; color:var(--red);">
+            <span>- Pembayaran Beban Operasional</span>
+            <span id="rekap-kas-beban">(Rp 0)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:11px; padding-left:8px;">
+            <span>Kas Bersih Aktivitas Operasional</span>
+            <span id="rekap-kas-operasi">Rp 0</span>
+          </div>
+          <div style="font-weight:800; font-size:10px; color:#0369a1; margin-top:4px;">2. ARUS KAS AKTIVITAS INVESTASI</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px; color:var(--red);">
+            <span>- Pembelian Persediaan (Restock)</span>
+            <span id="rekap-kas-restock">(Rp 0)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:11px; padding-left:8px;">
+            <span>Kas Bersih Aktivitas Investasi</span>
+            <span id="rekap-kas-investasi">Rp 0</span>
+          </div>
+          <div style="font-weight:800; font-size:10px; color:#047857; margin-top:4px;">3. ARUS KAS AKTIVITAS PENDANAAN</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:8px;">
+            <span>- Setoran Modal Awal</span>
+            <span id="rekap-kas-modal">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:11px; padding-left:8px;">
+            <span>Kas Bersih Aktivitas Pendanaan</span>
+            <span id="rekap-kas-pendanaan">Rp 0</span>
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin:4px 0;">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:11px; color:var(--primary);">
+            <span>KENAIKAN / (PENURUNAN) KAS</span>
+            <span id="rekap-kas-delta">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; padding-left:6px;">
+            <span>Saldo Kas Awal Periode</span>
+            <span id="rekap-kas-awal">Rp 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:12px; padding-left:6px; border-top:1px dashed var(--border); padding-top:3px; color:var(--blue);">
+            <span>Saldo Kas Akhir Periode</span>
+            <span id="rekap-kas-akhir">Rp 0</span>
+          </div>
+        </div>
+        
+        <div style="font-size:9px; color:var(--text-secondary); text-align:center; border-top:1px solid var(--border); padding-top:8px; margin-top:6px;">
+          <span>©2026 U2PA Universitas Cenderawasih, Papua • Develop by Enterdie</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mf" style="gap:8px; padding:12px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-rekap')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1.5" onclick="printReport('sheet-lap-rekap')">🖨️ Cetak PDF</button>
+    </div>
+  </div>
+</div>
 
 <!-- LABA RUGI SHEET -->
 <div class="mo" id="sheet-lap-labarugi">

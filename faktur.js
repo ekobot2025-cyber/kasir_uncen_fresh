@@ -454,6 +454,7 @@ function printReport(sheetId) {
   if (sheetId.indexOf('labarugi') !== -1) title = 'LAPORAN LABA RUGI OPERASIONAL';
   if (sheetId.indexOf('neraca') !== -1) title = 'LAPORAN NERACA POSISI KEUANGAN';
   if (sheetId.indexOf('aruskas') !== -1) title = 'LAPORAN ARUS KAS (CASH FLOW)';
+  if (sheetId.indexOf('rekap') !== -1) title = 'LAPORAN REKAPITULASI KEUANGAN KONSOLIDASI';
   
   var printSection = document.getElementById('print-section');
   if (!printSection) {
@@ -502,10 +503,16 @@ function printReport(sheetId) {
   printSection.innerHTML = reportHtml;
   
   // Hide internal titles inside card to prevent duplication
-  var internalTitle = printSection.querySelector('h4');
-  if (internalTitle) internalTitle.style.display = 'none';
-  var internalSub = printSection.querySelector('div[style*="font-size: 11px"]');
-  if (internalSub) internalSub.style.display = 'none';
+  if (sheetId.indexOf('rekap') === -1) {
+    var internalTitle = printSection.querySelector('h4');
+    if (internalTitle) internalTitle.style.display = 'none';
+    var internalSub = printSection.querySelector('div[style*="font-size: 11px"]');
+    if (internalSub) internalSub.style.display = 'none';
+  } else {
+    // For rekap, hide the main primary blue header block since printReport wraps it
+    var rekapHeader = printSection.querySelector('div[style*="background:var(--primary)"]');
+    if (rekapHeader) rekapHeader.style.display = 'none';
+  }
   
   document.body.classList.add('printing-report');
   window.print();

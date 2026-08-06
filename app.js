@@ -1243,6 +1243,42 @@ function renderLaporan() {
   setText('lap-kas-delta', fRn(d.kasDelta));
   setText('lap-kas-awal', fR(d.kasAwal));
   setText('lap-kas-akhir', fR(d.kasAkhir));
+
+  // Rekap Laporan Keuangan Konsolidasi
+  var elRekapHeader = document.getElementById('rekap-header-kios');
+  if (elRekapHeader) elRekapHeader.textContent = namaKios;
+  var elRekapPeriode = document.getElementById('rekap-periode-label');
+  if (elRekapPeriode) elRekapPeriode.textContent = 'Periode: ' + d.periodeLabel + ' (Hingga ' + d.tglNow + ')';
+
+  // Rekap - Laba Rugi
+  setText('rekap-pendapatan', fR(d.pendapatan));
+  setText('rekap-hpp', fRn(-d.totalHPP));
+  setText('rekap-laba-kotor', fR(d.labaKotor));
+  setText('rekap-beban', fR(d.beban));
+  setText('rekap-total-beban', fRn(-d.beban));
+  setText('rekap-laba-bersih', fR(d.labaBersih));
+
+  // Rekap - Neraca
+  setText('rekap-kas', fR(d.kas));
+  setText('rekap-piutang', fR(d.totalPiutang));
+  setText('rekap-persediaan', fR(d.persediaan));
+  setText('rekap-total-aktiva', fR(d.totalAktiva));
+  setText('rekap-hutang-usaha', fR(d.totalHutangUsaha));
+  setText('rekap-modal-awal', fR(d.modalAwal));
+  setText('rekap-laba-berjalan', fR(d.labaBersih));
+  setText('rekap-total-pasiva', fR(d.totalPasiva));
+
+  // Rekap - Arus Kas
+  setText('rekap-kas-masuk', fR(d.pendapatan));
+  setText('rekap-kas-beban', fRn(-d.beban));
+  setText('rekap-kas-operasi', fR(d.kasOperasi));
+  setText('rekap-kas-restock', fRn(-d.kasRestock));
+  setText('rekap-kas-investasi', fRn(d.kasInvestasi));
+  setText('rekap-kas-modal', fR(d.kasPendanaan));
+  setText('rekap-kas-pendanaan', fR(d.kasPendanaan));
+  setText('rekap-kas-delta', fRn(d.kasDelta));
+  setText('rekap-kas-awal', fR(d.kasAwal));
+  setText('rekap-kas-akhir', fR(d.kasAkhir));
 }
 
 function setText(id, val) {
