@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Uncen Fresh — Unit Usaha dan Pengelolaan Aset Universitas Cenderawasih</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-logo">
+        <img id="hdr-logo-img" src="logo_uncenfresh.svg" alt="Logo Uncen Fresh">
+        <svg id="hdr-logo-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="12" width="20" height="9" rx="2"/>
+          <rect x="6" y="3" width="12" height="7" rx="1"/>
+          <path d="M2 12h20M12 16h.01M16 16h.01M8 16h.01M12 18h.01M16 18h.01M8 18h.01"/>
+        </svg>
+      </div>
+      <span class="hdr-title" id="hdr-name">Uncen Fresh</span>
+    </div>
+    <div class="hdr-actions">
+      <!-- Dark Theme Toggle -->
+      <button class="ib" onclick="toggleTheme()" title="Beralih Tema">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      <!-- Quick Settings -->
+      <button class="ib" onclick="switchTab('pengaturan')" title="Pengaturan Toko">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="views">
+
+    <!-- VIEW 1: DASHBOARD -->
+    <div class="vp active" id="view-dashboard">
+      <!-- Welcome Card -->
+      <div class="card" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="openSheet('sheet-profile')">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px; height:40px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:18px;">
+            👤
+          </div>
+          <div>
+            <div style="font-family:'Outfit'; font-weight:700; font-size:15px;" id="db-welcome">Selamat Datang!</div>
+            <div style="font-size:11px; color:var(--text-secondary);" id="db-subtitle">Uncen Fresh • Operator</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <!-- Financial Metrics -->
+      <div class="group-title">Penjualan Hari Ini</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+        <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:var(--primary-light); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:16px;">💰</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="db-sales-today">Rp 0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Total Omset</div>
+        </div>
+        <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:var(--blue-light); color:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:16px;">📈</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="db-profit-today">Rp 0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Laba Bersih</div>
+        </div>
+      </div>
+
+      <!-- Quick Operations Grid -->
+      <div class="group-title">Modul Manajemen Usaha</div>
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:16px;">
+        <div onclick="openSheet('sheet-katalog-produk')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#e8f7f0; color:#10b981; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">📦</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Produk</span>
+        </div>
+        <div onclick="openSheet('sheet-restock-katalog')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#eff6ff; color:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">📥</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Stok Masuk</span>
+        </div>
+        <div onclick="openSheet('sheet-stok-opname')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#fff7ed; color:#f97316; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">⚖️</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Opname</span>
+        </div>
+        <div onclick="openSheet('sheet-riwayat-stok')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#f5f5f5; color:#4b5563; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">📜</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Log Stok</span>
+        </div>
+        <div onclick="openSheet('sheet-expired')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#fef2f2; color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">⚠️</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Expired</span>
+        </div>
+        <div onclick="openSheet('sheet-kategori')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#fae8ff; color:#c084fc; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">🏷️</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Kategori</span>
+        </div>
+        <div onclick="openSheet('sheet-satuan')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#e0e7ff; color:#6366f1; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">📏</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Satuan</span>
+        </div>
+        <div onclick="openSheet('sheet-kalkulator')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow);">
+          <div style="width:34px; height:34px; border-radius:8px; background:#ecfeff; color:#0891b2; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px;">🧮</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Kalkulator</span>
+        </div>
+        <div onclick="openSheet('sheet-cek-harga')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow); grid-column:span 2;">
+          <div style="width:34px; height:34px; border-radius:8px; background:#fff1f2; color:#f43f5e; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px; margin:0 auto 6px auto;">🔍</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Periksa Harga & Margin</span>
+        </div>
+        <div onclick="openSheet('sheet-supplier')" style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; cursor:pointer; text-align:center; box-shadow:var(--card-shadow); grid-column:span 2;">
+          <div style="width:34px; height:34px; border-radius:8px; background:#f0fdf4; color:#16a34a; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:6px; margin:0 auto 6px auto;">🏬</div>
+          <span style="font-size:10px; font-weight:700; line-height:1.2;">Manajemen Supplier</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: KASIR (POS) -->
+    <div class="vp" id="view-kasir">
+      <!-- Input Data Pelanggan (Awal Transaksi) -->
+      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+        <div style="font-family: 'Outfit'; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+          👤 Informasi Pelanggan (Awal Transaksi)
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px;">
+          <div>
+            <input type="text" id="pos-cust-nama" class="si" placeholder="Nama Pelanggan (Umum)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('nama', this.value)">
+          </div>
+          <div>
+            <input type="text" id="pos-cust-wa" class="si" placeholder="No. HP/WA (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('wa', this.value)">
+          </div>
+          <div>
+            <input type="text" id="pos-cust-alamat" class="si" placeholder="Alamat Lengkap (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('alamat', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <div class="sw" style="display:flex; align-items:center;">
+        <svg class="sic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="kasir-search" class="si" placeholder="Cari produk..." oninput="renderKasir()" style="padding-right:48px;">
+        <button onclick="openProdukSheet(null)" style="position:absolute; right:12px; background:none; border:none; color:var(--primary); cursor:pointer; display:flex; align-items:center; justify-content:center; width:28px; height:28px;" title="Tambah Produk Baru">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="pg" id="kasir-grid" style="margin-bottom:80px;"></div>
+      
+      <!-- Floating Cart Badge -->
+      <div class="cfab" id="cart-fab" onclick="openCart()">
+        <div style="display:flex; align-items:center; gap:8px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span id="cart-badge" style="background:#fff; color:var(--primary); font-weight:800; font-size:12px; padding:2px 8px; border-radius:12px">0</span>
+        </div>
+        <span id="cart-total-fab" style="font-family:'Outfit'; font-weight:800; font-size:16px">Rp 0</span>
+      </div>
+    </div>
+
+    <!-- VIEW 3: TRANSAKSI (RIWAYAT) -->
+    <div class="vp" id="view-riwayat">
+      <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Riwayat Transaksi Penjualan</h3>
+      <div class="fchips" id="riwayat-filter-chips">
+        <button class="fchip active" onclick="setRiwayatFilter('all',this)">Semua</button>
+        <button class="fchip" onclick="setRiwayatFilter('today',this)">Hari Ini</button>
+        <button class="fchip" onclick="setRiwayatFilter('7d',this)">7 Hari Terakhir</button>
+        <button class="fchip" onclick="setRiwayatFilter('30d',this)">30 Hari Terakhir</button>
+      </div>
+      <div id="riwayat-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+
+    <!-- VIEW 4: LAPORAN & AKUNTANSI -->
+    <div class="vp" id="view-laporan">
+      <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Laporan Keuangan & Akuntansi</h3>
+      
+      <div class="fchips" id="laporan-filter-chips">
+        <button class="fchip active" onclick="setLaporanFilter('all',this)">Semua Waktu</button>
+        <button class="fchip" onclick="setLaporanFilter('today',this)">Hari Ini</button>
+        <button class="fchip" onclick="setLaporanFilter('7d',this)">7 Hari</button>
+        <button class="fchip" onclick="setLaporanFilter('30d',this)">30 Hari</button>
+      </div>
+
+      <!-- Financial Statements Summary Cards -->
+      <div class="group-title">Ringkasan Nilai Keuangan</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:var(--blue-light); color:var(--blue); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-penjualan">Rp 0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Total Pendapatan</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:var(--green-light); color:var(--green); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-transaksi">0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Total Transaksi</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:var(--orange-light); color:var(--orange); display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-terjual">0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Barang Terjual</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
+          <div style="width:32px; height:32px; border-radius:8px; background:#ecfeff; color:#0891b2; display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-laba">Rp 0</div>
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Laba Bersih</div>
+        </div>
+      </div>
+
+      <!-- Accounting Sheets Menu Links -->
+      <div class="group-title">Laporan Keuangan Resmi</div>
+      <div class="menu-card" onclick="openSheet('sheet-lap-labarugi')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--blue-light); color:var(--blue);">📊</div>
+          <div>
+            <div class="menu-card-title">Laporan Laba Rugi</div>
+            <div class="menu-card-desc">Pendapatan, Harga HPP, Beban & Margin Profit</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+      
+      <div class="menu-card" onclick="openSheet('sheet-lap-neraca')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--green-light); color:var(--green);">📋</div>
+          <div>
+            <div class="menu-card-title">Neraca Keuangan</div>
+            <div class="menu-card-desc">Aset (Kas, Stok, Piutang) vs Modal Usaha</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="menu-card" onclick="openSheet('sheet-lap-aruskas')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:#fef3c7; color:#d97706;">💰</div>
+          <div>
+            <div class="menu-card-title">Arus Kas (Cash Flow)</div>
+            <div class="menu-card-desc">Kas Masuk & Keluar: Operasional, Investasi & Modal</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="menu-card" onclick="openSheet('sheet-hutang')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">📕</div>
+          <div>
+            <div class="menu-card-title">Buku Hutang (Piutang)</div>
+            <div class="menu-card-desc">Daftar kasbon pelanggan & penagihan WA</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="menu-card" onclick="openSheet('sheet-pengeluaran')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:#f5f5f5; color:#4b5563;">💸</div>
+          <div>
+            <div class="menu-card-title">Buku Pengeluaran (Beban)</div>
+            <div class="menu-card-desc">Catat biaya operasional & pengeluaran umum</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: PENGATURAN -->
+    <div class="vp" id="view-pengaturan">
+      <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Pengaturan Sistem</h3>
+      
+      <div class="group-title">Profil Usaha</div>
+      <div class="menu-card" onclick="openSheet('sheet-profile')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--blue-light); color:var(--blue);">⚙️</div>
+          <div>
+            <div class="menu-card-title">Profil &amp; Identitas Toko</div>
+            <div class="menu-card-desc">Atur nama usaha, modal awal, &amp; logo usaha</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="group-title">Keamanan &amp; PIN</div>
+      <div class="menu-card" onclick="openSheet('sheet-security')">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">🔒</div>
+          <div>
+            <div class="menu-card-title">Kunci PIN Keamanan</div>
+            <div class="menu-card-desc">Batasi akses aplikasi dengan username &amp; PIN</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="group-title">Basis Data (Database)</div>
+      <div class="menu-card" onclick="backupData()">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:#e0f2fe; color:#0369a1;">📥</div>
+          <div>
+            <div class="menu-card-title">Backup Database</div>
+            <div class="menu-card-desc">Unduh cadangan data pembukuan format JSON</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+
+      <div class="menu-card" onclick="triggerRestore()">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--green-light); color:var(--green);">📤</div>
+          <div>
+            <div class="menu-card-title">Restore Database</div>
+            <div class="menu-card-desc">Unggah &amp; pulihkan pembukuan dari file JSON</div>
+          </div>
+        </div>
+        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+      </div>
+      <input type="file" id="restore-file-input" accept=".json" style="display:none" onchange="restoreData(event)">
+
+      <div class="menu-card" onclick="resetAplikasi()" style="border-color:var(--red-light);">
+        <div class="menu-card-left">
+          <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">🗑️</div>
+          <div>
+            <div class="menu-card-title" style="color:var(--red);">Reset Semua Data</div>
+            <div class="menu-card-desc" style="color:var(--red); opacity:0.8;">Hapus seluruh pembukuan secara permanen</div>
+          </div>
+        </div>
+        <div style="color:var(--red); font-weight:bold;">➔</div>
+      </div>
+
+      <footer class="foot">
+        ©2026 U2PA Universitas Cenderawasih, Papua<br>
+        Develop by <a href="https://www.linkedin.com/in/papedatimur" target="_blank" style="color:inherit; text-decoration:underline;">Enterdie</a>
+      </footer>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav">
+    <button class="ni active" id="tab-dashboard" onclick="switchTab('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="9"/>
+        <rect x="14" y="3" width="7" height="5"/>
+        <rect x="14" y="12" width="7" height="9"/>
+        <rect x="3" y="16" width="7" height="5"/>
+      </svg>
+      <span>Dashboard</span>
+    </button>
+    <button class="ni" id="tab-kasir" onclick="switchTab('kasir')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="12" width="20" height="9" rx="2"/>
+        <rect x="6" y="3" width="12" height="7" rx="1"/>
+        <path d="M2 12h20M12 16h.01M16 16h.01M8 16h.01M12 18h.01M16 18h.01M8 18h.01"/>
+      </svg>
+      <span>Kasir</span>
+    </button>
+    <button class="nfab" id="btn-fab-center" onclick="openSheet('sheet-quick-add')" title="Tambah Cepat">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </button>
+    <button class="ni" id="tab-riwayat" onclick="switchTab('riwayat')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      <span>Transaksi</span>
+    </button>
+    <button class="ni" id="tab-laporan" onclick="switchTab('laporan')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <line x1="18" y1="20" x2="18" y2="10"/>
+        <line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+      <span>Laporan</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ===================== MODALS / SHEETS ===================== -->
+
+<!-- SHEET: QUICK ADD -->
+<div class="mo" id="sheet-quick-add">
+  <div class="md" style="max-width:320px;">
+    <div class="mh">
+      <h3 class="mt">Tambah Cepat</h3>
+      <button class="mx" onclick="closeSheet('sheet-quick-add')">✕</button>
+    </div>
+    <div class="mb" style="padding:16px;">
+      <button class="btn" style="margin-bottom:10px;" onclick="closeSheet('sheet-quick-add'); openProdukSheet(null)">📦 Tambah Produk Baru</button>
+      <button class="btn btn-g" style="margin-bottom:10px;" onclick="closeSheet('sheet-quick-add'); openSheet('sheet-pengeluaran')">💵 Catat Pengeluaran Toko</button>
+      <button class="btn btn-o" onclick="closeSheet('sheet-quick-add'); openSheet('sheet-hutang')">👥 Catat Kasbon Pelanggan</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: PRODUCT CATALOG -->
+<div class="mo" id="sheet-katalog-produk">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Katalog Produk Toko</h3>
+      <button class="mx" onclick="closeSheet('sheet-katalog-produk')">✕</button>
+    </div>
+    <div class="mb">
+      <div class="sw">
+        <svg class="sic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="katalog-search" class="si" placeholder="Cari katalog..." oninput="renderKatalogList()">
+      </div>
+      <button class="btn btn-g" style="height:38px; font-size:13px; margin-bottom:10px;" onclick="openProdukSheet(null)">+ Tambah Produk Baru</button>
+      <div id="katalog-list" style="max-height:350px; overflow-y:auto;"></div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-katalog-produk')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: FORM PRODUCT (ADD/EDIT) -->
+<div class="mo" id="sheet-produk">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt" id="produk-title">Produk Toko</h3>
+      <button class="mx" onclick="closeSheet('sheet-produk')">✕</button>
+    </div>
+    <div class="mb">
+      <input type="hidden" id="fp-id">
+      
+      <div class="fg">
+        <label>Nama Produk</label>
+        <input type="text" id="fp-nama" placeholder="Contoh: Galon + Air">
+      </div>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="fg">
+          <label>Harga Beli (HPP)</label>
+          <input type="number" id="fp-hpp" placeholder="0">
+        </div>
+        <div class="fg">
+          <label>Harga Jual</label>
+          <input type="number" id="fp-jual" placeholder="0">
+        </div>
+      </div>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="fg">
+          <label>Jumlah Stok</label>
+          <input type="number" id="fp-stok" placeholder="0">
+        </div>
+        <div class="fg">
+          <label>Satuan Unit</label>
+          <input type="text" id="fp-satuan" list="list-satuan" placeholder="pcs / Galon / Botol">
+          <datalist id="list-satuan"></datalist>
+        </div>
+      </div>
+      
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="fg">
+          <label>Kategori</label>
+          <input type="text" id="fp-kategori" list="list-kategori" placeholder="Makanan / Minuman">
+          <datalist id="list-kategori"></datalist>
+        </div>
+        <div class="fg">
+          <label>Tanggal Expired</label>
+          <input type="date" id="fp-expired">
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Foto Produk</label>
+        <div class="foto-upload-box">
+          <span id="foto-placeholder">📸 Klik untuk upload gambar produk</span>
+          <img id="foto-preview" style="display:none">
+          <input type="file" accept="image/*" onchange="handleFotoUpload(event)">
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-d" id="btn-hapus-p" style="flex:1;" onclick="hapusProduk()">Hapus</button>
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-produk')">Batal</button>
+      <button class="btn btn-g" style="flex:1.5" onclick="simpanProduk()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: RESTOCK (ADD STOK ONLY) -->
+<div class="mo" id="sheet-restock">
+  <div class="md" style="max-width:340px;">
+    <div class="mh">
+      <h3 class="mt">Restock Barang Masuk</h3>
+      <button class="mx" onclick="closeSheet('sheet-restock')">✕</button>
+    </div>
+    <div class="mb">
+      <input type="hidden" id="restock-id">
+      <div style="font-size:12px; margin-bottom:10px;">
+        Nama Barang: <strong id="restock-nama">-</strong><br>
+        Stok Saat Ini: <strong id="restock-current">-</strong>
+      </div>
+      <div class="fg">
+        <label>Jumlah Stok Masuk</label>
+        <input type="number" id="restock-qty" placeholder="Masukkan jumlah barang baru">
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-restock')">Batal</button>
+      <button class="btn btn-g" style="flex:1.5" onclick="simpanRestock()">Tambah</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: STOK MASUK MENU LIST -->
+<div class="mo" id="sheet-restock-katalog">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Pilih Produk Untuk Restock</h3>
+      <button class="mx" onclick="closeSheet('sheet-restock-katalog')">✕</button>
+    </div>
+    <div class="mb">
+      <p style="font-size:11px; color:var(--text-secondary); margin-bottom:10px;">Pilih salah satu produk di bawah ini untuk menambah persediaan stok masuk:</p>
+      <div id="restock-katalog-list" style="max-height:360px; overflow-y:auto;"></div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-restock-katalog')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: STOK OPNAME FISIK -->
+<div class="mo" id="sheet-stok-opname">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Stok Opname Fisik</h3>
+      <button class="mx" onclick="closeSheet('sheet-stok-opname')">✕</button>
+    </div>
+    <div class="mb">
+      <p style="font-size:11px; color:var(--text-secondary); margin-bottom:10px;">Sesuaikan jumlah stok tercatat dengan stok fisik riil di toko Anda:</p>
+      <div id="opname-list" style="max-height:360px; overflow-y:auto;"></div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-stok-opname')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: LOG RIWAYAT STOK -->
+<div class="mo" id="sheet-riwayat-stok">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Catatan Log Riwayat Stok</h3>
+      <button class="mx" onclick="closeSheet('sheet-riwayat-stok')">✕</button>
+    </div>
+    <div class="mb">
+      <div id="stok-log-list" style="max-height:380px; overflow-y:auto;"></div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-riwayat-stok')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: EXPIRED MONITOR -->
+<div class="mo" id="sheet-expired">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Monitoring Expired Date</h3>
+      <button class="mx" onclick="closeSheet('sheet-expired')">✕</button>
+    </div>
+    <div class="mb">
+      <div id="expired-list" style="max-height:360px; overflow-y:auto;"></div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-expired')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: MANAGE CATEGORIES -->
+<div class="mo" id="sheet-kategori">
+  <div class="md" style="max-width:340px;">
+    <div class="mh">
+      <h3 class="mt">Daftar Kategori Produk</h3>
+      <button class="mx" onclick="closeSheet('sheet-kategori')">✕</button>
+    </div>
+    <div class="mb">
+      <div class="fg">
+        <label>Tambah Kategori</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="new-category-name" placeholder="Nama Kategori Baru" style="flex:1;">
+          <button class="btn btn-g" style="width:auto; padding:0 16px; height:44px;" onclick="tambahKategori()">+</button>
+        </div>
+      </div>
+      <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
+      <div id="categories-container" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: MANAGE UNITS -->
+<div class="mo" id="sheet-satuan">
+  <div class="md" style="max-width:340px;">
+    <div class="mh">
+      <h3 class="mt">Daftar Satuan Unit</h3>
+      <button class="mx" onclick="closeSheet('sheet-satuan')">✕</button>
+    </div>
+    <div class="mb">
+      <div class="fg">
+        <label>Tambah Satuan</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="new-unit-name" placeholder="Satuan Baru (misal: box)" style="flex:1;">
+          <button class="btn btn-g" style="width:auto; padding:0 16px; height:44px;" onclick="tambahSatuan()">+</button>
+        </div>
+      </div>
+      <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
+      <div id="units-container" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: CHECK PRICE AND MARGINS -->
+<div class="mo" id="sheet-cek-harga">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt"> lookup Harga &amp; Profit Margin</h3>
+      <button class="mx" onclick="closeSheet('sheet-cek-harga')">✕</button>
+    </div>
+    <div class="mb">
+      <div class="sw">
+        <svg class="sic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="check-price-search" class="si" placeholder="Cari produk..." oninput="renderCekHargaList()">
+      </div>
+      <div id="cek-harga-list" style="max-height:360px; overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: SUPPLIERS -->
+<div class="mo" id="sheet-supplier">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Manajemen Supplier Grosir</h3>
+      <button class="mx" onclick="closeSheet('sheet-supplier')">✕</button>
+    </div>
+    <div class="mb">
+      <button class="btn btn-g" style="height:36px; font-size:12px; margin-bottom:12px;" onclick="openAddSupplierForm()">+ Tambah Supplier Baru</button>
+      
+      <!-- Supplier Input Form (Hidden by default) -->
+      <div id="supplier-form-box" class="card" style="display:none; flex-direction:column; gap:10px; border-color:var(--primary);">
+        <h4 style="font-size:12px; font-family:'Outfit';">Form Data Supplier</h4>
+        <div class="fg"><input type="text" id="sup-nama" placeholder="Nama Supplier"></div>
+        <div class="fg"><input type="text" id="sup-wa" placeholder="No WhatsApp (misal: 0812...)"></div>
+        <div class="fg"><input type="text" id="sup-alamat" placeholder="Alamat Pemasok"></div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-s" style="height:32px; font-size:11px;" onclick="toggleSupplierForm(false)">Batal</button>
+          <button class="btn btn-g" style="height:32px; font-size:11px;" onclick="simpanSupplier()">Simpan</button>
+        </div>
+      </div>
+      
+      <div id="suppliers-list" style="max-height:320px; overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: INTEGRATED CALCULATOR -->
+<div class="mo" id="sheet-kalkulator">
+  <div class="md" style="max-width:300px;">
+    <div class="mh">
+      <h3 class="mt">Kalkulator</h3>
+      <button class="mx" onclick="closeSheet('sheet-kalkulator')">✕</button>
+    </div>
+    <div class="mb" style="padding:14px; gap:10px;">
+      <div id="calc-screen" style="width:100%; height:50px; background:#1e293b; color:#10b981; border-radius:8px; display:flex; align-items:center; justify-content:flex-end; padding:0 14px; font-size:20px; font-family:monospace; font-weight:bold; overflow-x:auto;">0</div>
+      
+      <!-- Button Grid -->
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+        <button class="qcb" style="background:#f1f5f9; color:#ef4444;" onclick="pressCalc('C')">C</button>
+        <button class="qcb" style="background:#f1f5f9;" onclick="pressCalc('del')">Del</button>
+        <button class="qcb" style="background:#f1f5f9;" onclick="pressCalc('/')">/</button>
+        <button class="qcb" style="background:#f1f5f9;" onclick="pressCalc('*')">*</button>
+        
+        <button class="qcb" onclick="pressCalc('7')">7</button>
+        <button class="qcb" onclick="pressCalc('8')">8</button>
+        <button class="qcb" onclick="pressCalc('9')">9</button>
+        <button class="qcb" style="background:#f1f5f9;" onclick="pressCalc('-')">-</button>
+        
+        <button class="qcb" onclick="pressCalc('4')">4</button>
+        <button class="qcb" onclick="pressCalc('5')">5</button>
+        <button class="qcb" onclick="pressCalc('6')">6</button>
+        <button class="qcb" style="background:#f1f5f9;" onclick="pressCalc('+')">+</button>
+        
+        <button class="qcb" onclick="pressCalc('1')">1</button>
+        <button class="qcb" onclick="pressCalc('2')">2</button>
+        <button class="qcb" onclick="pressCalc('3')">3</button>
+        <button class="qcb" style="background:var(--primary); color:#fff; grid-row:span 2; height:84px;" onclick="pressCalc('=')">=</button>
+        
+        <button class="qcb" style="grid-column:span 2;" onclick="pressCalc('0')">0</button>
+        <button class="qcb" onclick="pressCalc('.')">.</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: CART OVERVIEW -->
+<div class="mo" id="sheet-cart">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Keranjang Belanja POS</h3>
+      <button class="mx" onclick="closeSheet('sheet-cart')">✕</button>
+    </div>
+    <div class="mb">
+      <div id="cart-items" style="max-height:280px; overflow-y:auto; margin-bottom:12px;"></div>
+      
+      <!-- Summaries -->
+      <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+          <span>Subtotal Barang</span>
+          <span id="cart-subtotal">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; cursor:pointer;" onclick="editCartDiscount()" title="Klik untuk edit diskon">
+          <span>Potongan Diskon (Rp) ✏️</span>
+          <span id="cart-diskon-label" style="color:var(--red); font-weight:700;">Rp 0 ✏️</span>
+        </div>
+        <hr style="border:none; border-top:1px dashed var(--border);">
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; color:var(--primary);">
+          <span>Total Tagihan</span>
+          <span id="cart-modal-total">Rp 0</span>
+        </div>
+      </div>
+      
+      <!-- Identitas Pelanggan (Wajib) -->
+      <div class="card" style="padding:12px; margin-top:12px; margin-bottom:12px; border-color:var(--primary-light); background:var(--surface); text-align:left;">
+        <div style="font-family:'Outfit'; font-weight:700; font-size:12px; margin-bottom:8px; color:var(--primary);">👤 Identitas Pelanggan (Wajib diisi)</div>
+        <div class="fg" style="margin-bottom:8px;">
+          <label style="font-size:10px; margin-bottom:2px; display:block;">Nama Lengkap</label>
+          <input type="text" id="cart-cust-nama" placeholder="Masukkan nama pelanggan" style="height:36px; font-size:12px;" oninput="syncCustomerData('nama', this.value)">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px;">
+          <div class="fg" style="margin-bottom:0;">
+            <label style="font-size:10px; margin-bottom:2px; display:block;">No. HP/WA</label>
+            <input type="text" id="cart-cust-wa" placeholder="0812..." style="height:36px; font-size:12px;" oninput="syncCustomerData('wa', this.value)">
+          </div>
+          <div class="fg" style="margin-bottom:0;">
+            <label style="font-size:10px; margin-bottom:2px; display:block;">Alamat Rumah</label>
+            <input type="text" id="cart-cust-alamat" placeholder="Alamat lengkap" style="height:36px; font-size:12px;" oninput="syncCustomerData('alamat', this.value)">
+          </div>
+        </div>
+      </div>
+      
+      <div class="fg" style="margin-top:10px;">
+        <label>Catatan Transaksi</label>
+        <input type="text" id="cart-catatan" placeholder="Contoh: Kirim jam 3 sore" oninput="updateCartCatatan()">
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1;" onclick="clearCart()">Kosongkan</button>
+      <button class="btn btn-g" style="flex:2;" onclick="openCheckout()">Lanjutkan Pembayaran ➔</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: CHECKOUT OPTIONS (TUNAI/HUTANG) -->
+<div class="mo" id="sheet-checkout">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Pilih Metode Pembayaran</h3>
+      <button class="mx" onclick="closeSheet('sheet-checkout')">✕</button>
+    </div>
+    <div class="mb">
+      <!-- Identitas Pelanggan (Wajib) -->
+      <div class="card" style="padding:12px; margin-bottom:12px; border-color:var(--primary-light); background:var(--surface);">
+        <div style="font-family:'Outfit'; font-weight:700; font-size:12px; margin-bottom:8px; color:var(--primary); text-align:left;">👤 Identitas Pelanggan (Wajib diisi)</div>
+        <div class="fg" style="margin-bottom:8px;">
+          <label style="font-size:10px; margin-bottom:2px; text-align:left; display:block;">Nama Lengkap</label>
+          <input type="text" id="co-nama-hutang" placeholder="Masukkan nama pelanggan" style="height:36px; font-size:12px;" oninput="syncCustomerData('nama', this.value)">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px;">
+          <div class="fg" style="margin-bottom:0;">
+            <label style="font-size:10px; margin-bottom:2px; text-align:left; display:block;">No. HP/WA</label>
+            <input type="text" id="co-wa-hutang" placeholder="0812..." style="height:36px; font-size:12px;" oninput="syncCustomerData('wa', this.value)">
+          </div>
+          <div class="fg" style="margin-bottom:0;">
+            <label style="font-size:10px; margin-bottom:2px; text-align:left; display:block;">Alamat Rumah</label>
+            <input type="text" id="co-alamat-hutang" placeholder="Alamat lengkap" style="height:36px; font-size:12px;" oninput="syncCustomerData('alamat', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Toggle Methods -->
+      <div style="display:flex; gap:8px; margin-bottom:14px;">
+        <button id="btn-pay-tunai" class="btn" style="flex:1; height:40px; font-size:11px; padding:0;" onclick="setPaymentMethod('tunai')">💵 Tunai (Cash)</button>
+        <button id="btn-pay-transfer" class="btn btn-s" style="flex:1; height:40px; font-size:11px; padding:0;" onclick="setPaymentMethod('transfer')">💳 Transfer Bank</button>
+        <button id="btn-pay-hutang" class="btn btn-s" style="flex:1; height:40px; font-size:11px; padding:0;" onclick="setPaymentMethod('hutang')">👥 Kasbon</button>
+      </div>
+
+      <div class="card" style="margin-bottom:14px; text-align:center; padding:12px;">
+        <div style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">Jumlah Harus Dibayar</div>
+        <div style="font-size:24px; font-family:'Outfit'; font-weight:800; color:var(--primary); margin-top:2px;" id="co-total">Rp 0</div>
+      </div>
+
+      <!-- TUNAI SECTION -->
+      <div id="co-tunai-section">
+        <div class="fg">
+          <label>Jumlah Uang Diterima (Bayar)</label>
+          <input type="number" id="co-bayar" placeholder="Masukkan jumlah uang" oninput="hitungKembalian()">
+        </div>
+        <div class="qcg">
+          <button class="qcb" onclick="setUangPas()">Pas</button>
+          <button class="qcb" onclick="setQC(50000)">50rb</button>
+          <button class="qcb" onclick="setQC(100000)">100rb</button>
+          <button class="qcb" onclick="setQC(200000)">200rb</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:16px; font-weight:800; font-size:14px;">
+          <span>Uang Kembalian</span>
+          <span id="co-kembalian">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- HUTANG / KASBON SECTION -->
+      <div id="co-hutang-section" style="display:none; flex-direction:column; gap:10px;">
+        <div class="fg">
+          <label>Keterangan Tambahan</label>
+          <input type="text" id="co-ket-hutang" placeholder="Contoh: Pinjam galon 2 buah">
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-checkout')">Batal</button>
+      <button class="btn btn-g" style="flex:1.5" onclick="selesaikanTransaksi()">Selesaikan Transaksi ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: BUKU HUTANG / PIUTANG -->
+<div class="mo" id="sheet-hutang">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Buku Hutang &amp; Piutang</h3>
+      <button class="mx" onclick="closeSheet('sheet-hutang')">✕</button>
+    </div>
+    <div class="mb">
+      <!-- Input Manual Kasbon -->
+      <div class="card" style="margin-bottom:12px; border-color:var(--red-light); background:var(--yellow-light);">
+        <h4 style="font-size:12px; font-family:'Outfit'; margin-bottom:8px;">Input Kasbon Manual</h4>
+        <div class="fg" style="margin-bottom:6px;"><input type="text" id="h-nama" placeholder="Nama Pelanggan"></div>
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px; margin-bottom:6px;">
+          <input type="text" id="h-wa" placeholder="No HP/WA">
+          <input type="text" id="h-alamat" placeholder="Alamat Rumah">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px;">
+          <input type="number" id="h-jumlah" placeholder="Jumlah Kasbon (Rp)">
+          <input type="text" id="h-ket" placeholder="Keterangan Belanja">
+        </div>
+        <button class="btn btn-d" style="height:34px; font-size:11px; margin-top:10px;" onclick="simpanHutang()">+ Catat Kasbon Pelanggan</button>
+      </div>
+      
+      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:13px; margin:10px 0;">
+        <span>Total Piutang Aktif</span>
+        <span id="hutang-total" style="color:var(--red);">Rp 0</span>
+      </div>
+      
+      <div id="hutang-list" style="max-height:220px; overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: BUKU PENGELUARAN (BEBAN) -->
+<div class="mo" id="sheet-pengeluaran">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Buku Pengeluaran (Beban)</h3>
+      <button class="mx" onclick="closeSheet('sheet-pengeluaran')">✕</button>
+    </div>
+    <div class="mb">
+      <!-- Input Pengeluaran -->
+      <div class="card" style="margin-bottom:12px; border-color:var(--primary-light); background:var(--primary-light);">
+        <h4 style="font-size:12px; font-family:'Outfit'; margin-bottom:8px; color:var(--primary); text-align:left;">Catat Pengeluaran Operasional</h4>
+        <div class="fg" style="margin-bottom:8px;">
+          <label style="font-size:10px; margin-bottom:2px; display:block; text-align:left;">Nama / Kategori Pengeluaran</label>
+          <input type="text" id="exp-kategori" placeholder="Contoh: Ongkir kurir, Listrik, Air">
+        </div>
+        <div class="fg" style="margin-bottom:8px;">
+          <label style="font-size:10px; margin-bottom:2px; display:block; text-align:left;">Keterangan Tambahan (Opsional)</label>
+          <input type="text" id="exp-keterangan" placeholder="Contoh: Kirim ke Edo Kondologit">
+        </div>
+        <div class="fg" style="margin-bottom:8px;">
+          <label style="font-size:10px; margin-bottom:2px; display:block; text-align:left;">Jumlah Nominal (Rp)</label>
+          <input type="number" id="exp-jumlah" placeholder="Masukkan nominal Rp">
+        </div>
+        <button class="btn" style="height:36px; font-size:12px; margin-top:4px;" onclick="tambahPengeluaran()">+ Tambah Catatan Pengeluaran</button>
+      </div>
+      
+      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:13px; margin:14px 0 8px 0; padding:6px 10px; background:var(--red-light); color:var(--red); border-radius:var(--radius-sm); text-align:left;">
+        <span>Total Riwayat Pengeluaran</span>
+        <span id="pengeluaran-total">Rp 0</span>
+      </div>
+      
+      <div style="font-weight:800; font-size:13px; margin:14px 0 8px 0; color:var(--text); text-align:left;">Daftar Riwayat Pengeluaran</div>
+      <div id="exp-list" style="max-height:260px; overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: PENGATURAN PROFIL KIOS -->
+<div class="mo" id="sheet-profile">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Profil &amp; Identitas Toko</h3>
+      <button class="mx" onclick="closeSheet('sheet-profile')">✕</button>
+    </div>
+    <div class="mb">
+      <div class="fg">
+        <label>Nama Usaha / Toko (Terkunci)</label>
+        <input type="text" id="set-nama" value="Uncen Fresh" readonly style="background:var(--border); cursor:not-allowed;">
+      </div>
+      <div class="fg">
+        <label>Modal Awal Usaha (Rp)</label>
+        <input type="number" id="set-modal" placeholder="0">
+      </div>
+      <div style="font-size:11px; color:var(--text-secondary); margin-top:10px; line-height:1.4;">
+        * Aplikasi ini dipatenkan khusus untuk penggunaan operasional **Uncen Fresh (U2PA Universitas Cenderawasih)**. Informasi nama dan logo usaha dikunci secara sistem.
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-profile')">Batal</button>
+      <button class="btn btn-g" style="flex:1.5" onclick="simpanConfig()">Simpan Profil</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: PIN KEAMANAN -->
+<div class="mo" id="sheet-security">
+  <div class="md" style="max-width:320px;">
+    <div class="mh">
+      <h3 class="mt">Kunci Akses PIN</h3>
+      <button class="mx" onclick="closeSheet('sheet-security')">✕</button>
+    </div>
+    <div class="mb">
+      <div style="display:flex; align-items:center; gap:8px; font-size:12px; margin-bottom:8px;">
+        <input type="checkbox" id="sec-enabled" style="width:18px; height:18px;">
+        <span>Aktifkan Kunci PIN Aplikasi</span>
+      </div>
+      <div class="fg">
+        <label>Username Operator</label>
+        <input type="text" id="sec-user" placeholder="admin">
+      </div>
+      <div class="fg">
+        <label>PIN Akses (Numeric / String)</label>
+        <input type="password" id="sec-pass" placeholder="1234">
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-security')">Batal</button>
+      <button class="btn btn-g" style="flex:1.5" onclick="simpanKeamanan()">Simpan Kunci</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: LOGIN WINDOW (Lockscreen) -->
+<div class="mo" id="sheet-login" style="background:#0f172a; z-index:999999999;">
+  <div class="md" style="max-width:320px; box-shadow:0 0 50px rgba(0,0,0,0.8);">
+    <div class="mh" style="justify-content:center; border:none; padding-top:24px;">
+      <h3 class="mt" style="font-size:20px; font-family:'Outfit';">PIN Keamanan</h3>
+    </div>
+    <div class="mb" style="padding:10px 24px 24px 24px;">
+      <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Aplikasi ini terkunci. Masukkan nama akun dan PIN Anda:</div>
+      <div class="fg" style="margin-bottom:8px;">
+        <input type="text" id="login-user" placeholder="Nama Akun" style="text-align:center;">
+      </div>
+      <div class="fg">
+        <input type="password" id="login-pass" placeholder="PIN Akses" style="text-align:center;">
+      </div>
+      <button class="btn btn-g" style="margin-top:14px;" onclick="doLogin()">Masuk Aplikasi ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: DETAIL TRANSAKSI RIWAYAT -->
+<div class="mo" id="sheet-detail-tx">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Detail Transaksi Penjualan</h3>
+      <button class="mx" onclick="closeSheet('sheet-detail-tx')">✕</button>
+    </div>
+    <div class="mb" id="detail-tx-content"></div>
+    <div class="mf" style="flex-wrap:wrap; gap:8px;">
+      <button class="btn btn-s" style="flex:1; min-width:80px;" onclick="closeSheet('sheet-detail-tx')">Butup</button>
+      <button class="btn btn-y" style="flex:2; min-width:140px;" onclick="closeSheet('sheet-detail-tx'); tampilkanFaktur(lastTxForStruk)">Lihat Faktur Customer ➔</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ACCOUNTING SHEETS ===================== -->
+
+<!-- LABA RUGI SHEET -->
+<div class="mo" id="sheet-lap-labarugi">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Laporan Laba Rugi</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-labarugi')">✕</button>
+    </div>
+    <div class="mb" style="padding:16px;">
+      <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:10px;">
+        <h4 style="font-family:'Outfit'; text-align:center; border-bottom:1px solid var(--border); padding-bottom:6px; text-transform:uppercase;">Uncen Fresh</h4>
+        
+        <div style="font-size:11px; text-align:center; color:var(--text-secondary); margin-bottom:10px;">Laporan Laba Rugi Operasional</div>
+        
+        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:12px;">
+          <span>PENDAPATAN USAHA</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:14px;">
+          <span>Pendapatan Penjualan Air</span>
+          <span id="lap-pendapatan">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:14px; color:var(--red);">
+          <span>Harga Pokok Penjualan (HPP)</span>
+          <span id="lap-hpp">(Rp 0)</span>
+        </div>
+        
+        <hr style="border:none; border-top:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:12px; color:var(--primary);">
+          <span>LABA KOTOR USAHA</span>
+          <span id="lap-laba-kotor">Rp 0</span>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:12px; margin-top:10px;">
+          <span>BIAYA / BEBAN OPERASIONAL</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:14px;">
+          <span>Beban Operasional Umum</span>
+          <span id="lap-beban">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:14px; color:var(--red);">
+          <span>Total Beban Biaya</span>
+          <span id="lap-total-beban">(Rp 0)</span>
+        </div>
+        
+        <hr style="border:none; border-top:2px double var(--border);">
+        <div style="display:flex; justify-content:space-between; font-weight:900; font-size:14px; color:var(--blue);">
+          <span>LABA BERSIH BERJALAN</span>
+          <span id="lap-laba-bersih">Rp 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-labarugi')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-labarugi')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('labarugi')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- NERACA SHEET -->
+<div class="mo" id="sheet-lap-neraca">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Neraca Keuangan Usaha</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-neraca')">✕</button>
+    </div>
+    <div class="mb" style="padding:16px;">
+      <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:10px;">
+        <h4 style="font-family:'Outfit'; text-align:center; border-bottom:1px solid var(--border); padding-bottom:6px; text-transform:uppercase;">Uncen Fresh</h4>
+        
+        <div style="font-size:11px; text-align:center; color:var(--text-secondary); margin-bottom:10px;" id="lap-neraca-tgl">Neraca Posisi Keuangan</div>
+        
+        <div style="font-weight:700; font-size:12px; border-bottom:1px solid var(--border); padding-bottom:3px; color:var(--primary);">1. AKTIVA (ASET USAHA)</div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Kas Usaha (Uang Tunai)</span>
+          <span id="lap-kas">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Piutang Dagang (Kasbon)</span>
+          <span id="lap-piutang">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Persediaan Barang (Stok HPP)</span>
+          <span id="lap-persediaan">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:12px; background:var(--primary-light); padding:4px 8px; border-radius:4px; margin-top:4px;">
+          <span>TOTAL AKTIVA ASET</span>
+          <span id="lap-total-aktiva">Rp 0</span>
+        </div>
+        
+        <div style="font-weight:700; font-size:12px; border-bottom:1px solid var(--border); padding-bottom:3px; color:var(--blue); margin-top:10px;">2. PASIVA (KEWAJIBAN &amp; MODAL)</div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Hutang Usaha Supplier</span>
+          <span id="lap-hutang-usaha">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Modal Awal Pemilik</span>
+          <span id="lap-modal-awal">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-left:10px;">
+          <span>Laba Usaha Berjalan</span>
+          <span id="lap-laba-berjalan">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:12px; background:var(--blue-light); padding:4px 8px; border-radius:4px; margin-top:4px;">
+          <span>TOTAL PASIVA EKUITAS</span>
+          <span id="lap-total-pasiva">Rp 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-neraca')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-neraca')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('neraca')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- ARUS KAS SHEET -->
+<div class="mo" id="sheet-lap-aruskas">
+  <div class="md">
+    <div class="mh">
+      <h3 class="mt">Laporan Arus Kas (Cash Flow)</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-aruskas')">✕</button>
+    </div>
+    <div class="mb" style="padding:16px;">
+      <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:8px; font-size:12px;">
+        <h4 style="font-family:'Outfit'; text-align:center; border-bottom:1px solid var(--border); padding-bottom:6px; text-transform:uppercase;">Uncen Fresh</h4>
+        
+        <div style="font-weight:700; color:#b45309;">1. AKTIVITAS OPERASIONAL</div>
+        <div style="display:flex; justify-content:space-between; padding-left:10px;">
+          <span>Penerimaan Kas Pelanggan</span>
+          <span id="lap-kas-masuk">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-left:10px; color:var(--red);">
+          <span>Pembayaran Biaya &amp; Beban</span>
+          <span id="lap-kas-beban">(Rp 0)</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:700; padding-left:10px;">
+          <span>Kas Bersih Operasional</span>
+          <span id="lap-kas-operasi">Rp 0</span>
+        </div>
+        
+        <div style="font-weight:700; color:#0369a1; margin-top:8px;">2. AKTIVITAS INVESTASI</div>
+        <div style="display:flex; justify-content:space-between; padding-left:10px; color:var(--red);">
+          <span>Pembelian Stok Persediaan</span>
+          <span id="lap-kas-restock">(Rp 0)</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:700; padding-left:10px;">
+          <span>Kas Bersih Investasi</span>
+          <span id="lap-kas-investasi">Rp 0</span>
+        </div>
+
+        <div style="font-weight:700; color:#047857; margin-top:8px;">3. AKTIVITAS PENDANAAN</div>
+        <div style="display:flex; justify-content:space-between; padding-left:10px;">
+          <span>Setoran Modal Awal</span>
+          <span id="lap-kas-modal">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:700; padding-left:10px;">
+          <span>Kas Bersih Pendanaan</span>
+          <span id="lap-kas-pendanaan">Rp 0</span>
+        </div>
+        
+        <hr style="border:none; border-top:1px solid var(--border); margin-top:6px;">
+        <div style="display:flex; justify-content:space-between; font-weight:800; color:var(--primary); background:var(--primary-light); padding:4px 8px; border-radius:4px;">
+          <span>Kenaikan (Penurunan) Kas</span>
+          <span id="lap-kas-delta">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-left:8px; margin-top:4px;">
+          <span>Saldo Kas Awal Periode</span>
+          <span id="lap-kas-awal">Rp 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-weight:800; padding-left:8px; border-top:1px dashed var(--border); padding-top:4px;">
+          <span>Saldo Kas Akhir Periode</span>
+          <span id="lap-kas-akhir">Rp 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-aruskas')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-aruskas')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('aruskas')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CUSTOM FAKTUR VIEW SHEET ===================== -->
+<div class="mo" id="sheet-faktur" style="background:#0f172a; overflow-y:auto; padding:24px 16px;">
+  <div class="md" style="max-width:800px; max-height:none; height:auto;">
+    <!-- Factur HTML Layout Print Template -->
+    <div class="faktur-container" id="faktur-view-container" style="display:block;">
+      <!-- Watermark background circle -->
+      <div class="faktur-watermark">
+        <img src="logo_u2pa_round.svg" alt="U2PA Watermark">
+      </div>
+      
+      <div class="faktur-content">
+        <!-- Header -->
+        <div class="faktur-header">
+          <div class="faktur-logo-sec">
+            <img class="faktur-logo-img" src="logo_u2pa.svg" alt="U2PA Logo">
+            <div class="faktur-logo-text">
+              <span class="faktur-company">Unit Usaha dan Pengelolaan Aset Uncen</span>
+              <span class="faktur-address-line">Jln. Kampwolker, Kampus Baru, Perumnas III</span>
+              <span class="faktur-address-line">Jayapura, Papua | Hubungi: 0823 3339 7171</span>
+            </div>
+          </div>
+          <div class="faktur-title-sec">
+            <span class="faktur-title-text">FAKTUR</span>
+            <div class="faktur-no-badge">No. <span id="fk-no">0000</span></div>
+          </div>
+        </div>
+        
+        <!-- Customer Info Meta Box -->
+        <div class="faktur-meta-box">
+          <div class="faktur-meta-grid">
+            <span class="faktur-meta-label">Hari/Tanggal</span>
+            <span class="faktur-meta-value">: <span id="fk-tanggal">-</span></span>
+            
+            <span class="faktur-meta-label">Pelanggan</span>
+            <span class="faktur-meta-value">: <span id="fk-pelanggan">-</span></span>
+            
+            <span class="faktur-meta-label">Telepon</span>
+            <span class="faktur-meta-value">: <span id="fk-telepon">-</span></span>
+            
+            <span class="faktur-meta-label">Alamat</span>
+            <span class="faktur-meta-value">: <span id="fk-alamat">-</span></span>
+          </div>
+        </div>
+        
+        <!-- Items Table -->
+        <table class="faktur-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">No</th>
+              <th>Produk</th>
+              <th style="width:80px;">Qty</th>
+              <th style="width:150px;">Harga Satuan (Rp)</th>
+              <th style="width:150px;">Total (Rp)</th>
+            </tr>
+          </thead>
+          <tbody id="fk-table-body">
+            <!-- Dynamic Rows -->
+          </tbody>
+        </table>
+        
+        <!-- Bottom Layout -->
+        <div class="faktur-footer-grid">
+          <!-- Left payment info -->
+          <div>
+            <div class="faktur-payment-info" style="border: 1px solid #000000; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.5; background: #fafafa; height: fit-content; text-align: left;">
+              <div style="font-weight: bold; margin-bottom: 4px; color: #000000;">Metode Pembayaran:</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 4px; color: #000000;">
+                <input type="checkbox" id="fk-transfer-check" style="width: 15px; height: 15px; margin: 0; pointer-events: none;">
+                <span>Transfer</span>
+              </div>
+              <div style="margin-left: 23px; color: #000000; font-size: 11px;">
+                Atas Nama <strong>RPL 063 BLU UNIVERSITAS CENDERAWASIH</strong><br>
+                Bank BNI <strong>8811000228</strong>
+              </div>
+            </div>
+            
+            <!-- U2PA Social Media Details -->
+            <div class="faktur-social-media">
+              <div class="faktur-social-item">
+                <strong>Instagram:</strong> @u2pa_uncen
+              </div>
+              <div class="faktur-social-item">
+                <strong>Facebook:</strong> U2PA Uncen
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right total and signatures -->
+          <div>
+            <div class="faktur-total-box">
+              <div class="faktur-total-label">Total</div>
+              <div class="faktur-total-value" id="fk-total">Rp 0</div>
+            </div>
+            
+            <div class="faktur-signature-sec">
+              <div class="faktur-sig-col">
+                <div class="faktur-sig-label">Penerima</div>
+                <div class="faktur-sig-line"></div>
+                <div class="faktur-sig-sub">Tanda Tangan</div>
+              </div>
+              <div class="faktur-sig-col">
+                <div class="faktur-sig-label">Hormat Kami</div>
+                <div class="faktur-sig-line"></div>
+                <div class="faktur-sig-sub">Kasir U2PA Uncen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action buttons footer -->
+    <div class="mf" style="background:var(--surface); border-top:1px solid var(--border); padding:16px 20px;">
+      <button class="btn btn-s" style="flex:1;" onclick="closeFaktur()">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1;" onclick="printFaktur()">🖨️ Cetak PDF</button>
+      <button class="btn btn-g" style="flex:1.2;" onclick="shareFakturWA()">📲 WA Bagikan</button>
+      <button class="btn btn-o" style="flex:1;" onclick="downloadFakturPNG()">💾 Unduh Gambar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Printer temp container -->
+<div id="print-section"></div>
+
+<!-- ===================== PERSISTENT AUDIO / SCRIPTS ===================== -->
+<script src="app.js"></script>
+<script src="faktur.js"></script>
+</body>
+</html>
