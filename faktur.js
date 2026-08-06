@@ -54,7 +54,11 @@ function tampilkanFaktur(tx) {
 
 function printFaktur() {
   document.body.classList.add('printing-faktur');
-  window.print();
+  if (typeof AndroidStorage !== 'undefined' && AndroidStorage.printPage) {
+    AndroidStorage.printPage();
+  } else {
+    window.print();
+  }
   document.body.classList.remove('printing-faktur');
 }
 
@@ -515,7 +519,11 @@ function printReport(sheetId) {
   }
   
   document.body.classList.add('printing-report');
-  window.print();
+  if (typeof AndroidStorage !== 'undefined' && AndroidStorage.printPage) {
+    AndroidStorage.printPage();
+  } else {
+    window.print();
+  }
   document.body.classList.remove('printing-report');
   printSection.innerHTML = '';
 }
