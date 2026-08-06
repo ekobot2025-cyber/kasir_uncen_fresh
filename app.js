@@ -35,86 +35,13 @@ function loadInitialDummyData() {
     { id: 'P-5', nama: 'Ukuran 600ml (BOTOL)', hargaHpp: 35000, hargaJual: 45000, stok: 60, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' }
   ];
   
-  // Create some initial transactions for reporting graphs/metrics
-  var now = new Date();
-  var oneDayAgo = new Date(now.getTime() - 24*60*60*1000);
-  var twoDaysAgo = new Date(now.getTime() - 2*24*60*60*1000);
-  
-  S.transactions = [
-    {
-      id: 'TX-1001',
-      timestamp: now.toISOString(),
-      items: [
-        { id: 'P-1', nama: 'Galon + Air', hargaJual: 65000, hargaHpp: 45000, qty: 2 },
-        { id: 'P-4', nama: 'Tukar Air Galon', hargaJual: 15000, hargaHpp: 5000, qty: 5 }
-      ],
-      total: 205000,
-      totalHPP: 115000,
-      laba: 90000,
-      bayar: 210000,
-      kembalian: 5000,
-      metode: 'Tunai',
-      namaHutang: '',
-      diskon: 0,
-      catatan: 'Pelanggan Toko'
-    },
-    {
-      id: 'TX-1002',
-      timestamp: oneDayAgo.toISOString(),
-      items: [
-        { id: 'P-2', nama: 'Ukuran 220ml (GELAS)', hargaJual: 33000, hargaHpp: 25000, qty: 3 },
-        { id: 'P-3', nama: 'Ukuran 330ml (BOTOL)', hargaJual: 51000, hargaHpp: 40000, qty: 1 }
-      ],
-      total: 145000, // 99k + 51k = 150k - 5k diskon
-      totalHPP: 115000,
-      laba: 30000,
-      bayar: 0,
-      kembalian: 0,
-      metode: 'Hutang',
-      namaHutang: 'Budi Papua',
-      diskon: 5000,
-      catatan: 'Kasbon Air Kemasan Acara Kantor'
-    }
-  ];
-
-  S.hutang = [
-    {
-      id: 'H-1',
-      nama: 'Budi Papua',
-      wa: '081234567890',
-      jumlah: 145000,
-      ket: 'Kasbon Air Kemasan Acara Kantor (Faktur TX-1002)',
-      tanggal: oneDayAgo.toISOString()
-    }
-  ];
-
-  S.pengeluaran = [
-    {
-      id: 'EXP-1',
-      timestamp: twoDaysAgo.toISOString(),
-      jumlah: 80000,
-      kategori: 'Transportasi',
-      keterangan: 'Bensin Motor Angkut Galon'
-    },
-    {
-      id: 'EXP-2',
-      timestamp: now.toISOString(),
-      jumlah: 120000,
-      kategori: 'Konsumsi',
-      keterangan: 'Konsumsi Operator Air'
-    }
-  ];
-
-  S.suppliers = [
-    { id: 'SUP-1', nama: 'Pemasok Galon Kosong Utama', wa: '082333333333', alamat: 'Jln. Sentani, Jayapura' }
-  ];
-
-  S.stockLogs = [
-    { id: 'SL-1', timestamp: now.toISOString(), namaProduk: 'Galon + Air', type: 'Penjualan', delta: -2, sisa: 48 },
-    { id: 'SL-2', timestamp: now.toISOString(), namaProduk: 'Tukar Air Galon', type: 'Penjualan', delta: -5, sisa: 195 },
-    { id: 'SL-3', timestamp: oneDayAgo.toISOString(), namaProduk: 'Ukuran 220ml (GELAS)', type: 'Penjualan', delta: -3, sisa: 97 },
-    { id: 'SL-4', timestamp: oneDayAgo.toISOString(), namaProduk: 'Ukuran 330ml (BOTOL)', type: 'Penjualan', delta: -1, sisa: 79 }
-  ];
+  S.transactions = [];
+  S.cart = [];
+  S.hutang = [];
+  S.pengeluaran = [];
+  S.suppliers = [];
+  S.stockLogs = [];
+  S.config.modalAwal = 0;
 }
 
 /* ====== PERSISTENCE INTERFACES ====== */
