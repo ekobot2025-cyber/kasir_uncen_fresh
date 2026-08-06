@@ -159,8 +159,7 @@ Uncen Fresh POS dikembangkan untuk:
 ---
 
 ## 🏛 Pengembang
-- **U2PA (Unit Usaha Pengembangan Akademik)**
-- **Fakultas Ekonomi dan Bisnis**
+- **U2PA (Unit Usaha dan Pengelolaan Aset)**
 - **Universitas Cenderawasih**
 
 Dikembangkan oleh:
@@ -176,3 +175,9 @@ Dikembangkan oleh:
 ## © Hak Cipta
 ©2026 U2PA Universitas Cenderawasih, Papua  
 Develop by [Enterdie](https://www.linkedin.com/in/papedatimur)
+
+---
+
+## ☕ Dukungan & Donasi
+Jika aplikasi ini bermanfaat bagi Anda dan ingin memberikan apresiasi kepada pengembang, Anda dapat menyalurkan donasi/dukungan melalui Saweria:
+👉 **[Donasi via Saweria](https://saweria.co/ekobot)**
