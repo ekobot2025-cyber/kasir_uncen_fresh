@@ -3,7 +3,7 @@
 
 Solusi Digital Terintegrasi untuk Pengelolaan Penjualan, Stok, dan Keuangan Uncen Fresh
 
-**Uncen Fresh POS** merupakan aplikasi kasir (Point of Sale) yang dikembangkan oleh U2PA Fakultas Ekonomi dan Bisnis Universitas Cenderawasih untuk mendukung digitalisasi pengelolaan usaha Air Minum Dalam Kemasan (AMDK) Uncen Fresh.
+**Uncen Fresh POS** merupakan aplikasi kasir (Point of Sale) yang dikembangkan oleh U2PA Universitas Cenderawasih untuk mendukung digitalisasi pengelolaan usaha Air Minum Dalam Kemasan (AMDK) Uncen Fresh.
 
 Aplikasi ini membantu pengelola dalam mengelola transaksi penjualan, stok produk, distribusi, pelanggan, hingga laporan keuangan secara mudah, cepat, akurat, dan dapat digunakan tanpa koneksi internet (Offline First).
 
