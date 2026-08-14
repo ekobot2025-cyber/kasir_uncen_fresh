@@ -135,6 +135,10 @@ async function init() {
   } else {
     renderAll();
   }
+
+  if (S.config.security && S.config.security.enabled) {
+    openSheet('sheet-login');
+  }
 }
 
 function applyHeader() {
@@ -924,9 +928,25 @@ function selesaikanTransaksi() {
     }
   });
 
+  // Generate robust sequential TX-UF-XXXX ID
+  var prefix = 'TX-UF-';
+  var maxNum = 0;
+  if (S.transactions && S.transactions.length > 0) {
+    S.transactions.forEach(function(x) {
+      if (x.id && x.id.indexOf(prefix) === 0) {
+        var numPart = Number(x.id.substring(prefix.length));
+        if (!isNaN(numPart) && numPart > maxNum) {
+          maxNum = numPart;
+        }
+      }
+    });
+  }
+  var nextNum = maxNum + 1;
+  var txId = prefix + nextNum.toString().padStart(4, '0');
+
   // Save new transaction details
   var tx = {
-    id: 'TX-' + Date.now().toString().slice(-6),
+    id: txId,
     timestamp: new Date().toISOString(),
     items: JSON.parse(JSON.stringify(S.cart)),
     total: totalBill,
@@ -1601,6 +1621,14 @@ function doLogin() {
     closeSheet('sheet-login');
   } else {
     alert('PIN Pengguna salah!');
+  }
+}
+
+function logoutUser() {
+  if (confirm('Apakah Anda yakin ingin keluar/mengunci aplikasi?')) {
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    openSheet('sheet-login');
   }
 }
 
