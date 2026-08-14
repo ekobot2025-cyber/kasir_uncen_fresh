@@ -111,7 +111,7 @@
       <button class="btn" onclick="openSheet('sheet-quick-add')" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-light); font-weight:700; border-radius:6px;">
         <span>➕ Jual</span>
       </button>
-      <button class="btn" onclick="openRestock(null)" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-light); font-weight:700; border-radius:6px;">
+      <button class="btn" onclick="openSheet('sheet-restock-katalog')" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-light); font-weight:700; border-radius:6px;">
         <span>📦 Beli</span>
       </button>
       <button class="btn" onclick="openSheet('sheet-pengeluaran')" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--red-light); color: var(--red); border: 1px solid var(--red-light); font-weight:700; border-radius:6px;">
@@ -142,7 +142,7 @@
     <!-- VIEW 1: DASHBOARD -->
     <div class="vp active" id="view-dashboard">
       <!-- Welcome Card -->
-      <div class="card" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="openSheet('sheet-profile')">
+      <div class="card" style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; margin-bottom:20px;" onclick="openSheet('sheet-profile')">
         <div style="display:flex; align-items:center; gap:12px;">
           <div style="width:40px; height:40px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:18px;">
             👤
@@ -650,7 +650,7 @@
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <!-- Quick actions -->
           <button class="btn btn-g" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;" onclick="openProdukSheet(null)">➕ Tambah Produk</button>
-          <button class="btn btn-o" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;" onclick="openRestock(null)">📥 Stok Masuk</button>
+          <button class="btn btn-o" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;" onclick="openSheet('sheet-restock-katalog')">📥 Stok Masuk</button>
           <button class="btn btn-s" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;" onclick="openSheet('sheet-stok-opname')">⚖️ Opname</button>
           <button class="btn btn-s" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;" onclick="openSheet('sheet-riwayat-stok')">🔄 Log Stok</button>
         </div>
@@ -679,24 +679,31 @@
             <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Stok Habis</div>
           </div>
           <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--blue); text-align:center;">
-            <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-total-items">0</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-total-stok">0</div>
             <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Total Produk</div>
           </div>
           <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--orange); text-align:center;">
-            <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="pm-nilai-jual">Rp 0</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="pm-nilai-produk">Rp 0</div>
             <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Estimasi Jual</div>
           </div>
           <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid #8b5cf6; text-align:center;">
-            <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="pm-nilai-hpp">Rp 0</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="pm-total-hpp">Rp 0</div>
             <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Estimasi HPP</div>
           </div>
         </div>
 
-        <!-- Search Bar -->
+        <!-- Search Bar & Filters -->
         <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
-          <div style="position:relative; width: 100%;">
-            <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="produk-search" class="si" placeholder="Cari produk berdasarkan nama atau barcode..." oninput="renderProdukPage()" style="height:36px; padding-left:34px; font-size:12px;">
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <div style="position:relative; flex:1;">
+              <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="pm-search" placeholder="Cari nama produk, SKU, atau kategori..." oninput="renderProdukPage()" style="width:100%; height:36px; padding-left:34px; font-size:12px; border:1px solid var(--border); border-radius:6px; background:var(--bg); outline:none;">
+            </div>
+            <div>
+              <select id="pm-filter-kategori" onchange="renderProdukPage()" style="height: 36px; padding: 0 12px; border: 1px solid var(--border); border-radius:6px; font-size:11px; background:var(--bg); color:var(--text); outline:none;">
+                <option value="">Semua Kategori</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -705,12 +712,14 @@
           <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
             <thead>
               <tr style="background:#f8fafc; border-bottom:1px solid var(--border); color:var(--text-secondary); font-weight:700;">
-                <th style="padding:12px 16px;">Nama Produk</th>
+                <th style="padding:12px 16px;">Nama Barang</th>
+                <th style="padding:12px 16px;">Kode/SKU</th>
+                <th style="padding:12px 16px;">Kategori</th>
                 <th style="padding:12px 16px;">Satuan</th>
-                <th style="padding:12px 16px; text-align:right;">Stok</th>
-                <th style="padding:12px 16px; text-align:right;">Harga Beli (HPP)</th>
+                <th style="padding:12px 16px; text-align:right;">Harga Beli</th>
                 <th style="padding:12px 16px; text-align:right;">Harga Jual</th>
-                <th style="padding:12px 16px; text-align:center;">Status</th>
+                <th style="padding:12px 16px; text-align:right;">Stok</th>
+                <th style="padding:12px 16px; text-align:right;">Total HPP</th>
                 <th style="padding:12px 16px; text-align:center;">Aksi</th>
               </tr>
             </thead>
@@ -786,27 +795,7 @@
       </div>
     </div>
 
-    <!-- VIEW: AKUN (CHART OF ACCOUNTS / COA) -->
-    <div class="vp" id="view-akun">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="display:flex; flex-direction:column;">
-          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Daftar Akun Perkiraan (COA)</h3>
-          <span style="font-size:11px; color:var(--text-secondary);">Pemetaan pos akuntansi dan saldo keuangan real-time</span>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-g" onclick="alert('Fitur tambah akun baru memerlukan izin otorisasi manajer tingkat tinggi.')" style="padding: 0 12px; font-size: 11px; height: 32px; font-weight:700; margin:0;">➕ Tambah Akun</button>
-        </div>
-      </div>
 
-      <!-- Search & Filters Row -->
-      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
-        <div style="position:relative; width: 100%;">
-          <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="coa-search" placeholder="Cari nama akun atau nomor rekening..." oninput="renderAkunPage()" style="width: 100%; height: 36px; padding: 0 10px 0 32px; border: 1px solid var(--border); border-radius: 6px; font-size:12px; background:var(--bg);">
-        </div>
-      </div>
-
-      <div class="card" style="padding:0; overflow-x:auto;">
     <!-- VIEW 4: LAPORAN & AKUNTANSI -->
     <div class="vp" id="view-laporan">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -818,48 +807,140 @@
 
       <!-- Grid Laporan Kledo Style -->
       <div class="laporan-sections-grid">
-        <!-- Seksi Laporan Keuangan -->
+        <!-- Seksi Finansial (Sesuai SAP & PMK 128/2024 BLU) -->
         <div class="laporan-card">
-          <div class="laporan-card-title">Laporan Keuangan Inti</div>
+          <div class="laporan-card-title">Finansial (Standar BLU & SAP)</div>
           <div class="laporan-list">
             <div class="laporan-item" onclick="openSheet('sheet-lap-neraca')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Neraca (Keuangan & Aset)</span>
-            </div>
-            <div class="laporan-item" onclick="openSheet('sheet-lap-aruskas')">
-              <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Laporan Arus Kas</span>
+              <span class="laporan-item-text">Neraca (Posisi Keuangan BLU)</span>
             </div>
             <div class="laporan-item" onclick="openSheet('sheet-lap-labarugi')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Laporan Laba Rugi Bersih</span>
+              <span class="laporan-item-text">Laporan Operasional (LO / Laba Rugi)</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-lap-aruskas')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Arus Kas (LAK)</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Laporan Perubahan Ekuitas (LPE) BLU disajikan otomatis di Neraca dan Catatan Laporan.')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Perubahan Ekuitas (LPE)</span>
             </div>
             <div class="laporan-item" onclick="openSheet('sheet-lap-rekap')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Ringkasan Eksekutif (Rekapitulasi)</span>
+              <span class="laporan-item-text">Laporan Realisasi Anggaran (LRA - Pendapatan BLU)</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-calk')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Catatan atas Laporan Keuangan (CaLK)</span>
             </div>
           </div>
         </div>
 
-        <!-- Seksi Laporan Stok & Penjualan -->
+        <!-- Seksi Akuntansi -->
         <div class="laporan-card">
-          <div class="laporan-card-title">Stok & Penjualan</div>
+          <div class="laporan-card-title">Akuntansi</div>
           <div class="laporan-list">
-            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('katalog');">
+            <div class="laporan-item" onclick="alert('Buku rekening tabungan terintegrasi otomatis di Laporan Keuangan.')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Katalog Harga & Produk</span>
+              <span class="laporan-item-text">Ringkasan Bank</span>
             </div>
-            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('inventori');">
+            <div class="laporan-item" onclick="alert('Buku Besar akun perkiraan terintegrasi otomatis.')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Status Sediaan Stok Fisik</span>
+              <span class="laporan-item-text">Buku Besar</span>
             </div>
-            <div class="laporan-item" onclick="openSheet('sheet-riwayat-stok')">
+            <div class="laporan-item" onclick="alert('Jurnal penyesuaian dicatat otomatis di log mutasi.')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Log Mutasi & Pergerakan Stok</span>
+              <span class="laporan-item-text">Jurnal</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Trial Balance neraca saldo terintegrasi otomatis.')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Trial Balance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seksi Penjualan -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Penjualan</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('riwayat')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Penjualan</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Umur Piutang</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Piutang Pelanggan</span>
             </div>
             <div class="laporan-item" onclick="switchTab('riwayat')">
               <span class="star-icon">⭐</span>
-              <span class="laporan-item-text">Daftar Transaksi Penjualan</span>
+              <span class="laporan-item-text">Tagihan Pelanggan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seksi Pembelian -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Pembelian</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('inventori');">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Pembelian</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Umur Hutang</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Hutang Vendor</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('inventori');">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Tagihan Vendor</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seksi Inventori -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Inventori</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('inventori');">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Inventori</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-riwayat-stok')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Pergerakan Stok Inventori</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-stok-opname')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Pergerakan Stok Produk</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('stok'); switchStokTab('inventori');">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Stok Gudang</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seksi Aset Tetap -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Aset Tetap</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="alert('Daftar Aset Tetap terdata otomatis di Neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Aset Tetap</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Depresiasi dihitung tahunan di Neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Aset Tetap</span>
             </div>
           </div>
         </div>
@@ -1106,9 +1187,17 @@
         Nama Barang: <strong id="restock-nama">-</strong><br>
         Stok Saat Ini: <strong id="restock-current">-</strong>
       </div>
-      <div class="fg">
+      <div class="fg" style="margin-bottom:10px;">
         <label>Jumlah Stok Masuk</label>
-        <input type="number" id="restock-qty" placeholder="Masukkan jumlah barang baru">
+        <input type="number" id="restock-qty" placeholder="Masukkan jumlah barang baru" style="height:36px; font-size:12px;">
+      </div>
+      <div class="fg" style="margin-bottom:10px;">
+        <label>Tanggal Masuk</label>
+        <input type="date" id="restock-tanggal" style="height:36px; font-size:12px;">
+      </div>
+      <div class="fg" style="margin-bottom:0;">
+        <label>Pengantar / Driver</label>
+        <input type="text" id="restock-driver" placeholder="Nama pengantar/driver" style="height:36px; font-size:12px;">
       </div>
     </div>
     <div class="mf">
@@ -1882,6 +1971,93 @@
       <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-aruskas')">🖨️ Cetak PDF</button>
       <button class="btn" style="flex:1.2; background:#22c55e; color:#fff;" onclick="shareReportWA('aruskas')">📲 WA Bagikan</button>
       <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('aruskas')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: CATATAN ATAS LAPORAN KEUANGAN (CaLK) -->
+<div class="mo" id="sheet-calk">
+  <div class="md" style="max-width:800px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="mh">
+      <h3 class="mt">Catatan atas Laporan Keuangan (CaLK) BLU</h3>
+      <button class="mx" onclick="closeSheet('sheet-calk')">✕</button>
+    </div>
+    
+    <div class="mb" style="padding:16px; overflow-y:auto; flex:1;">
+      <div id="print-area-calk" class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:16px; border:1px solid var(--border); padding:20px; font-family:'Outfit', sans-serif; background:#fff; color:#0f172a;">
+        
+        <div style="background:#0f172a; color:#ffffff; padding:14px; text-align:center; border-radius:var(--radius-sm); margin-bottom:8px;">
+          <h2 style="font-family:'Outfit'; font-weight:800; font-size:18px; text-transform:uppercase; margin:0; letter-spacing:0.5px;" id="calk-header-kios">UNCEN FRESH</h2>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; margin-top:2px;">Catatan atas Laporan Keuangan (CaLK)</div>
+          <div style="font-size:9px; font-weight:500; opacity:0.9; margin-top:2px;" id="calk-periode-label">Sesuai Standar Akuntansi Pemerintahan (SAP) &amp; PMK 128/2024</div>
+        </div>
+
+        <div style="text-align:left; font-size:12px; line-height:1.6;">
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:10px 0 6px 0;">1. INFORMASI UMUM</h4>
+          <p style="margin:0 0 8px 0; text-align:justify;">
+            <strong>Universitas Cenderawasih (UNCEN)</strong> merupakan instansi pemerintah pusat di bawah Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi yang menerapkan pola pengelolaan keuangan <strong>Badan Layanan Umum (BLU)</strong>. Kios <strong>Uncen Fresh</strong> didirikan sebagai unit bisnis penunjang pelayanan akademik dan hilirisasi produk kampus (khususnya air minum kemasan/galon). Seluruh pendapatan usaha dikategorikan sebagai Pendapatan Negara Bukan Pajak (PNBP) BLU Universitas Cenderawasih.
+          </p>
+
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:14px 0 6px 0;">2. KEBIJAKAN AKUNTANSI</h4>
+          <p style="margin:0 0 8px 0; text-align:justify;">
+            Laporan Keuangan Uncen Fresh disusun berdasarkan basis akrual penuh sesuai dengan Peraturan Pemerintah No. 71 Tahun 2010 tentang Standar Akuntansi Pemerintahan (SAP) dan mengacu pada Peraturan Menteri Keuangan (PMK) No. 128 Tahun 2024 tentang Sistem Akuntansi dan Pelaporan Keuangan BLU.
+          </p>
+          <ul style="margin:0 0 8px 0; padding-left:20px;">
+            <li><strong>Pengakuan Pendapatan:</strong> Pendapatan-LO diakui pada saat kas diterima dari penjualan tunai atau saat timbulnya hak atas piutang (kasbon pelanggan).</li>
+            <li><strong>Pengakuan Beban:</strong> Beban diakui pada saat manfaat ekonomi dikonsumsi atau terjadinya penurunan aset bersih dalam periode berjalan.</li>
+            <li><strong>Persediaan:</strong> Dinilai berdasarkan biaya historis dengan metode FIFO (First In First Out) menggunakan pencatatan harga pokok persediaan (HPP).</li>
+          </ul>
+
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:14px 0 6px 0;">3. PENJELASAN POS-POS LAPORAN KEUANGAN</h4>
+          <table style="width:100%; border-collapse:collapse; margin-top:6px; font-size:11px;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px; text-align:left;">Akun Laporan</th>
+                <th style="padding:6px; text-align:left;">Kategori SAP</th>
+                <th style="padding:6px; text-align:right;">Saldo Riil</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:6px;">Kas &amp; Setara Kas</td>
+                <td style="padding:6px;">Aset Lancar (Kas BLU)</td>
+                <td style="padding:6px; text-align:right; font-weight:700;" id="calk-kas">Rp 0</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:6px;">Piutang Usaha</td>
+                <td style="padding:6px;">Aset Lancar (Piutang PNBP)</td>
+                <td style="padding:6px; text-align:right; font-weight:700;" id="calk-piutang">Rp 0</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:6px;">Persediaan Barang</td>
+                <td style="padding:6px;">Aset Lancar (Sediaan Fisik)</td>
+                <td style="padding:6px; text-align:right; font-weight:700;" id="calk-persediaan">Rp 0</td>
+              </tr>
+              <tr style="border-bottom:1px solid #e2e8f0;">
+                <td style="padding:6px;">Aset Tetap (Neto)</td>
+                <td style="padding:6px;">Aset Non-Lancar (Aset BLU)</td>
+                <td style="padding:6px; text-align:right; font-weight:700;">Tercatat Terpusat</td>
+              </tr>
+              <tr style="border-bottom:1.5px solid #cbd5e1; background:#f8fafc;">
+                <td style="padding:6px; font-weight:700;">TOTAL ASET (AKTIVA)</td>
+                <td style="padding:6px; font-weight:700;">Konsolidasi BLU</td>
+                <td style="padding:6px; text-align:right; font-weight:800; color:var(--primary);" id="calk-total-aktiva">Rp 0</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:14px 0 6px 0;">4. PERNYATAAN KEPATUHAN &amp; INTEGRASI</h4>
+          <p style="margin:0; text-align:justify; font-style:italic; font-size:11px; color:var(--text-secondary);">
+            Laporan ini dihasilkan secara otomatis oleh U2PA POS Cloud Uncen Fresh dan siap dikonsolidasikan dengan Laporan Keuangan Badan Layanan Umum tingkat Universitas Cenderawasih serta Sistem Keuangan Kementerian Keuangan (SAKTI/Sistem Terkait).
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-calk')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-calk')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('calk')">💾 Unduh JPG</button>
     </div>
   </div>
 </div>

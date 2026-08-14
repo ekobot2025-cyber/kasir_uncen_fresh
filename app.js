@@ -200,6 +200,16 @@ function switchTab(t) {
   if (b) b.classList.add('active');
   if (sb) sb.classList.add('active');
   
+  // Tampilkan tombol tindakan cepat (+ Jual, + Beli, Biaya) hanya di Beranda (dashboard)
+  var hdrShortcuts = document.querySelector('.hdr-shortcuts');
+  if (hdrShortcuts) {
+    if (t === 'dashboard') {
+      hdrShortcuts.style.setProperty('display', 'flex', 'important');
+    } else {
+      hdrShortcuts.style.setProperty('display', 'none', 'important');
+    }
+  }
+  
   renderAll();
 }
 
@@ -237,7 +247,7 @@ var allSheets = [
   'sheet-lap-aruskas', 'sheet-lap-piutang', 'sheet-quick-add', 'sheet-katalog-produk', 
   'sheet-restock-katalog', 'sheet-stok-opname', 'sheet-riwayat-stok', 'sheet-expired', 
   'sheet-kategori', 'sheet-satuan', 'sheet-kalkulator', 'sheet-cek-harga', 'sheet-supplier',
-  'sheet-faktur'
+  'sheet-faktur', 'sheet-lap-rekap', 'sheet-calk'
 ];
 
 function openSheet(id) {
@@ -510,6 +520,13 @@ function openRestock(pid) {
   document.getElementById('restock-nama').textContent = p.nama;
   document.getElementById('restock-current').textContent = (p.stok != null ? p.stok : 0) + ' ' + p.satuan;
   document.getElementById('restock-qty').value = '';
+  
+  var today = new Date().toISOString().split('T')[0];
+  var elTgl = document.getElementById('restock-tanggal');
+  if (elTgl) elTgl.value = today;
+  var elDriver = document.getElementById('restock-driver');
+  if (elDriver) elDriver.value = '';
+  
   openSheet('sheet-restock');
 }
 
@@ -518,22 +535,34 @@ function simpanRestock() {
   var qty = Number(document.getElementById('restock-qty').value || 0);
   if (qty <= 0) { alert('Jumlah restock harus lebih dari 0!'); return; }
   
+  var elTgl = document.getElementById('restock-tanggal');
+  var tglStr = elTgl && elTgl.value ? elTgl.value : new Date().toISOString().split('T')[0];
+  var localTime = new Date();
+  var parts = tglStr.split('-');
+  var timestamp = new Date(parts[0], parts[1] - 1, parts[2], localTime.getHours(), localTime.getMinutes(), localTime.getSeconds()).toISOString();
+  
+  var elDriver = document.getElementById('restock-driver');
+  var driver = elDriver && elDriver.value ? elDriver.value.trim() : '';
+
   var p = S.produk.find(function(x) { return x.id === id });
   if (p) {
     p.stok = (p.stok || 0) + qty;
     S.stockLogs.unshift({
       id: 'SL-' + Date.now(),
-      timestamp: new Date().toISOString(),
+      timestamp: timestamp,
       namaProduk: p.nama,
       type: 'Stok Masuk',
       delta: qty,
-      sisa: p.stok
+      sisa: p.stok,
+      driver: driver
     });
     
     saveState();
     renderAll();
     closeSheet('sheet-restock');
-    alert('Stok ' + p.nama + ' berhasil ditambah ' + qty + ' ' + p.satuan + '!');
+    var successMsg = 'Stok ' + p.nama + ' berhasil ditambah ' + qty + ' ' + p.satuan + '!';
+    if (driver) successMsg += ' (Pengantar: ' + driver + ')';
+    alert(successMsg);
   }
 }
 
@@ -1510,6 +1539,16 @@ function renderLaporan() {
   setText('rekap-kas-delta', fRn(d.kasDelta));
   setText('rekap-kas-awal', fR(d.kasAwal));
   setText('rekap-kas-akhir', fR(d.kasAkhir));
+
+  // CaLK - BLU
+  setText('calk-kas', fR(d.kas));
+  setText('calk-piutang', fR(d.totalPiutang));
+  setText('calk-persediaan', fR(d.persediaan));
+  setText('calk-total-aktiva', fR(d.totalAktiva));
+  var elCalkHeader = document.getElementById('calk-header-kios');
+  if (elCalkHeader) elCalkHeader.textContent = namaKios;
+  var elCalkPeriode = document.getElementById('calk-periode-label');
+  if (elCalkPeriode) elCalkPeriode.textContent = 'Periode: ' + d.periodeLabel + ' (Hingga ' + d.tglNow + ')';
 }
 
 function setText(id, val) {
@@ -1752,10 +1791,11 @@ function renderRiwayatStok() {
     var sign = log.delta > 0 ? '+' : '';
     var color = log.delta > 0 ? 'var(--green)' : log.delta < 0 ? 'var(--red)' : 'var(--text-secondary)';
     var tgl = log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-';
+    var infoDriver = log.driver ? ' • Driver: ' + esc(log.driver) : '';
     
     el.innerHTML = '<div>' +
       '  <div style="font-weight:700;font-size:13px;color:var(--text);">' + esc(log.namaProduk) + '</div>' +
-      '  <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">' + esc(log.type) + ' • ' + tgl + '</div>' +
+      '  <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;">' + esc(log.type) + ' • ' + tgl + infoDriver + '</div>' +
       '</div>' +
       '<div style="text-align:right;">' +
       '  <div style="font-weight:800;font-size:13px;color:' + color + '">' + sign + log.delta + '</div>' +
@@ -2521,10 +2561,11 @@ function renderInventoriPage() {
     var timeStr = new Date(l.timestamp).toLocaleDateString('id-ID') + ' ' + new Date(l.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
     var typeColor = l.type === 'Stok Masuk' ? 'var(--green)' : 'var(--red)';
     var typeText = l.type === 'Stok Masuk' ? 'Masuk' : 'Keluar';
+    var driverInfo = l.driver ? ' <span style="font-size:9px;color:var(--text-secondary);font-weight:normal;">(Driver: ' + esc(l.driver) + ')</span>' : '';
 
     tr.innerHTML = '  <td style="padding:8px 12px; color:var(--text-secondary);">' + timeStr + '</td>' +
       '  <td style="padding:8px 12px; font-weight:700;">' + esc(l.namaProduk) + '</td>' +
-      '  <td style="padding:8px 12px; color:' + typeColor + '; font-weight:700;">' + typeText + '</td>' +
+      '  <td style="padding:8px 12px; color:' + typeColor + '; font-weight:700;">' + typeText + driverInfo + '</td>' +
       '  <td style="padding:8px 12px; text-align:right; font-weight:700; color:' + typeColor + ';">' + (l.type === 'Stok Masuk' ? '+' : '-') + l.delta + '</td>';
     tbody.appendChild(tr);
   });
