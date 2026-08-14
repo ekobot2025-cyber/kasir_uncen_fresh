@@ -277,7 +277,7 @@ var allSheets = [
   'sheet-lap-aruskas', 'sheet-lap-piutang', 'sheet-quick-add', 'sheet-katalog-produk', 
   'sheet-restock-katalog', 'sheet-stok-opname', 'sheet-riwayat-stok', 'sheet-expired', 
   'sheet-kategori', 'sheet-satuan', 'sheet-kalkulator', 'sheet-cek-harga', 'sheet-supplier',
-  'sheet-faktur', 'sheet-lap-rekap', 'sheet-calk'
+  'sheet-faktur', 'sheet-lap-rekap', 'sheet-calk', 'sheet-lap-akuntansi', 'sheet-lap-asettetap'
 ];
 
 function openSheet(id) {
@@ -2950,6 +2950,411 @@ document.addEventListener('click', function() {
     m.classList.remove('show');
   });
 });
+
+/* ====== LAPORAN AKUNTANSI & ASET TETAP ENGINE ====== */
+var activeAccTab = 'jurnal';
+
+function openAccountingReport(tab) {
+  activeAccTab = tab || 'jurnal';
+  
+  // Set header
+  var elHeader = document.getElementById('acc-header-kios');
+  if (elHeader) elHeader.textContent = S.config.namaKios || 'Uncen Fresh';
+  
+  var elPeriode = document.getElementById('acc-periode-label');
+  if (elPeriode) {
+    var tglNow = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    elPeriode.textContent = 'Periode: Semua Waktu (Hingga ' + tglNow + ')';
+  }
+
+  // Switch tabs
+  setAccTab(activeAccTab);
+  
+  // Open Sheet
+  openSheet('sheet-lap-akuntansi');
+}
+
+function setAccTab(tab) {
+  activeAccTab = tab;
+  
+  // Update Tab buttons visual state
+  document.querySelectorAll('.acc-tab-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'transparent';
+    btn.style.color = 'var(--text-secondary)';
+  });
+  
+  var activeBtn = document.getElementById('acc-tab-' + tab);
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    activeBtn.style.background = 'var(--surface)';
+    activeBtn.style.borderColor = 'var(--border)';
+    activeBtn.style.color = 'var(--text)';
+  }
+
+  // Show corresponding content div
+  document.querySelectorAll('.acc-view').forEach(function(view) {
+    view.style.display = 'none';
+  });
+  
+  var activeView = document.getElementById('acc-content-' + tab);
+  if (activeView) activeView.style.display = 'block';
+
+  // Update Title Label in Print card header
+  var titles = {
+    'jurnal': 'Jurnal Umum Transaksi',
+    'bukubesar': 'Buku Besar Akun Perkiraan',
+    'trialbalance': 'Neraca Saldo (Trial Balance)',
+    'bank': 'Buku Ringkasan Bank & Kas'
+  };
+  var elTitle = document.getElementById('acc-title-label');
+  if (elTitle) elTitle.textContent = titles[tab] || 'Laporan Akuntansi';
+
+  // Render chosen data tab
+  if (tab === 'jurnal') renderJurnalUmum();
+  else if (tab === 'bukubesar') renderBukuBesar();
+  else if (tab === 'trialbalance') renderTrialBalance();
+  else if (tab === 'bank') renderRingkasanBank();
+}
+
+function getJournalEntries() {
+  var entries = [];
+  
+  // 1. Initial Investment (Modal Awal)
+  var modalAwal = S.config.modalAwal || 5000000;
+  entries.push({
+    date: new Date(S.transactions.length > 0 ? S.transactions[S.transactions.length - 1].timestamp : new Date()).toISOString(),
+    ref: 'Setoran Modal Awal',
+    debitAccount: 'Kas / Bank',
+    creditAccount: 'Modal Awal',
+    amount: modalAwal,
+    desc: 'Penyetoran modal awal usaha Kios Uncen Fresh'
+  });
+
+  // 2. Sales Transactions (S.transactions)
+  (S.transactions || []).forEach(function(tx) {
+    var date = tx.timestamp;
+    var txId = tx.id || 'TX-XXXX';
+    var debitAcc = (tx.metode === 'Transfer') ? 'Kas / Bank' : (tx.metode === 'Hutang' ? 'Piutang Dagang' : 'Kas / Bank');
+    
+    entries.push({
+      date: date,
+      ref: txId,
+      debitAccount: debitAcc,
+      creditAccount: 'Pendapatan Penjualan',
+      amount: tx.total,
+      desc: 'Penjualan produk Air Minum (' + tx.metode + ')'
+    });
+    
+    var hpp = tx.totalHPP || 0;
+    if (hpp > 0) {
+      entries.push({
+        date: date,
+        ref: txId,
+        debitAccount: 'Harga Pokok Penjualan (HPP)',
+        creditAccount: 'Persediaan Barang',
+        amount: hpp,
+        desc: 'Pencatatan HPP untuk penjualan ' + txId
+      });
+    }
+  });
+
+  // 3. Expenses (S.pengeluaran)
+  (S.pengeluaran || []).forEach(function(exp) {
+    entries.push({
+      date: exp.timestamp,
+      ref: exp.id || 'EXP-XXXX',
+      debitAccount: 'Beban Operasional',
+      creditAccount: 'Kas / Bank',
+      amount: exp.jumlah,
+      desc: 'Pengeluaran Biaya: ' + (exp.kategori || '') + ' - ' + (exp.keterangan || '')
+    });
+  });
+
+  // 4. Restocks (S.stockLogs)
+  (S.stockLogs || []).forEach(function(log) {
+    if (log.type === 'Restock' || log.delta > 0) {
+      var cost = 0;
+      var prod = S.produk.find(function(p) { return p.nama === log.namaProduk; });
+      if (prod) cost = prod.hargaHpp || 0;
+      var totalCost = log.delta * cost;
+      if (totalCost > 0) {
+        entries.push({
+          date: log.timestamp,
+          ref: log.id || 'RCK-XXXX',
+          debitAccount: 'Persediaan Barang',
+          creditAccount: 'Kas / Bank',
+          amount: totalCost,
+          desc: 'Restock produk: ' + log.namaProduk + ' sebanyak ' + log.delta
+        });
+      }
+    }
+  });
+
+  // Sort by date ascending
+  entries.sort(function(a, b) {
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  return entries;
+}
+
+function renderJurnalUmum() {
+  var tbody = document.getElementById('acc-table-jurnal-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  
+  var entries = getJournalEntries();
+  if (entries.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">Belum ada jurnal transaksi.</td></tr>';
+    return;
+  }
+
+  entries.forEach(function(e) {
+    var dateStr = new Date(e.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e2e8f0';
+    tr.innerHTML = 
+      '<td style="padding:8px 6px; vertical-align:top; color:#64748b; font-family:monospace;">' + dateStr + '</td>' +
+      '<td style="padding:8px 6px; line-height:1.4;">' +
+        '<div style="font-weight:700; color:#0f172a;">' + esc(e.debitAccount) + '</div>' +
+        '<div style="padding-left:16px; color:#475569;">' + esc(e.creditAccount) + '</div>' +
+        '<div style="font-size:10px; color:#64748b; font-style:italic; margin-top:2px;">' + esc(e.desc) + ' (' + esc(e.ref) + ')</div>' +
+      '</td>' +
+      '<td style="padding:8px 6px; text-align:right; vertical-align:top; font-weight:600; color:#0f172a;">' + fR(e.amount) + '</td>' +
+      '<td style="padding:8px 6px; text-align:right; vertical-align:top; font-weight:600; color:#0f172a;">' + fR(e.amount) + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function renderBukuBesar() {
+  var tbody = document.getElementById('acc-table-bukubesar-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  
+  var selectedAccount = document.getElementById('acc-bb-select').value;
+  var entries = getJournalEntries();
+  var balance = 0;
+  
+  var isAssetOrExpense = (selectedAccount === 'Kas / Bank' || selectedAccount === 'Piutang Dagang' || selectedAccount === 'Persediaan Barang' || selectedAccount === 'Harga Pokok Penjualan (HPP)' || selectedAccount === 'Beban Operasional');
+
+  var filtered = [];
+  entries.forEach(function(e) {
+    if (e.debitAccount === selectedAccount || e.debitAccount.indexOf(selectedAccount) === 0) {
+      filtered.push({ date: e.date, ref: e.ref, desc: e.desc, debit: e.amount, credit: 0 });
+    } else if (e.creditAccount === selectedAccount || e.creditAccount.indexOf(selectedAccount) === 0) {
+      filtered.push({ date: e.date, ref: e.ref, desc: e.desc, debit: 0, credit: e.amount });
+    }
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">Belum ada aktivitas untuk akun ini.</td></tr>';
+    return;
+  }
+
+  filtered.forEach(function(item) {
+    var deb = item.debit;
+    var cred = item.credit;
+    
+    if (isAssetOrExpense) {
+      balance += (deb - cred);
+    } else {
+      balance += (cred - deb);
+    }
+
+    var dateStr = new Date(item.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e2e8f0';
+    tr.innerHTML = 
+      '<td style="padding:8px 6px; color:#64748b; font-family:monospace;">' + dateStr + '</td>' +
+      '<td style="padding:8px 6px;">' +
+        '<div style="font-weight:700;">' + esc(item.desc) + '</div>' +
+        '<div style="font-size:9px; color:#64748b;">Ref: ' + esc(item.ref) + '</div>' +
+      '</td>' +
+      '<td style="padding:8px 6px; text-align:right; color:' + (deb > 0 ? '#0f172a' : '#94a3b8') + ';">' + (deb > 0 ? fR(deb) : '-') + '</td>' +
+      '<td style="padding:8px 6px; text-align:right; color:' + (cred > 0 ? '#0f172a' : '#94a3b8') + ';">' + (cred > 0 ? fR(cred) : '-') + '</td>' +
+      '<td style="padding:8px 6px; text-align:right; font-weight:700; color:#0284c7;">' + fR(balance) + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function renderTrialBalance() {
+  var tbody = document.getElementById('acc-table-trialbalance-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  
+  var entries = getJournalEntries();
+  var accounts = {
+    'Kas / Bank': { debit: 0, credit: 0 },
+    'Piutang Dagang': { debit: 0, credit: 0 },
+    'Persediaan Barang': { debit: 0, credit: 0 },
+    'Harga Pokok Penjualan (HPP)': { debit: 0, credit: 0 },
+    'Beban Operasional': { debit: 0, credit: 0 },
+    'Pendapatan Penjualan': { debit: 0, credit: 0 },
+    'Modal Awal': { debit: 0, credit: 0 }
+  };
+
+  entries.forEach(function(e) {
+    var dbAcc = e.debitAccount;
+    if (dbAcc.indexOf('Kas / Bank') === 0) dbAcc = 'Kas / Bank';
+    var crAcc = e.creditAccount;
+    if (crAcc.indexOf('Kas / Bank') === 0) crAcc = 'Kas / Bank';
+
+    if (accounts[dbAcc]) accounts[dbAcc].debit += e.amount;
+    if (accounts[crAcc]) accounts[crAcc].credit += e.amount;
+  });
+
+  var totalDebit = 0;
+  var totalCredit = 0;
+
+  for (var accName in accounts) {
+    var d = accounts[accName].debit;
+    var c = accounts[accName].credit;
+    
+    var finalD = 0;
+    var finalC = 0;
+    
+    if (accName === 'Kas / Bank' || accName === 'Piutang Dagang' || accName === 'Persediaan Barang' || accName === 'Harga Pokok Penjualan (HPP)' || accName === 'Beban Operasional') {
+      finalD = d - c;
+      if (finalD < 0) { finalC = Math.abs(finalD); finalD = 0; }
+    } else {
+      finalC = c - d;
+      if (finalC < 0) { finalD = Math.abs(finalC); finalC = 0; }
+    }
+
+    totalDebit += finalD;
+    totalCredit += finalC;
+
+    var tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid #e2e8f0';
+    tr.innerHTML = 
+      '<td style="padding:8px 6px; font-weight:700;">' + esc(accName) + '</td>' +
+      '<td style="padding:8px 6px; text-align:right;">' + (finalD > 0 ? fR(finalD) : 'Rp 0') + '</td>' +
+      '<td style="padding:8px 6px; text-align:right;">' + (finalC > 0 ? fR(finalC) : 'Rp 0') + '</td>';
+    tbody.appendChild(tr);
+  }
+
+  var trSum = document.createElement('tr');
+  trSum.style.background = '#f1f5f9';
+  trSum.style.borderTop = '2px solid #cbd5e1';
+  trSum.style.borderBottom = '2px double #cbd5e1';
+  trSum.style.fontWeight = '900';
+  trSum.innerHTML = 
+    '<td style="padding:10px 6px;">TOTAL NERACA SALDO</td>' +
+    '<td style="padding:10px 6px; text-align:right; color:#10b981;">' + fR(totalDebit) + '</td>' +
+    '<td style="padding:10px 6px; text-align:right; color:#10b981;">' + fR(totalCredit) + '</td>';
+  tbody.appendChild(trSum);
+}
+
+function renderRingkasanBank() {
+  var tbody = document.getElementById('acc-table-bank-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  
+  var entries = getJournalEntries();
+  var balance = 0;
+  var found = false;
+
+  entries.forEach(function(e) {
+    var isDebit = (e.debitAccount === 'Kas / Bank' || e.debitAccount.indexOf('Kas / Bank') === 0);
+    var isCredit = (e.creditAccount === 'Kas / Bank' || e.creditAccount.indexOf('Kas / Bank') === 0);
+    
+    if (isDebit || isCredit) {
+      found = true;
+      var masuk = isDebit ? e.amount : 0;
+      var keluar = isCredit ? e.amount : 0;
+      balance += (masuk - keluar);
+      
+      var dateStr = new Date(e.date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      var tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = 
+        '<td style="padding:8px 6px; color:#64748b; font-family:monospace;">' + dateStr + '</td>' +
+        '<td style="padding:8px 6px;">' +
+          '<div style="font-weight:700;">' + esc(e.desc) + '</div>' +
+          '<div style="font-size:9px; color:#64748b;">Ref: ' + esc(e.ref) + '</div>' +
+        '</td>' +
+        '<td style="padding:8px 6px; text-align:right; color:#10b981;">' + (masuk > 0 ? fR(masuk) : '-') + '</td>' +
+        '<td style="padding:8px 6px; text-align:right; color:#ef4444;">' + (keluar > 0 ? fR(keluar) : '-') + '</td>' +
+        '<td style="padding:8px 6px; text-align:right; font-weight:700; color:#0f172a;">' + fR(balance) + '</td>';
+      tbody.appendChild(tr);
+    }
+  });
+
+  if (!found) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">Belum ada mutasi rekening kas/bank.</td></tr>';
+  }
+}
+
+function openAssetReport() {
+  var elHeader = document.getElementById('asset-header-kios');
+  if (elHeader) elHeader.textContent = S.config.namaKios || 'Uncen Fresh';
+  
+  var elPeriode = document.getElementById('asset-periode-label');
+  if (elPeriode) {
+    var tglNow = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+    elPeriode.textContent = 'Periode: Semua Waktu (Hingga ' + tglNow + ')';
+  }
+
+  var tbody = document.getElementById('asset-table-body');
+  if (tbody) {
+    tbody.innerHTML = '';
+    
+    var assets = [
+      { nama: 'Mesin Filter Air & Pompa Integrasi', umurBulan: 60, cost: 15000000, startYear: 2026, startMonth: 0 },
+      { nama: 'Dispenser Kios & Tabung Galon Kosong', umurBulan: 36, cost: 3500000, startYear: 2026, startMonth: 0 },
+      { nama: 'Motor Pengantar Galon Roda 3', umurBulan: 60, cost: 22000000, startYear: 2026, startMonth: 1 },
+      { nama: 'Renovasi Fisik Booth & Papan Nama', umurBulan: 60, cost: 7500000, startYear: 2026, startMonth: 0 }
+    ];
+
+    var now = new Date();
+    var currentYear = now.getFullYear();
+    var currentMonth = now.getMonth();
+
+    var totalCost = 0;
+    var totalDep = 0;
+    var totalNet = 0;
+
+    assets.forEach(function(a) {
+      var elapsedMonths = (currentYear - a.startYear) * 12 + (currentMonth - a.startMonth);
+      if (elapsedMonths < 0) elapsedMonths = 0;
+      if (elapsedMonths > a.umurBulan) elapsedMonths = a.umurBulan;
+      
+      var monthlyDep = a.cost / a.umurBulan;
+      var accumDep = monthlyDep * elapsedMonths;
+      var netValue = a.cost - accumDep;
+
+      totalCost += a.cost;
+      totalDep += accumDep;
+      totalNet += netValue;
+
+      var tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = 
+        '<td style="padding:8px 6px; font-weight:700; text-align:left;">' + esc(a.nama) + '</td>' +
+        '<td style="padding:8px 6px; text-align:center; color:#64748b;">' + (a.umurBulan/12) + ' Tahun</td>' +
+        '<td style="padding:8px 6px; text-align:right; font-weight:600;">' + fR(a.cost) + '</td>' +
+        '<td style="padding:8px 6px; text-align:right; color:#ef4444;">' + fR(accumDep) + '</td>' +
+        '<td style="padding:8px 6px; text-align:right; font-weight:700; color:#10b981;">' + fR(netValue) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    var trSum = document.createElement('tr');
+    trSum.style.background = '#f8fafc';
+    trSum.style.borderTop = '2px solid #cbd5e1';
+    trSum.style.borderBottom = '2px double #cbd5e1';
+    trSum.style.fontWeight = '900';
+    trSum.innerHTML = 
+      '<td colspan="2" style="padding:10px 6px; text-align:left;">TOTAL ASET TETAP (NETO)</td>' +
+      '<td style="padding:10px 6px; text-align:right;">' + fR(totalCost) + '</td>' +
+      '<td style="padding:10px 6px; text-align:right; color:#ef4444;">' + fR(totalDep) + '</td>' +
+      '<td style="padding:10px 6px; text-align:right; color:#10b981;">' + fR(totalNet) + '</td>';
+    tbody.appendChild(trSum);
+  }
+
+  openSheet('sheet-lap-asettetap');
+}
 
 // Auto-boot
 document.addEventListener('DOMContentLoaded', function() {

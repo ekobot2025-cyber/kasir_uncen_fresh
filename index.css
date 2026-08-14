@@ -26,6 +26,9 @@
   --radius-md: 12px;
   --radius-lg: 16px;
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --body-bg: #f1f5f9;
+  --app-bg: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -48,6 +51,9 @@
   
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   --header-bg: rgba(21, 31, 50, 0.9);
+
+  --body-bg: #0b0f19;
+  --app-bg: #0f172a;
 }
 
 /* Base resets & typography */
@@ -60,7 +66,7 @@
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background: #0f172a; /* Desktop dark background wrap */
+  background: var(--body-bg);
   color: var(--text);
   display: flex;
   justify-content: center;
@@ -72,7 +78,7 @@ body {
 .app {
   width: 100%;
   max-width: 480px;
-  background: var(--bg);
+  background: var(--app-bg);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -145,6 +151,72 @@ body {
 }
 .ib:active {
   transform: scale(0.92);
+}
+
+/* Header User Dropdown Menu */
+.hdr-user-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hdr-user-dropdown > button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px 4px 6px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.hdr-user-dropdown > button:hover {
+  background: var(--bg);
+}
+
+.hdr-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  min-width: 210px;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.hdr-dropdown-menu button {
+  width: 100% !important;
+  text-align: left !important;
+  padding: 10px 14px !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  font-family: 'Outfit', sans-serif !important;
+  color: var(--text) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: var(--transition) !important;
+}
+
+.hdr-dropdown-menu button:hover {
+  background: var(--bg) !important;
+}
+
+.hdr-dropdown-menu button.logout-btn {
+  color: var(--red) !important;
+  font-weight: 700 !important;
+}
+
+.hdr-dropdown-menu button.logout-btn:hover {
+  background: var(--red-light) !important;
 }
 
 /* VIEWS */
@@ -1207,7 +1279,7 @@ body {
 /* ======================================================== */
 @media (min-width: 768px) {
   body {
-    background: #f8fafc; /* Latar belakang abu-abu Kledo premium */
+    background: var(--body-bg);
     padding: 24px 24px 24px 274px !important; /* Space for the 250px sidebar + spacing */
     align-items: flex-start;
   }
@@ -1220,7 +1292,7 @@ body {
     margin: 0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.025);
     border: 1px solid var(--border);
-    background: #ffffff;
+    background: var(--app-bg);
   }
   
   /* Sidebar Vertikal di Widescreen (Persistent) */

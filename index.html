@@ -136,13 +136,13 @@
       </button>
 
       <!-- User Account Dropdown (Kanan Atas) -->
-      <div class="hdr-user-dropdown" style="position:relative; display:flex; align-items:center;">
-        <button onclick="toggleHeaderDropdown(event)" style="display:flex; align-items:center; gap:6px; background:none; border:1px solid var(--border); border-radius:8px; padding:4px 10px 4px 6px; cursor:pointer; transition:var(--transition);" title="Akun Kasir">
+      <div class="hdr-user-dropdown">
+        <button onclick="toggleHeaderDropdown(event)" title="Akun Kasir">
           <div style="width:26px; height:26px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:11px; font-family:'Outfit';" id="hdr-avatar-letter">U</div>
           <span style="font-family:'Outfit'; font-weight:700; font-size:11px; color:var(--text); max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="hdr-user-label">Operator</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="hdr-dropdown-menu" id="hdr-dropdown-menu" style="display:none; position:absolute; top:calc(100% + 6px); right:0; background:var(--card); border:1px solid var(--border); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.12); min-width:200px; z-index:9999; overflow:hidden;">
+        <div class="hdr-dropdown-menu" id="hdr-dropdown-menu">
           <div style="padding:12px 14px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px;">
             <div style="width:34px; height:34px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; font-family:'Outfit';" id="hdr-dd-avatar">U</div>
             <div>
@@ -151,15 +151,15 @@
             </div>
           </div>
           <div style="padding:4px 0;">
-            <button onclick="toggleHeaderDropdown(event); openSheet('sheet-security')" style="width:100%; text-align:left; padding:10px 14px; background:none; border:none; cursor:pointer; font-size:12px; color:var(--text); display:flex; align-items:center; gap:8px; transition:var(--transition);" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+            <button onclick="toggleHeaderDropdown(event); openSheet('sheet-security')">
               <span>🔑</span> Ubah Akun & PIN
             </button>
-            <button onclick="toggleHeaderDropdown(event); openSheet('sheet-profile')" style="width:100%; text-align:left; padding:10px 14px; background:none; border:none; cursor:pointer; font-size:12px; color:var(--text); display:flex; align-items:center; gap:8px; transition:var(--transition);" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+            <button onclick="toggleHeaderDropdown(event); openSheet('sheet-profile')">
               <span>⚙️</span> Pengaturan Toko
             </button>
           </div>
           <div style="border-top:1px solid var(--border); padding:4px 0;">
-            <button onclick="toggleHeaderDropdown(event); logoutUser()" style="width:100%; text-align:left; padding:10px 14px; background:none; border:none; cursor:pointer; font-size:12px; color:var(--red); font-weight:700; display:flex; align-items:center; gap:8px; transition:var(--transition);" onmouseover="this.style.background='var(--red-light)'" onmouseout="this.style.background='none'">
+            <button onclick="toggleHeaderDropdown(event); logoutUser()" class="logout-btn">
               <span>🚪</span> Keluar / Kunci Aplikasi
             </button>
           </div>
@@ -873,19 +873,19 @@
         <div class="laporan-card">
           <div class="laporan-card-title">Akuntansi</div>
           <div class="laporan-list">
-            <div class="laporan-item" onclick="alert('Buku rekening tabungan terintegrasi otomatis di Laporan Keuangan.')">
+            <div class="laporan-item" onclick="openAccountingReport('bank')">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Ringkasan Bank</span>
             </div>
-            <div class="laporan-item" onclick="alert('Buku Besar akun perkiraan terintegrasi otomatis.')">
+            <div class="laporan-item" onclick="openAccountingReport('bukubesar')">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Buku Besar</span>
             </div>
-            <div class="laporan-item" onclick="alert('Jurnal penyesuaian dicatat otomatis di log mutasi.')">
+            <div class="laporan-item" onclick="openAccountingReport('jurnal')">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Jurnal</span>
             </div>
-            <div class="laporan-item" onclick="alert('Trial Balance neraca saldo terintegrasi otomatis.')">
+            <div class="laporan-item" onclick="openAccountingReport('trialbalance')">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Trial Balance</span>
             </div>
@@ -965,11 +965,11 @@
         <div class="laporan-card">
           <div class="laporan-card-title">Aset Tetap</div>
           <div class="laporan-list">
-            <div class="laporan-item" onclick="alert('Daftar Aset Tetap terdata otomatis di Neraca')">
+            <div class="laporan-item" onclick="openAssetReport()">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Ringkasan Aset Tetap</span>
             </div>
-            <div class="laporan-item" onclick="alert('Depresiasi dihitung tahunan di Neraca')">
+            <div class="laporan-item" onclick="openAssetReport()">
               <span class="star-icon">⭐</span>
               <span class="laporan-item-text">Detail Aset Tetap</span>
             </div>
@@ -983,12 +983,12 @@
       <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Pengaturan Sistem</h3>
       
       <!-- Box Akun Pengguna Aktif -->
-      <div id="profile-box" style="background:#ffffff; border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+      <div id="profile-box" style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <div style="font-size:10px; color:var(--text-secondary); font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:2px;">AKUN AKTIF</div>
           <div id="profile-role-name" style="font-family:'Outfit'; font-weight:800; font-size:14px; color:var(--text);">Memuat...</div>
         </div>
-        <button class="btn btn-o" style="padding:6px 12px; font-size:12px; border-radius:6px; font-weight:700; margin:0;" onclick="logoutUser()">✕ Keluar</button>
+        <button class="btn btn-o" style="width: auto !important; padding:6px 12px; font-size:12px; border-radius:6px; font-weight:700; margin:0;" onclick="logoutUser()">✕ Keluar</button>
       </div>
       
       <div class="group-title manager-only">Profil Usaha</div>
@@ -2089,6 +2089,175 @@
       <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-calk')">✕ Tutup</button>
       <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-calk')">🖨️ Cetak PDF</button>
       <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('calk')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: LAPORAN AKUNTANSI (JURNAL, BUKU BESAR, TRIAL BALANCE, RINGKASAN BANK) -->
+<div class="mo" id="sheet-lap-akuntansi">
+  <div class="md" style="max-width:900px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="mh">
+      <h3 class="mt">Laporan Akuntansi &amp; Buku Besar BLU</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-akuntansi')">✕</button>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div style="display:flex; border-bottom:1px solid var(--border); background:var(--bg); padding:4px 8px 0 8px; gap:4px;">
+      <button class="acc-tab-btn active" onclick="setAccTab('jurnal')" id="acc-tab-jurnal" style="padding:8px 12px; font-size:11px; font-weight:700; border:1px solid var(--border); border-bottom:none; border-top-left-radius:6px; border-top-right-radius:6px; background:var(--surface); cursor:pointer; color:var(--text);">Jurnal Umum</button>
+      <button class="acc-tab-btn" onclick="setAccTab('bukubesar')" id="acc-tab-bukubesar" style="padding:8px 12px; font-size:11px; font-weight:700; border:1px solid transparent; border-bottom:none; border-top-left-radius:6px; border-top-right-radius:6px; background:transparent; cursor:pointer; color:var(--text-secondary);">Buku Besar</button>
+      <button class="acc-tab-btn" onclick="setAccTab('trialbalance')" id="acc-tab-trialbalance" style="padding:8px 12px; font-size:11px; font-weight:700; border:1px solid transparent; border-bottom:none; border-top-left-radius:6px; border-top-right-radius:6px; background:transparent; cursor:pointer; color:var(--text-secondary);">Trial Balance (Neraca Saldo)</button>
+      <button class="acc-tab-btn" onclick="setAccTab('bank')" id="acc-tab-bank" style="padding:8px 12px; font-size:11px; font-weight:700; border:1px solid transparent; border-bottom:none; border-top-left-radius:6px; border-top-right-radius:6px; background:transparent; cursor:pointer; color:var(--text-secondary);">Ringkasan Bank</button>
+    </div>
+
+    <div class="mb" style="padding:16px; overflow-y:auto; flex:1;">
+      <!-- Content Area to Print -->
+      <div id="print-area-akuntansi" class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:12px; border:1px solid var(--border); padding:20px; font-family:'Outfit', sans-serif; background:#fff; color:#0f172a;">
+        
+        <div style="background:#0f172a; color:#ffffff; padding:12px; text-align:center; border-radius:var(--radius-sm); margin-bottom:8px;">
+          <h2 style="font-family:'Outfit'; font-weight:800; font-size:16px; text-transform:uppercase; margin:0;" id="acc-header-kios">UNCEN FRESH</h2>
+          <div style="font-size:10px; font-weight:700; text-transform:uppercase; margin-top:2px;" id="acc-title-label">Jurnal Umum Transaksi</div>
+          <div style="font-size:8px; font-weight:500; opacity:0.9; margin-top:2px;" id="acc-periode-label">Periode: Semua Waktu</div>
+        </div>
+
+        <!-- TAB: JURNAL UMUM -->
+        <div id="acc-content-jurnal" class="acc-view">
+          <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px;">Tanggal</th>
+                <th style="padding:6px;">Keterangan / Akun</th>
+                <th style="padding:6px; text-align:right;">Debit</th>
+                <th style="padding:6px; text-align:right;">Kredit</th>
+              </tr>
+            </thead>
+            <tbody id="acc-table-jurnal-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TAB: BUKU BESAR -->
+        <div id="acc-content-bukubesar" class="acc-view" style="display:none;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;" class="no-print">
+            <span style="font-size:11px; font-weight:700;">Pilih Akun:</span>
+            <select id="acc-bb-select" onchange="renderBukuBesar()" style="padding:4px 8px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+              <option value="Kas / Bank">Kas / Bank</option>
+              <option value="Piutang Dagang">Piutang Dagang</option>
+              <option value="Persediaan Barang">Persediaan Barang</option>
+              <option value="Harga Pokok Penjualan (HPP)">Harga Pokok Penjualan (HPP)</option>
+              <option value="Pendapatan Penjualan">Pendapatan Penjualan</option>
+              <option value="Beban Operasional">Beban Operasional</option>
+              <option value="Modal Awal">Modal Awal</option>
+            </select>
+          </div>
+          <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px;">Tanggal</th>
+                <th style="padding:6px;">Deskripsi Transaksi</th>
+                <th style="padding:6px; text-align:right;">Debit</th>
+                <th style="padding:6px; text-align:right;">Kredit</th>
+                <th style="padding:6px; text-align:right;">Saldo Akhir</th>
+              </tr>
+            </thead>
+            <tbody id="acc-table-bukubesar-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TAB: TRIAL BALANCE -->
+        <div id="acc-content-trialbalance" class="acc-view" style="display:none;">
+          <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px;">Nama Akun Perkiraan (COA)</th>
+                <th style="padding:6px; text-align:right;">Total Debit</th>
+                <th style="padding:6px; text-align:right;">Total Kredit</th>
+              </tr>
+            </thead>
+            <tbody id="acc-table-trialbalance-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TAB: RINGKASAN BANK -->
+        <div id="acc-content-bank" class="acc-view" style="display:none;">
+          <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:left;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px;">Tanggal</th>
+                <th style="padding:6px;">Referensi / Jenis Kas</th>
+                <th style="padding:6px; text-align:right;">Kas Masuk</th>
+                <th style="padding:6px; text-align:right;">Kas Keluar</th>
+                <th style="padding:6px; text-align:right;">Saldo</th>
+              </tr>
+            </thead>
+            <tbody id="acc-table-bank-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-akuntansi')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-akuntansi')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('akuntansi')">💾 Unduh JPG</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: LAPORAN ASET TETAP -->
+<div class="mo" id="sheet-lap-asettetap">
+  <div class="md" style="max-width:800px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="mh">
+      <h3 class="mt">Laporan Inventori &amp; Aset Tetap BLU</h3>
+      <button class="mx" onclick="closeSheet('sheet-lap-asettetap')">✕</button>
+    </div>
+    
+    <div class="mb" style="padding:16px; overflow-y:auto; flex:1;">
+      <!-- Content Area to Print -->
+      <div id="print-area-asettetap" class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:16px; border:1px solid var(--border); padding:20px; font-family:'Outfit', sans-serif; background:#fff; color:#0f172a;">
+        
+        <div style="background:#0f172a; color:#ffffff; padding:14px; text-align:center; border-radius:var(--radius-sm); margin-bottom:8px;">
+          <h2 style="font-family:'Outfit'; font-weight:800; font-size:18px; text-transform:uppercase; margin:0;" id="asset-header-kios">UNCEN FRESH</h2>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; margin-top:2px;">Register &amp; Depresiasi Aset Tetap</div>
+          <div style="font-size:9px; font-weight:500; opacity:0.9; margin-top:2px;" id="asset-periode-label">Periode: Semua Waktu</div>
+        </div>
+
+        <div style="text-align:left; font-size:12px; line-height:1.6;">
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:0 0 10px 0;">Daftar Aset Tetap &amp; Nilai Buku (Net Book Value)</h4>
+          <table style="width:100%; border-collapse:collapse; font-size:11px;">
+            <thead>
+              <tr style="background:#f1f5f9; border-bottom:1.5px solid #cbd5e1; font-weight:700;">
+                <th style="padding:6px; text-align:left;">Nama Aset Kelolaan</th>
+                <th style="padding:6px; text-align:center;">Masa Manfaat</th>
+                <th style="padding:6px; text-align:right;">Nilai Perolehan</th>
+                <th style="padding:6px; text-align:right;">Akumulasi Penyusutan</th>
+                <th style="padding:6px; text-align:right;">Nilai Buku (Neto)</th>
+              </tr>
+            </thead>
+            <tbody id="asset-table-body">
+              <!-- Dynamically populated or static baseline + calculated -->
+            </tbody>
+          </table>
+          
+          <h4 style="font-size:13px; font-weight:800; color:var(--primary); border-bottom:1.5px solid var(--primary-light); padding-bottom:3px; margin:20px 0 10px 0;">Catatan Kebijakan Akuntansi Aset Tetap (SAP)</h4>
+          <ul style="margin:0 0 8px 0; padding-left:20px; font-size:11px;">
+            <li><strong>Pengakuan:</strong> Peralatan dan investasi dinilai sebesar harga perolehan dikurangi akumulasi penyusutan menggunakan metode <strong>Garis Lurus (Straight Line Method)</strong>.</li>
+            <li><strong>Depresiasi:</strong> Aset disusutkan secara proporsional sesuai masa manfaat yang disyaratkan Standar Akuntansi Pemerintah (SAP) untuk satker BLU.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mf" style="gap:8px;">
+      <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-asettetap')">✕ Tutup</button>
+      <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-asettetap')">🖨️ Cetak PDF</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('asettetap')">💾 Unduh JPG</button>
     </div>
   </div>
 </div>
