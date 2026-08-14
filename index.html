@@ -14,11 +14,202 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<div class="app">
+
+  <!-- LEFT NAVIGATION SIDEBAR FOR DESKTOP -->
+  <aside class="sidebar">
+    <div class="sidebar-logo-container" style="display: flex; align-items: center; gap: 10px; padding: 20px 16px 10px 16px; border-bottom: 1px solid var(--border); width: 100%;">
+      <img src="logo_uncenfresh.svg" alt="Logo Uncen Fresh" style="width: 36px; height: 36px; border-radius: 50%;">
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-family:'Outfit'; font-weight: 800; font-size: 14px; color: var(--text);">Uncen Fresh</span>
+        <span style="font-size: 9px; color: var(--text-secondary); font-weight: 700; letter-spacing: 0.5px;">U2PA POS • Cloud</span>
+      </div>
+    </div>
+    
+    <div class="sidebar-search" style="padding: 12px 16px 6px 16px; width: 100%;">
+      <div style="position: relative; width: 100%;">
+        <svg style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Cari menu..." oninput="filterSidebarMenu(this.value)" style="width: 100%; height: 32px; font-size: 11px; padding: 0 10px 0 28px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); outline: none;">
+      </div>
+    </div>
+
+    <div class="sidebar-menu" style="display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 8px 12px; overflow-y: auto; flex: 1;">
+      <!-- Beranda -->
+      <button class="sbi active" onclick="switchTab('dashboard')" id="sb-dashboard" title="Beranda">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🏠</span>
+        <span class="sbi-text">Beranda</span>
+      </button>
+
+      <!-- Kasir -->
+      <button class="sbi" onclick="switchTab('kasir')" id="sb-kasir" title="Kasir">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🖥️</span>
+        <span class="sbi-text">Kasir</span>
+      </button>
+
+      <!-- Penjualan Dropdown -->
+      <div class="sb-dropdown">
+        <button class="sbi sb-trigger" onclick="toggleSbDropdown(this)" title="Penjualan">
+          <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🛍️</span>
+          <span class="sbi-text" style="flex:1; text-align:left;">Penjualan</span>
+          <span class="sbi-arrow" style="font-size:8px;">▼</span>
+        </button>
+        <div class="sb-dropdown-content">
+          <button class="sbi-sub" onclick="switchTab('overview-penjualan')" id="sb-overview-penjualan">Overview</button>
+          <button class="sbi-sub" onclick="switchTab('riwayat')" id="sb-riwayat">Tagihan Penjualan</button>
+        </div>
+      </div>
+
+      <!-- Pembelian Dropdown -->
+      <div class="sb-dropdown">
+        <button class="sbi sb-trigger" onclick="toggleSbDropdown(this)" title="Pembelian">
+          <span class="sbi-icon" style="margin-right:8px; font-size:14px;">📥</span>
+          <span class="sbi-text" style="flex:1; text-align:left;">Pembelian</span>
+          <span class="sbi-arrow" style="font-size:8px;">▼</span>
+        </button>
+        <div class="sb-dropdown-content">
+          <button class="sbi-sub" onclick="switchTab('overview-pembelian')" id="sb-overview-pembelian">Overview</button>
+          <button class="sbi-sub" onclick="switchTab('tagihan-pembelian')" id="sb-tagihan-pembelian">Tagihan Pembelian</button>
+        </div>
+      </div>
+
+      <!-- Biaya -->
+      <button class="sbi" onclick="switchTab('biaya')" id="sb-biaya" title="Biaya">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">💸</span>
+        <span class="sbi-text">Biaya</span>
+      </button>
+
+      <!-- Produk -->
+      <button class="sbi" onclick="switchTab('produk')" id="sb-produk" title="Produk">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">📦</span>
+        <span class="sbi-text">Produk</span>
+      </button>
+
+      <!-- Inventori -->
+      <button class="sbi" onclick="switchTab('inventori')" id="sb-inventori" title="Inventori">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">📊</span>
+        <span class="sbi-text">Inventori</span>
+      </button>
+
+      <!-- Laporan -->
+      <button class="sbi manager-only" onclick="switchTab('laporan')" id="sb-laporan" title="Laporan">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">📈</span>
+        <span class="sbi-text">Laporan</span>
+      </button>
+
+      <!-- Kas & Bank (NEW) -->
+      <button class="sbi" onclick="switchTab('kas-bank')" id="sb-kas-bank" title="Kas & Bank">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🏦</span>
+        <span class="sbi-text">Kas & Bank</span>
+      </button>
+
+      <!-- Akun -->
+      <button class="sbi" onclick="switchTab('akun')" id="sb-akun" title="Akun">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🗂️</span>
+        <span class="sbi-text">Akun</span>
+      </button>
+
+      <!-- Aset Tetap (NEW) -->
+      <button class="sbi" onclick="switchTab('aset-tetap')" id="sb-aset-tetap" title="Aset Tetap">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🏢</span>
+        <span class="sbi-text">Aset Tetap</span>
+      </button>
+
+      <!-- Kontak -->
+      <button class="sbi" onclick="switchTab('kontak')" id="sb-kontak" title="Kontak">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">👥</span>
+        <span class="sbi-text">Kontak</span>
+      </button>
+
+      <!-- Payroll (NEW) -->
+      <button class="sbi" onclick="switchTab('payroll')" id="sb-payroll" title="Payroll">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🪙</span>
+        <span class="sbi-text">Payroll</span>
+      </button>
+
+      <!-- CRM (NEW) -->
+      <button class="sbi" onclick="switchTab('crm')" id="sb-crm" title="CRM">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">⚡</span>
+        <span class="sbi-text">CRM</span>
+      </button>
+
+      <!-- POS Dropdown -->
+      <div class="sb-dropdown">
+        <button class="sbi sb-trigger" onclick="toggleSbDropdown(this)" title="POS">
+          <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🖥️</span>
+          <span class="sbi-text" style="flex:1; text-align:left;">POS</span>
+          <span class="sbi-arrow" style="font-size:8px;">▼</span>
+        </button>
+        <div class="sb-dropdown-content">
+          <button class="sbi-sub" onclick="switchTab('pos-welcome')" id="sb-pos-welcome">Web POS</button>
+          <button class="sbi-sub" onclick="switchTab('pos-download')" id="sb-pos-download">Download</button>
+          <button class="sbi-sub" onclick="switchTab('pos-favorit')" id="sb-pos-favorit">Produk Favorit</button>
+          <button class="sbi-sub" onclick="switchTab('pos-pengguna')" id="sb-pos-pengguna">Pengguna Kasir</button>
+          <button class="sbi-sub" onclick="switchTab('pos-outlet')" id="sb-pos-outlet">Outlet</button>
+          <button class="sbi-sub" onclick="switchTab('pos-orders')" id="sb-pos-orders">Pesanan</button>
+          <button class="sbi-sub" onclick="switchTab('pos-settings')" id="sb-pos-settings">Pengaturan</button>
+        </div>
+      </div>
+
+      <!-- Distribusi Dropdown -->
+      <div class="sb-dropdown">
+        <button class="sbi sb-trigger" onclick="toggleSbDropdown(this)" title="Distribusi">
+          <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🚚</span>
+          <span class="sbi-text" style="flex:1; text-align:left;">Distribusi</span>
+          <span class="sbi-arrow" style="font-size:8px;">▼</span>
+        </button>
+        <div class="sb-dropdown-content">
+          <button class="sbi-sub" onclick="switchTab('distribusi-zap')" id="sb-distribusi-zap">Zap</button>
+          <button class="sbi-sub" onclick="switchTab('distribusi-tagihan')" id="sb-distribusi-tagihan">Rekap Tagihan</button>
+          <button class="sbi-sub" onclick="switchTab('distribusi-rekap')" id="sb-distribusi-rekap">Rekap Pengiriman</button>
+          <button class="sbi-sub" onclick="switchTab('distribusi-armada')" id="sb-distribusi-armada">Armada</button>
+          <button class="sbi-sub" onclick="switchTab('distribusi-rute')" id="sb-distribusi-rute">Rute</button>
+          <button class="sbi-sub" onclick="switchTab('distribusi-canvassing')" id="sb-distribusi-canvassing">Canvassing</button>
+        </div>
+      </div>
+
+      <!-- Marketplace (NEW) -->
+      <button class="sbi" onclick="switchTab('marketplace')" id="sb-marketplace" title="Marketplace">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">🔌</span>
+        <span class="sbi-text">Marketplace</span>
+      </button>
+
+      <!-- Pengaturan -->
+      <button class="sbi" onclick="switchTab('pengaturan')" id="sb-pengaturan" title="Pengaturan">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">⚙️</span>
+        <span class="sbi-text">Pengaturan</span>
+      </button>
+
+      <!-- FAQ (NEW) -->
+      <button class="sbi" onclick="switchTab('faq')" id="sb-faq" title="FAQ">
+        <span class="sbi-icon" style="margin-right:8px; font-size:14px;">ℹ️</span>
+        <span class="sbi-text">FAQ</span>
+      </button>
+    </div>
+    
+    <!-- User Profile Footer (Dinar Robusta Style) -->
+    <div class="sidebar-user-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-top: 1px solid var(--border); width: 100%; background: rgba(0,0,0,0.02); height: 60px;">
+      <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px;" id="sb-avatar-letter">U</div>
+        <div style="display: flex; flex-direction: column; overflow: hidden;">
+          <span style="font-family:'Outfit'; font-weight: 700; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px;" id="sb-user-name">Operator</span>
+          <span style="font-size: 9px; color: var(--text-secondary); font-weight: 500; white-space: nowrap;">Uncen Fresh</span>
+        </div>
+      </div>
+      <button onclick="logoutUser()" title="Keluar Akun" style="background: none; border: none; color: var(--red); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 6px; border-radius: 6px; transition: var(--transition);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <div class="app">
 
   <!-- HEADER -->
   <header class="hdr">
     <div class="hdr-brand">
+      <!-- Hamburger Menu Toggle (Mobile) -->
+      <button class="menu-toggle-btn" onclick="toggleSidebar()" style="background:none; border:none; color:var(--text); cursor:pointer; display:none; align-items:center; justify-content:center; width:36px; height:36px; margin-right:8px;" title="Buka Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
       <div class="hdr-logo">
         <img id="hdr-logo-img" src="logo_uncenfresh.svg" alt="Logo Uncen Fresh">
         <svg id="hdr-logo-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -29,6 +220,20 @@
       </div>
       <span class="hdr-title" id="hdr-name">Uncen Fresh</span>
     </div>
+
+    <!-- Quick Actions (Kledo Style Shortcuts) -->
+    <div class="hdr-shortcuts" style="display:flex; gap:8px; align-items:center;">
+      <button class="btn" onclick="openSheet('sheet-quick-add')" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-light); font-weight:700; border-radius:6px;">
+        <span>➕ Jual</span>
+      </button>
+      <button class="btn" onclick="openRestock(null)" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-light); font-weight:700; border-radius:6px;">
+        <span>📦 Beli</span>
+      </button>
+      <button class="btn" onclick="openSheet('sheet-pengeluaran')" style="padding: 0 12px; font-size: 11px; height: 32px; display: flex; align-items: center; gap: 4px; margin: 0; background: var(--red-light); color: var(--red); border: 1px solid var(--red-light); font-weight:700; border-radius:6px;">
+        <span>💸 Biaya</span>
+      </button>
+    </div>
+
     <div class="hdr-actions">
       <!-- Dark Theme Toggle -->
       <button class="ib" onclick="toggleTheme()" title="Beralih Tema">
@@ -42,13 +247,6 @@
           <line x1="21" y1="12" x2="23" y2="12"></line>
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-      </button>
-      <!-- Quick Settings -->
-      <button class="ib" onclick="switchTab('pengaturan')" title="Pengaturan Toko">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
         </svg>
       </button>
     </div>
@@ -135,32 +333,94 @@
 
     <!-- VIEW 2: KASIR (POS) -->
     <div class="vp" id="view-kasir">
-      <!-- Input Data Pelanggan (Awal Transaksi) -->
-      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
-        <div style="font-family: 'Outfit'; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 6px;">
-          👤 Informasi Pelanggan (Awal Transaksi)
+      <!-- Container Kiri: Data Pelanggan, Search & Grid Produk -->
+      <div class="kasir-left-col">
+        <!-- Input Data Pelanggan (Awal Transaksi) -->
+        <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+          <div style="font-family: 'Outfit'; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+            👤 Informasi Pelanggan (Awal Transaksi)
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px;">
+            <div>
+              <input type="text" id="pos-cust-nama" class="si" placeholder="Nama Pelanggan (Umum)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('nama', this.value)">
+            </div>
+            <div>
+              <input type="text" id="pos-cust-wa" class="si" placeholder="No. HP/WA (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('wa', this.value)">
+            </div>
+            <div>
+              <input type="text" id="pos-cust-alamat" class="si" placeholder="Alamat Lengkap (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('alamat', this.value)">
+            </div>
+          </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px;">
-          <div>
-            <input type="text" id="pos-cust-nama" class="si" placeholder="Nama Pelanggan (Umum)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('nama', this.value)">
-          </div>
-          <div>
-            <input type="text" id="pos-cust-wa" class="si" placeholder="No. HP/WA (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('wa', this.value)">
-          </div>
-          <div>
-            <input type="text" id="pos-cust-alamat" class="si" placeholder="Alamat Lengkap (-)" style="font-size: 12px; height: 36px; padding: 0 10px;" oninput="syncCustomerData('alamat', this.value)">
-          </div>
+
+        <div class="sw" style="display:flex; align-items:center;">
+          <svg class="sic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="kasir-search" class="si" placeholder="Cari produk..." oninput="renderKasir()" style="padding-right:48px;">
+          <button onclick="openProdukSheet(null)" style="position:absolute; right:12px; background:none; border:none; color:var(--primary); cursor:pointer; display:flex; align-items:center; justify-content:center; width:28px; height:28px;" title="Tambah Produk Baru">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </button>
         </div>
+        
+        <div class="pg" id="kasir-grid" style="margin-bottom:80px;"></div>
       </div>
 
-      <div class="sw" style="display:flex; align-items:center;">
-        <svg class="sic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="kasir-search" class="si" placeholder="Cari produk..." oninput="renderKasir()" style="padding-right:48px;">
-        <button onclick="openProdukSheet(null)" style="position:absolute; right:12px; background:none; border:none; color:var(--primary); cursor:pointer; display:flex; align-items:center; justify-content:center; width:28px; height:28px;" title="Tambah Produk Baru">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        </button>
+      <!-- Container Kanan: Keranjang Belanja POS (Akan melayang di mobile, inline di desktop) -->
+      <div class="mo" id="sheet-cart">
+        <div class="md">
+          <div class="mh">
+            <h3 class="mt">Keranjang Belanja POS</h3>
+            <button class="mx" onclick="closeSheet('sheet-cart')">✕</button>
+          </div>
+          <div class="mb">
+            <div id="cart-items" style="max-height:280px; overflow-y:auto; margin-bottom:12px;"></div>
+            
+            <!-- Summaries -->
+            <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; justify-content:space-between; font-size:12px;">
+                <span>Subtotal Barang</span>
+                <span id="cart-subtotal">Rp 0</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; cursor:pointer;" onclick="editCartDiscount()" title="Klik untuk edit diskon">
+                <span>Potongan Diskon (Rp) ✏️</span>
+                <span id="cart-diskon-label" style="color:var(--red); font-weight:700;">Rp 0 ✏️</span>
+              </div>
+              <hr style="border:none; border-top:1px dashed var(--border);">
+              <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; color:var(--primary);">
+                <span>Total Tagihan</span>
+                <span id="cart-modal-total">Rp 0</span>
+              </div>
+            </div>
+            
+            <!-- Identitas Pelanggan (Wajib) -->
+            <div class="card" style="padding:12px; margin-top:12px; margin-bottom:12px; border-color:var(--primary-light); background:var(--surface); text-align:left;">
+              <div style="font-family:'Outfit'; font-weight:700; font-size:12px; margin-bottom:8px; color:var(--primary);">👤 Identitas Pelanggan (Wajib diisi)</div>
+              <div class="fg" style="margin-bottom:8px;">
+                <label style="font-size:10px; margin-bottom:2px; display:block;">Nama Lengkap</label>
+                <input type="text" id="cart-cust-nama" placeholder="Masukkan nama pelanggan" style="height:36px; font-size:12px;" oninput="syncCustomerData('nama', this.value)">
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px;">
+                <div class="fg" style="margin-bottom:0;">
+                  <label style="font-size:10px; margin-bottom:2px; display:block;">No. HP/WA</label>
+                  <input type="text" id="cart-cust-wa" placeholder="0812..." style="height:36px; font-size:12px;" oninput="syncCustomerData('wa', this.value)">
+                </div>
+                <div class="fg" style="margin-bottom:0;">
+                  <label style="font-size:10px; margin-bottom:2px; display:block;">Alamat Rumah</label>
+                  <input type="text" id="cart-cust-alamat" placeholder="Alamat lengkap" style="height:36px; font-size:12px;" oninput="syncCustomerData('alamat', this.value)">
+                </div>
+              </div>
+            </div>
+            
+            <div class="fg" style="margin-top:10px;">
+              <label>Catatan Transaksi</label>
+              <input type="text" id="cart-catatan" placeholder="Contoh: Kirim jam 3 sore" oninput="updateCartCatatan()">
+            </div>
+          </div>
+          <div class="mf">
+            <button class="btn btn-s" style="flex:1;" onclick="clearCart()">Kosongkan</button>
+            <button class="btn btn-g" style="flex:2;" onclick="openCheckout()">Lanjutkan Pembayaran ➔</button>
+          </div>
+        </div>
       </div>
-      <div class="pg" id="kasir-grid" style="margin-bottom:80px;"></div>
       
       <!-- Floating Cart Badge -->
       <div class="cfab" id="cart-fab" onclick="openCart()">
@@ -174,126 +434,942 @@
 
     <!-- VIEW 3: TRANSAKSI (RIWAYAT) -->
     <div class="vp" id="view-riwayat">
-      <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Riwayat Transaksi Penjualan</h3>
-      <div class="fchips" id="riwayat-filter-chips">
-        <button class="fchip active" onclick="setRiwayatFilter('all',this)">Semua</button>
-        <button class="fchip" onclick="setRiwayatFilter('today',this)">Hari Ini</button>
-        <button class="fchip" onclick="setRiwayatFilter('7d',this)">7 Hari Terakhir</button>
-        <button class="fchip" onclick="setRiwayatFilter('30d',this)">30 Hari Terakhir</button>
+      <!-- Kolom Kiri: Daftar Transaksi & Pencarian -->
+      <div class="riwayat-left-col">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Riwayat Transaksi Penjualan</h3>
+        
+        <!-- Input Pencarian Riwayat -->
+        <div style="position:relative; margin-bottom:12px">
+          <svg style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-secondary)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="riwayat-search" placeholder="Cari nama pelanggan..." oninput="renderRiwayat()" style="width:100%; border:1px solid var(--border); background:var(--surface); padding:8px 12px 8px 36px; border-radius:var(--radius-md); font-size:12px; outline:none; transition:var(--transition)">
+        </div>
+
+        <div class="fchips" id="riwayat-filter-chips">
+          <button class="fchip active" onclick="setRiwayatFilter('all',this)">Semua</button>
+          <button class="fchip" onclick="setRiwayatFilter('today',this)">Hari Ini</button>
+          <button class="fchip" onclick="setRiwayatFilter('7d',this)">7 Hari Terakhir</button>
+          <button class="fchip" onclick="setRiwayatFilter('30d',this)">30 Hari Terakhir</button>
+        </div>
+        
+        <div id="riwayat-list" style="display:flex; flex-direction:column; gap:12px;"></div>
       </div>
-      <div id="riwayat-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+
+      <!-- Kolom Kanan: Detail Nota Transaksi Aktif (Widescreen Only) -->
+      <div class="riwayat-right-col" id="riwayat-detail-container">
+        <div class="card" style="text-align:center; padding:40px 20px; color:var(--text-secondary); height:100%; display:flex; align-items:center; justify-content:center; border-style:dashed;">
+          <div>
+            <div style="font-size:32px; margin-bottom:12px;">📑</div>
+            <div style="font-weight:700; font-size:14px;">Detail Nota Transaksi</div>
+            <div style="font-size:11px; margin-top:4px;">Pilih salah satu transaksi di sebelah kiri untuk melihat rincian nota belanja.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: OVERVIEW PENJUALAN -->
+    <div class="vp" id="view-overview-penjualan">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Overview Penjualan</h3>
+        <div style="display:flex; gap:8px;">
+          <button class="fchip active" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+      
+      <div class="sg" style="margin-bottom:20px; display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Penjualan Bulan Ini</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-penjualan-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Tagihan Bulan Ini</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--green); font-weight:bold; font-size:13px;">↗ 0%</div>
+            <div style="font-size:9px; color:var(--text-secondary);">vs bln lalu</div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Pembayaran Diterima</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-diterima-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Bulan Ini</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--green); font-weight:bold; font-size:13px;">↗ 0%</div>
+            <div style="font-size:9px; color:var(--text-secondary);">vs bln lalu</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Menunggu Pembayaran</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-menunggu-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Total Piutang Aktif</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--red); font-weight:bold; font-size:13px;">↘ 0%</div>
+            <div style="font-size:9px; color:var(--text-secondary);">vs bln lalu</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Jatuh Tempo</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-tempo-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Dari total tagihan belum dibayar</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--red); font-weight:bold; font-size:13px;" id="ov-tempo-count">0 Tagihan</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:16px; margin-bottom:20px;">
+        <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px;">
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-bottom:16px;">Rasio Lunas</div>
+          
+          <div style="position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center;">
+            <svg width="150" height="150" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" stroke="var(--border)" stroke-width="8" fill="none" />
+              <circle cx="50" cy="50" r="40" stroke="var(--primary)" stroke-width="8" fill="none" 
+                      stroke-dasharray="251.2" stroke-dashoffset="251.2" id="ov-gauge-circle" 
+                      stroke-linecap="round" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 1s ease-out;" />
+            </svg>
+            <div style="position:absolute; font-family:'Outfit'; font-weight:800; font-size:24px; color:var(--text);" id="ov-gauge-text">0%</div>
+          </div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:16px;">Tagihan lunas vs total tagihan bulan ini</div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:20px;">
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-bottom:12px;">Penjualan Per Produk Bulan Ini</div>
+          <div id="ov-produk-list" style="display:flex; flex-direction:column; gap:10px; max-height:180px; overflow-y:auto; padding-right:4px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: OVERVIEW PEMBELIAN -->
+    <div class="vp" id="view-overview-pembelian">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Overview Pembelian</h3>
+        <div style="display:flex; gap:8px;">
+          <button class="fchip active" onclick="window.print()">🖨️ Print</button>
+        </div>
+      </div>
+      
+      <div class="sg" style="margin-bottom:20px; display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Pembelian Bulan Ini</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-pembelian-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Tagihan Pembelian</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--green); font-weight:bold; font-size:13px;">↗ 0%</div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Pembayaran Terkirim</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-pembelian-diterima-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Bulan Ini</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--green); font-weight:bold; font-size:13px;">↗ 0%</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Menunggu Pembayaran</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-pembelian-menunggu-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Total Hutang Aktif</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--red); font-weight:bold; font-size:13px;">↘ 0%</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Jatuh Tempo</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="ov-pembelian-tempo-val">Rp 0</div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">Hutang Supplier Jatuh Tempo</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:var(--red); font-weight:bold; font-size:13px;" id="ov-pembelian-tempo-count">0 Tagihan</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:16px; margin-bottom:20px;">
+        <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px;">
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-bottom:16px;">Rasio Lunas Pembelian</div>
+          
+          <div style="position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center;">
+            <svg width="150" height="150" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" stroke="var(--border)" stroke-width="8" fill="none" />
+              <circle cx="50" cy="50" r="40" stroke="#3b82f6" stroke-width="8" fill="none" 
+                      stroke-dasharray="251.2" stroke-dashoffset="251.2" id="ov-pembelian-gauge-circle" 
+                      stroke-linecap="round" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 1s ease-out;" />
+            </svg>
+            <div style="position:absolute; font-family:'Outfit'; font-weight:800; font-size:24px; color:var(--text);" id="ov-pembelian-gauge-text">0%</div>
+          </div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:16px;">Tagihan lunas vs total tagihan pembelian</div>
+        </div>
+
+        <div class="card" style="margin-bottom:0; padding:20px;">
+          <div style="font-size:11px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-bottom:12px;">Pembelian Terbesar Per Supplier</div>
+          <div id="ov-supplier-list" style="display:flex; flex-direction:column; gap:10px; max-height:180px; overflow-y:auto; padding-right:4px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: TAGIHAN PEMBELIAN -->
+    <div class="vp" id="view-tagihan-pembelian">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Tagihan Pembelian (Restock)</h3>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-g" style="padding: 6px 16px; font-size:11px; margin:0;" onclick="openSheet('sheet-restock-katalog')">➕ Tambah Tagihan</button>
+        </div>
+      </div>
+      
+      <!-- Filter and Search Row -->
+      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; align-items:center;">
+          <div style="position:relative;">
+            <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="tp-search" placeholder="Cari nomor tagihan atau supplier..." oninput="renderTagihanPembelian()" style="width: 100%; height: 36px; padding: 0 10px 0 32px; border: 1px solid var(--border); border-radius: 6px; font-size:12px; background:var(--bg);">
+          </div>
+          <div>
+            <input type="date" id="tp-date-start" onchange="renderTagihanPembelian()" style="width: 100%; height: 36px; font-size:11px; border:1px solid var(--border); border-radius:6px; padding:0 8px; background:var(--bg);">
+          </div>
+          <div>
+            <input type="date" id="tp-date-end" onchange="renderTagihanPembelian()" style="width: 100%; height: 36px; font-size:11px; border:1px solid var(--border); border-radius:6px; padding:0 8px; background:var(--bg);">
+          </div>
+        </div>
+      </div>
+
+      <div class="fchips" id="tp-filter-chips" style="margin-bottom:12px;">
+        <button class="fchip active" onclick="setTPFilter('all', this)">Semua</button>
+        <button class="fchip" onclick="setTPFilter('Belum Dibayar', this)">Belum Dibayar</button>
+        <button class="fchip" onclick="setTPFilter('Lunas', this)">Lunas</button>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Nomor</th>
+              <th style="padding:12px 16px;">Vendor (Supplier)</th>
+              <th style="padding:12px 16px;">Referensi / Keterangan</th>
+              <th style="padding:12px 16px;">Tanggal</th>
+              <th style="padding:12px 16px;">Status</th>
+              <th style="padding:12px 16px; text-align:right;">Sisa Tagihan</th>
+              <th style="padding:12px 16px; text-align:right;">Total</th>
+            </tr>
+          </thead>
+          <tbody id="tp-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: BIAYA -->
+    <div class="vp" id="view-biaya">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Biaya Operasional</h3>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-g" style="padding: 6px 16px; font-size:11px; margin:0;" onclick="openSheet('sheet-pengeluaran')">➕ Tambah Biaya</button>
+        </div>
+      </div>
+
+      <!-- Financial Metrics row -->
+      <div class="sg" style="margin-bottom:20px; display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--primary);">
+          <div style="font-size:24px;">📊</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Bulan Ini</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="ov-biaya-month">Rp 0</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--red);">
+          <div style="font-size:24px;">📉</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">30 Hari Lalu</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="ov-biaya-30d">Rp 0</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--orange);">
+          <div style="font-size:24px;">⏳</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Belum Dibayar</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="ov-biaya-unpaid">Rp 0</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--green);">
+          <div style="font-size:24px;">✅</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Jatuh Tempo</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="ov-biaya-tempo">Rp 0</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Filter and Search Row -->
+      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; align-items:center;">
+          <div style="position:relative;">
+            <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="biaya-search" placeholder="Cari pengeluaran atau kategori..." oninput="renderBiayaPage()" style="width: 100%; height: 36px; padding: 0 10px 0 32px; border: 1px solid var(--border); border-radius: 6px; font-size:12px; background:var(--bg);">
+          </div>
+          <div>
+            <input type="date" id="biaya-date-start" onchange="renderBiayaPage()" style="width: 100%; height: 36px; font-size:11px; border:1px solid var(--border); border-radius:6px; padding:0 8px; background:var(--bg);">
+          </div>
+          <div>
+            <input type="date" id="biaya-date-end" onchange="renderBiayaPage()" style="width: 100%; height: 36px; font-size:11px; border:1px solid var(--border); border-radius:6px; padding:0 8px; background:var(--bg);">
+          </div>
+        </div>
+      </div>
+
+      <div class="fchips" id="biaya-filter-chips" style="margin-bottom:12px;">
+        <button class="fchip active" onclick="setBiayaFilter('all', this)">Semua</button>
+        <button class="fchip" onclick="setBiayaFilter('Lunas', this)">Lunas</button>
+        <button class="fchip" onclick="setBiayaFilter('Belum Dibayar', this)">Belum Dibayar</button>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Tanggal</th>
+              <th style="padding:12px 16px;">Nomor</th>
+              <th style="padding:12px 16px;">Kategori / Referensi</th>
+              <th style="padding:12px 16px;">Penerima</th>
+              <th style="padding:12px 16px;">Status</th>
+              <th style="padding:12px 16px; text-align:right;">Sisa Tagihan</th>
+              <th style="padding:12px 16px; text-align:right;">Total</th>
+            </tr>
+          </thead>
+          <tbody id="biaya-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: PRODUK (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-produk">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; flex-direction:column;">
+          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Produk</h3>
+          <span style="font-size:11px; color:var(--text-secondary);">Kelola katalog barang dagangan dan aset persediaan Anda</span>
+        </div>
+        <div class="hdr-shortcuts" style="display:flex; gap:8px; align-items:center; flex-wrap: wrap;">
+          <!-- Laporan Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn btn-s" onclick="toggleLocalDropdown(event, this)" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">📊 Laporan <span style="font-size:8px; margin-left:4px;">▼</span></button>
+            <div class="local-dropdown-menu">
+              <button class="dropdown-item" onclick="switchTab('laporan')">Profitabilitas Produk</button>
+              <button class="dropdown-item" onclick="switchTab('laporan')">Penjualan per Produk</button>
+              <button class="dropdown-item" onclick="switchTab('laporan')">Pemesanan per Produk</button>
+              <button class="dropdown-item" onclick="switchTab('laporan')">Penjualan per Kategori</button>
+              <button class="dropdown-item" onclick="switchTab('laporan')">Pembelian per Produk</button>
+              <button class="dropdown-item" onclick="switchTab('laporan')">Pembelian Produk per Vendor</button>
+              <button class="dropdown-item" onclick="switchTab('inventori')">Ringkasan Inventori</button>
+              <button class="dropdown-item" onclick="openSheet('sheet-riwayat-stok')">Pergerakan Stok Inventori</button>
+              <button class="dropdown-item" onclick="switchTab('inventori')">Ringkasan Stok Gudang</button>
+              <button class="dropdown-item" onclick="openSheet('sheet-stok-opname')">Pergerakan Stok Gudang</button>
+              <button class="dropdown-item" onclick="alert('Laporan Produksi otomatis terintegrasi di inventori')">Laporan Produksi</button>
+              <button class="dropdown-item" onclick="alert('Laporan Transfer Gudang otomatis terintegrasi')">Laporan Transfer Gudang</button>
+            </div>
+          </div>
+
+          <!-- Panduan -->
+          <button class="btn btn-s" onclick="alert('Panduan Modul Katalog Produk Uncen Fresh: Klik tombol + Tambah untuk memasukkan barang baru, atau klik Edit/Restock di baris tabel.')" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">❔ Panduan</button>
+
+          <!-- Aturan Harga -->
+          <button class="btn" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; background:#10b981; color:#ffffff; border:none; margin:0;" onclick="alert('Aturan penetapan harga multi-level (Grosir/Eceran) aktif berdasarkan kategori.')">Aturan Harga</button>
+
+          <!-- + Tambah Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn btn-g" onclick="toggleLocalDropdown(event, this)" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0; background:var(--primary); color:#ffffff; border:none;">➕ Tambah <span style="font-size:8px; margin-left:4px;">▼</span></button>
+            <div class="local-dropdown-menu">
+              <button class="dropdown-item" onclick="openProdukSheet(null)">Tambah Produk</button>
+              <button class="dropdown-item" onclick="alert('Fitur Produk Paket memerlukan upgrade lisensi Champion.')">Tambah Produk Paket</button>
+              <button class="dropdown-item" onclick="alert('Fitur Produk Manufaktur memerlukan lisensi Champion.')">Tambah Produk Manufaktur</button>
+              <button class="dropdown-item" onclick="alert('Fitur Produk Varian memerlukan lisensi Champion.')">Tambah Produk Varian</button>
+              <button class="dropdown-item" onclick="alert('Fitur Konversi Produk memerlukan lisensi Champion.')">Tambah Konversi Produk</button>
+              <button class="dropdown-item" onclick="alert('Fitur Integrasi Marketplace memerlukan lisensi Champion.')">Tambah Produk dari Marketplace</button>
+              <button class="dropdown-item" onclick="alert('Fitur Rencana Produksi memerlukan lisensi Champion.')">Rencana Produksi</button>
+            </div>
+          </div>
+
+          <!-- Import Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn btn-s" onclick="toggleLocalDropdown(event, this)" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">📥 Import <span style="font-size:8px; margin-left:4px;">▼</span></button>
+            <div class="local-dropdown-menu">
+              <button class="dropdown-item" onclick="alert('Silakan pilih berkas Excel (.xlsx) katalog produk reguler Anda.')">Import Produk Reguler</button>
+              <button class="dropdown-item" onclick="alert('Pilih berkas Excel (.xlsx) produk paket.')">Import Produk Paket</button>
+              <button class="dropdown-item" onclick="alert('Pilih berkas Excel (.xlsx) produk manufaktur.')">Import Produk Manufaktur</button>
+              <button class="dropdown-item" onclick="alert('Ekspor katalog produk reguler ke Excel.')">Ekspor Produk Reguler</button>
+              <button class="dropdown-item" onclick="alert('Ekspor katalog produk paket ke Excel.')">Ekspor Produk Paket</button>
+            </div>
+          </div>
+
+          <!-- Print Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn btn-s" onclick="toggleLocalDropdown(event, this)" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">🖨️ Print <span style="font-size:8px; margin-left:4px;">▼</span></button>
+            <div class="local-dropdown-menu">
+              <button class="dropdown-item" onclick="window.print()">Daftar Produk</button>
+              <button class="dropdown-item" onclick="alert('Generate barcode label produk otomatis.')">Barcode</button>
+              <button class="dropdown-item" onclick="alert('Generate QR code link produk otomatis.')">QR Code</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Metrics Cards Row -->
+      <div class="metrics-grid-6">
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--green); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-tersedia">0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Stok Tersedia</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--yellow); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-hampir-habis">0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Hampir Habis</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--red); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-habis">0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Stok Habis</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--orange); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-total-stok">0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Total Stok</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--primary); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-nilai-produk">Rp 0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Nilai Jual</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--purple); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="pm-total-hpp">Rp 0</div>
+          <div style="font-size:9px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Nilai HPP</div>
+        </div>
+      </div>
+
+      <!-- Search & Filters Row -->
+      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+        <div style="display: flex; gap: 10px; align-items:center;">
+          <div style="position:relative; flex:1;">
+            <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="pm-search" placeholder="Cari nama produk, SKU, atau kategori..." oninput="renderProdukPage()" style="width: 100%; height: 36px; padding: 0 10px 0 32px; border: 1px solid var(--border); border-radius: 6px; font-size:12px; background:var(--bg);">
+          </div>
+          <div>
+            <select id="pm-filter-kategori" onchange="renderProdukPage()" style="height: 36px; padding: 0 12px; border: 1px solid var(--border); border-radius:6px; font-size:11px; background:var(--bg); color:var(--text); outline:none;">
+              <option value="">Semua Kategori</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Nama Barang</th>
+              <th style="padding:12px 16px;">Kode/SKU</th>
+              <th style="padding:12px 16px;">Kategori</th>
+              <th style="padding:12px 16px;">Satuan</th>
+              <th style="padding:12px 16px; text-align:right;">Harga Beli</th>
+              <th style="padding:12px 16px; text-align:right;">Harga Jual</th>
+              <th style="padding:12px 16px; text-align:right;">Stok</th>
+              <th style="padding:12px 16px; text-align:right;">Total HPP</th>
+              <th style="padding:12px 16px; text-align:center;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="pm-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: INVENTORI (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-inventori">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap: wrap; gap: 10px;">
+        <div style="display:flex; flex-direction:column;">
+          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Inventori</h3>
+          <span style="font-size:11px; color:var(--text-secondary);">Pantau persediaan stok di gudang penyimpanan Anda</span>
+        </div>
+        <div class="hdr-shortcuts" style="display:flex; gap:8px; align-items:center;">
+          <!-- Laporan Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="btn btn-s" onclick="toggleLocalDropdown(event, this)" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">📊 Laporan <span style="font-size:8px; margin-left:4px;">▼</span></button>
+            <div class="local-dropdown-menu">
+              <button class="dropdown-item" onclick="openSheet('sheet-lap-neraca')">Neraca</button>
+              <button class="dropdown-item" onclick="switchTab('akun')">Buku Besar</button>
+              <button class="dropdown-item" onclick="switchTab('inventori')">Ringkasan Inventori</button>
+              <button class="dropdown-item" onclick="openSheet('sheet-riwayat-stok')">Pergerakan Stok Inventori</button>
+              <button class="dropdown-item" onclick="switchTab('inventori')">Ringkasan Stok Gudang</button>
+              <button class="dropdown-item" onclick="openSheet('sheet-stok-opname')">Pergerakan Stok Gudang</button>
+              <button class="dropdown-item" onclick="alert('Laporan Produksi otomatis terintegrasi')">Laporan Produksi</button>
+              <button class="dropdown-item" onclick="alert('Laporan Transfer Gudang otomatis terintegrasi')">Laporan Transfer Gudang</button>
+            </div>
+          </div>
+
+          <!-- Panduan -->
+          <button class="btn btn-s" onclick="alert('Panduan Modul Gudang & Inventori: Klik tombol + Tambah Gudang untuk mendaftarkan area penyimpanan baru, atau lakukan Stok Opname untuk penyesuaian.')" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">❔ Panduan</button>
+
+          <!-- + Tambah Gudang Button -->
+          <button class="btn btn-g" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0; background:var(--primary); color:#ffffff; border:none;" onclick="alert('Pendaftaran Gudang Baru (Cabang/Mitra) memerlukan lisensi Champion.')">➕ Tambah Gudang</button>
+
+          <!-- Print Button -->
+          <button class="btn btn-s" onclick="window.print()" style="padding:0 12px; font-size:11px; height:32px; font-weight:700; margin:0;">🖨️ Print</button>
+        </div>
+      </div>
+
+      <!-- Metrics cards -->
+      <div class="sg" style="margin-bottom:20px; display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--green);">
+          <div style="font-size:24px;">📦</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Stok Fisik</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="im-total-stok">0 Unit</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--primary);">
+          <div style="font-size:24px;">💰</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Nilai Jual Stok</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="im-nilai-jual">Rp 0</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; display:flex; align-items:center; gap:12px; border-left: 4px solid var(--purple);">
+          <div style="font-size:24px;">📊</div>
+          <div>
+            <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Nilai HPP Persediaan</div>
+            <div style="font-family:'Outfit'; font-weight:800; font-size:16px; margin-top:2px;" id="im-nilai-hpp">Rp 0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warehouse Card -->
+      <div style="display:grid; grid-template-columns:1.2fr 1.8fr; gap:16px;">
+        <!-- Gudang list (Kledo warehouse list) -->
+        <div class="card" style="padding:16px; margin-bottom:0;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px; margin-bottom:12px; color:var(--text);">📍 Daftar Gudang Toko</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; border:1px solid var(--primary-light); background:var(--primary-light-alpha); border-radius:8px;">
+              <div>
+                <div style="font-weight:700; font-size:12px; color:var(--primary);">Gudang Utama (Unassigned)</div>
+                <div style="font-size:9px; color:var(--text-secondary); margin-top:2px;">Kode Gudang: UA</div>
+              </div>
+              <span style="background:var(--primary); color:#ffffff; font-size:9px; font-weight:800; padding:2px 6px; border-radius:10px;">Aktif</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Stock Mutation logs table -->
+        <div class="card" style="padding:16px; margin-bottom:0;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px; margin-bottom:12px; color:var(--text); display:flex; justify-content:space-between; align-items:center;">
+            <span>🔄 Mutasi & Riwayat Stok Terbaru</span>
+            <button class="fchip" onclick="openSheet('sheet-riwayat-stok')" style="font-size:10px;">Lihat Semua</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="saas-table" style="width:100%; border-collapse:collapse; font-size:11px;">
+              <thead>
+                <tr style="background:var(--bg); border-bottom:1px solid var(--border); color:var(--text-secondary); font-weight:700;">
+                  <th style="padding:8px 12px;">Waktu</th>
+                  <th style="padding:8px 12px;">Nama Produk</th>
+                  <th style="padding:8px 12px;">Tipe</th>
+                  <th style="padding:8px 12px; text-align:right;">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody id="im-mutation-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: AKUN (CHART OF ACCOUNTS / COA) -->
+    <div class="vp" id="view-akun">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; flex-direction:column;">
+          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Daftar Akun Perkiraan (COA)</h3>
+          <span style="font-size:11px; color:var(--text-secondary);">Pemetaan pos akuntansi dan saldo keuangan real-time</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-g" onclick="alert('Fitur tambah akun baru memerlukan izin otorisasi manajer tingkat tinggi.')" style="padding: 0 12px; font-size: 11px; height: 32px; font-weight:700; margin:0;">➕ Tambah Akun</button>
+        </div>
+      </div>
+
+      <!-- Search & Filters Row -->
+      <div class="card" style="padding: 12px; margin-bottom: 12px; border-color: var(--primary-light); background: var(--surface);">
+        <div style="position:relative; width: 100%;">
+          <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-secondary);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="coa-search" placeholder="Cari nama akun atau nomor rekening..." oninput="renderAkunPage()" style="width: 100%; height: 36px; padding: 0 10px 0 32px; border: 1px solid var(--border); border-radius: 6px; font-size:12px; background:var(--bg);">
+        </div>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Kode Rekening</th>
+              <th style="padding:12px 16px;">Nama Akun</th>
+              <th style="padding:12px 16px;">Kategori Akun</th>
+              <th style="padding:12px 16px; text-align:right;">Saldo Berjalan</th>
+            </tr>
+          </thead>
+          <tbody id="coa-table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Visual Analytics Row (Kledo Style) -->
+      <div class="sg" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+        <!-- Card Saldo Per Kategori -->
+        <div class="card" style="margin-bottom:0; padding:16px;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:13px; margin-bottom:12px; color:var(--text); text-transform:uppercase; letter-spacing:0.5px;">Saldo Per Kategori</div>
+          <div id="coa-kat-analytics" style="display:flex; flex-direction:column; gap:8px; max-height: 250px; overflow-y: auto;">
+            <!-- Category values render dynamically -->
+          </div>
+        </div>
+
+        <!-- Card Saldo Per Akun -->
+        <div class="card" style="margin-bottom:0; padding:16px;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:13px; margin-bottom:12px; color:var(--text); text-transform:uppercase; letter-spacing:0.5px;">Saldo Per Akun</div>
+          <div id="coa-akun-analytics" style="display:flex; flex-direction:column; gap:8px; max-height: 250px; overflow-y: auto;">
+            <!-- Account values render dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- VIEW: KONTAK (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-kontak">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; flex-direction:column;">
+          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Kontak</h3>
+          <span style="font-size:11px; color:var(--text-secondary);">Daftar pelanggan, pemasok (vendor), dan mitra bisnis Anda</span>
+        </div>
+        <button class="btn btn-g" onclick="alert('Fitur tambah kontak baru memerlukan otorisasi admin.')" style="padding: 0 12px; font-size: 11px; height: 32px; font-weight:700; margin:0;">➕ Tambah Kontak</button>
+      </div>
+
+      <!-- Metrics cards (Anda Hutang, Mereka Hutang, Pembayaran diterima) -->
+      <div class="metrics-grid-6">
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--yellow); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="km-anda-hutang">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Anda Hutang</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--red); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="km-mereka-hutang">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Mereka Hutang</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--orange); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="km-diterima">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Pembayaran Diterima</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--blue); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Hutang Anda J.T</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--purple); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Hutang Mereka J.T</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:12px; border-left: 3px solid var(--green); text-align:center;">
+          <div style="font-family:'Outfit'; font-weight:800; font-size:14px;" id="km-pembayaran-total">Rp 0</div>
+          <div style="font-size:8px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; margin-top:2px;">Total Pembayaran</div>
+        </div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="fchips" id="km-filter-chips" style="margin-bottom:12px;">
+        <button class="fchip active" onclick="setKMFilter('all', this)">Semua</button>
+        <button class="fchip" onclick="setKMFilter('Vendor', this)">Vendor</button>
+        <button class="fchip" onclick="setKMFilter('Pelanggan', this)">Pelanggan</button>
+        <button class="fchip" onclick="setKMFilter('Pegawai', this)">Pegawai</button>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Nama</th>
+              <th style="padding:12px 16px;">Tipe Kontak</th>
+              <th style="padding:12px 16px;">Perusahaan</th>
+              <th style="padding:12px 16px;">Alamat</th>
+              <th style="padding:12px 16px;">Email</th>
+              <th style="padding:12px 16px; text-align:right;">Telepon</th>
+            </tr>
+          </thead>
+          <tbody id="km-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: POS WELCOME (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-pos-welcome">
+      <div style="display:flex; justify-content:center; align-items:center; min-height: calc(100vh - 180px); width:100%;">
+        <div class="card" style="max-width:480px; text-align:center; padding:40px; box-shadow: var(--card-shadow); border-radius:12px; border: 1px solid var(--border);">
+          <div style="font-size:48px; margin-bottom:16px;">🖥️</div>
+          <h3 style="font-family:'Outfit'; font-size:20px; font-weight:800; margin-bottom:10px; color:var(--text);">Selamat Datang di Web POS</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:24px;">Kelola transaksi penjualan Anda dengan cepat dan praktis langsung dari browser. Klik tombol di bawah untuk membuka kasir.</p>
+          <button class="btn btn-g" onclick="switchTab('kasir')" style="width:100%; height:42px; font-size:13px; font-weight:700; margin:0;">Buka Kasir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: POS ORDERS (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-pos-orders">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">POS Sales Orders</h3>
+        <button class="btn btn-s" onclick="switchTab('pos-welcome')" style="padding: 0 12px; font-size: 11px; height: 32px; font-weight:700; margin:0;">Kembali</button>
+      </div>
+
+      <!-- Metrics cards -->
+      <div class="sg" style="margin-bottom:20px; display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+        <div class="card" style="margin-bottom:0; padding:16px; border-left: 4px solid var(--primary);">
+          <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Pesanan Penjualan</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="po-total-count">0</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; border-left: 4px solid var(--yellow);">
+          <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Belum Diproses</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;">0</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; border-left: 4px solid var(--green);">
+          <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Selesai</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;" id="po-selesai-count">0</div>
+        </div>
+        <div class="card" style="margin-bottom:0; padding:16px; border-left: 4px solid var(--red);">
+          <div style="font-size:10px; color:var(--text-secondary); font-weight:700; text-transform:uppercase;">Total Void</div>
+          <div style="font-family:'Outfit'; font-weight:800; font-size:18px; margin-top:4px;">0</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0; overflow-x:auto;">
+        <table class="saas-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1.5px solid var(--border); color:var(--text-secondary); font-weight:700;">
+              <th style="padding:12px 16px;">Nomor</th>
+              <th style="padding:12px 16px;">Tanggal Transaksi</th>
+              <th style="padding:12px 16px;">Nama Pelanggan</th>
+              <th style="padding:12px 16px;">Kasir</th>
+              <th style="padding:12px 16px; text-align:right;">Tagihan</th>
+            </tr>
+          </thead>
+          <tbody id="po-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: POS SETTINGS (KLEDO SAAS STYLE) -->
+    <div class="vp" id="view-pos-settings">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Pengaturan POS</h3>
+      </div>
+
+      <div class="card" style="padding:20px; display:flex; flex-direction:column; gap:16px;">
+        <div class="fg" style="margin-bottom:0">
+          <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Custom Produk</label>
+          <input type="text" value="Custom Product" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+          <span style="font-size:9px; color:var(--text-secondary);">Anda dapat membuat transaksi di POS untuk produk yang belum tercatat di data.</span>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Pelanggan</label>
+          <input type="text" value="POS Customer" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="fg" style="margin-bottom:0">
+            <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Akun Kirim Dana</label>
+            <input type="text" value="1-10100 Piutang Usaha" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+          </div>
+          <div class="fg" style="margin-bottom:0">
+            <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Akun Terima Dana</label>
+            <input type="text" value="1-10100 Piutang Usaha" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="fg" style="margin-bottom:0">
+            <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Akun Buka Kasir</label>
+            <input type="text" value="1-10002 Rekening Bank" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+          </div>
+          <div class="fg" style="margin-bottom:0">
+            <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Akun Tutup Kasir</label>
+            <input type="text" value="1-10002 Rekening Bank" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label style="font-weight:700; font-size:11px; margin-bottom:4px; display:block">Default Akun Terima Pembayaran</label>
+          <input type="text" value="1-10001 Kas" style="background:var(--bg); height:36px; font-size:12px;" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: CHAMPION PACKAGE LOCK (DYNAMIC OVERLAY) -->
+    <div class="vp" id="view-champion-lock">
+      <div style="display:flex; justify-content:center; align-items:center; min-height: calc(100vh - 180px); width:100%;">
+        <div class="card" style="max-width:480px; text-align:center; padding:40px; box-shadow: var(--card-shadow); border-radius:12px; border: 1px solid var(--border); background:linear-gradient(135deg, #ffffff, #f8fafc); position:relative; overflow:hidden;">
+          <!-- Locked Ribbon -->
+          <div style="position:absolute; top:12px; right:12px; background:var(--red); color:#fff; font-size:9px; font-weight:800; padding:2px 8px; border-radius:10px; text-transform:uppercase;">Locked</div>
+          <div style="font-size:48px; margin-bottom:16px;" id="lock-icon">🔒</div>
+          <h3 style="font-family:'Outfit'; font-size:18px; font-weight:800; margin-bottom:12px; color:var(--text);" id="lock-title">Fitur Premium</h3>
+          
+          <div style="background:#fffbeb; border:1px solid #fef3c7; border-radius:8px; padding:12px; margin-bottom:20px; font-size:11px; color:#b45309; font-weight:700; line-height:1.5;" id="lock-desc">
+            Fitur ini hanya tersedia di paket Champion.
+          </div>
+          
+          <button class="btn btn-g" onclick="alert('Permintaan upgrade paket Champion berhasil dikirim ke admin!')" style="width:100%; height:40px; font-size:12px; font-weight:700; margin:0; background:#10b981; border:none; box-shadow:0 4px 10px rgba(16,185,129,0.25);">Upgrade Sekarang</button>
+        </div>
+      </div>
     </div>
 
     <!-- VIEW 4: LAPORAN & AKUNTANSI -->
     <div class="vp" id="view-laporan">
-      <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Laporan Keuangan & Akuntansi</h3>
-      
-      <div class="fchips" id="laporan-filter-chips">
-        <button class="fchip active" onclick="setLaporanFilter('all',this)">Semua Waktu</button>
-        <button class="fchip" onclick="setLaporanFilter('today',this)">Hari Ini</button>
-        <button class="fchip" onclick="setLaporanFilter('7d',this)">7 Hari</button>
-        <button class="fchip" onclick="setLaporanFilter('30d',this)">30 Hari</button>
-      </div>
-
-      <!-- Financial Statements Summary Cards -->
-      <div class="group-title">Ringkasan Nilai Keuangan</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
-          <div style="width:32px; height:32px; border-radius:8px; background:var(--blue-light); color:var(--blue); display:flex; align-items:center; justify-content:center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          </div>
-          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-penjualan">Rp 0</div>
-          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Total Pendapatan</div>
-        </div>
-        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
-          <div style="width:32px; height:32px; border-radius:8px; background:var(--green-light); color:var(--green); display:flex; align-items:center; justify-content:center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </div>
-          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-transaksi">0</div>
-          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Total Transaksi</div>
-        </div>
-        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
-          <div style="width:32px; height:32px; border-radius:8px; background:var(--orange-light); color:var(--orange); display:flex; align-items:center; justify-content:center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          </div>
-          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-terjual">0</div>
-          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Barang Terjual</div>
-        </div>
-        <div class="card" style="margin-bottom:0; padding:14px; display:flex; flex-direction:column; gap:6px;">
-          <div style="width:32px; height:32px; border-radius:8px; background:#ecfeff; color:#0891b2; display:flex; align-items:center; justify-content:center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          </div>
-          <div style="font-family:'Outfit'; font-weight:800; font-size:16px;" id="dash-laba">Rp 0</div>
-          <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">Laba Bersih</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; flex-direction:column;">
+          <h3 style="font-family:'Outfit'; font-size:18px; margin:0;">Laporan</h3>
+          <span style="font-size:11px; color:var(--text-secondary);">Pantau perkembangan bisnis dan akuntansi secara menyeluruh</span>
         </div>
       </div>
 
-      <!-- Accounting Sheets Menu Links -->
-      <div class="group-title">Laporan Keuangan Resmi</div>
-      <div class="menu-card" onclick="openSheet('sheet-lap-rekap')" style="background:linear-gradient(135deg, #f0fdfa, #ecfeff); border:1px solid #cffafe;">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:#0891b2; color:#ffffff;">📑</div>
-          <div>
-            <div class="menu-card-title" style="color:#0891b2; font-weight:800;">Rekap Laporan Keuangan</div>
-            <div class="menu-card-desc" style="color:#0e7490;">Gabungan Laba Rugi, Neraca, &amp; Arus Kas</div>
+      <!-- Grid Laporan Kledo Style -->
+      <div class="laporan-sections-grid">
+        <!-- Seksi Finansial -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Finansial</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="openSheet('sheet-lap-neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Neraca</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-lap-aruskas')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Arus Kas</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-lap-labarugi')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laba Rugi</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Laporan Perubahan Modal dihasilkan otomatis di Neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Perubahan Modal</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-lap-rekap')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Eksekutif</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Hutang Piutang per Kontak</span>
+            </div>
           </div>
         </div>
-        <div style="color:#0891b2; font-weight:bold;">➔</div>
-      </div>
-      
-      <div class="menu-card" onclick="openSheet('sheet-lap-labarugi')">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:var(--blue-light); color:var(--blue);">📊</div>
-          <div>
-            <div class="menu-card-title">Laporan Laba Rugi</div>
-            <div class="menu-card-desc">Pendapatan, Harga HPP, Beban & Margin Profit</div>
-          </div>
-        </div>
-        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
-      </div>
-      
-      <div class="menu-card" onclick="openSheet('sheet-lap-neraca')">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:var(--green-light); color:var(--green);">📋</div>
-          <div>
-            <div class="menu-card-title">Neraca Keuangan</div>
-            <div class="menu-card-desc">Aset (Kas, Stok, Piutang) vs Modal Usaha</div>
-          </div>
-        </div>
-        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
-      </div>
 
-      <div class="menu-card" onclick="openSheet('sheet-lap-aruskas')">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:#fef3c7; color:#d97706;">💰</div>
-          <div>
-            <div class="menu-card-title">Arus Kas (Cash Flow)</div>
-            <div class="menu-card-desc">Kas Masuk & Keluar: Operasional, Investasi & Modal</div>
+        <!-- Seksi Akuntansi -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Akuntansi</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('akun')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Bank</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('akun')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Buku Besar</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Jurnal penyesuaian dicatat otomatis di log mutasi')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Jurnal</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('akun')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Trial Balance</span>
+            </div>
           </div>
         </div>
-        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
-      </div>
 
-      <div class="menu-card" onclick="openSheet('sheet-hutang')">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">📕</div>
-          <div>
-            <div class="menu-card-title">Buku Hutang (Piutang)</div>
-            <div class="menu-card-desc">Daftar kasbon pelanggan & penagihan WA</div>
+        <!-- Seksi Penjualan -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Penjualan</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('overview-penjualan')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Penjualan</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Umur Piutang</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-hutang')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Piutang Pelanggan</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('riwayat')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Tagihan Pelanggan</span>
+            </div>
           </div>
         </div>
-        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
-      </div>
 
-      <div class="menu-card" onclick="openSheet('sheet-pengeluaran')">
-        <div class="menu-card-left">
-          <div class="menu-card-icon" style="background:#f5f5f5; color:#4b5563;">💸</div>
-          <div>
-            <div class="menu-card-title">Buku Pengeluaran (Beban)</div>
-            <div class="menu-card-desc">Catat biaya operasional & pengeluaran umum</div>
+        <!-- Seksi Pembelian -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Pembelian</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('overview-pembelian')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Pembelian</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('tagihan-pembelian')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Umur Hutang</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('tagihan-pembelian')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Laporan Hutang Vendor</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('tagihan-pembelian')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Tagihan Vendor</span>
+            </div>
           </div>
         </div>
-        <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
+
+        <!-- Seksi Inventori -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Inventori</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="switchTab('inventori')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Inventori</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-riwayat-stok')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Pergerakan Stok Inventori</span>
+            </div>
+            <div class="laporan-item" onclick="openSheet('sheet-stok-opname')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Pergerakan Stok Produk</span>
+            </div>
+            <div class="laporan-item" onclick="switchTab('inventori')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Stok Gudang</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seksi Aset Tetap -->
+        <div class="laporan-card">
+          <div class="laporan-card-title">Aset Tetap</div>
+          <div class="laporan-list">
+            <div class="laporan-item" onclick="alert('Daftar Aset Tetap terdata otomatis di Neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Ringkasan Aset Tetap</span>
+            </div>
+            <div class="laporan-item" onclick="alert('Depresiasi dihitung tahunan di Neraca')">
+              <span class="star-icon">⭐</span>
+              <span class="laporan-item-text">Detail Aset Tetap</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -301,8 +1377,17 @@
     <div class="vp" id="view-pengaturan">
       <h3 style="font-family:'Outfit'; font-size:18px; margin-bottom:12px">Pengaturan Sistem</h3>
       
-      <div class="group-title">Profil Usaha</div>
-      <div class="menu-card" onclick="openSheet('sheet-profile')">
+      <!-- Box Akun Pengguna Aktif -->
+      <div id="profile-box" style="background:#ffffff; border:1px solid var(--border); border-radius:10px; padding:12px 16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:10px; color:var(--text-secondary); font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:2px;">AKUN AKTIF</div>
+          <div id="profile-role-name" style="font-family:'Outfit'; font-weight:800; font-size:14px; color:var(--text);">Memuat...</div>
+        </div>
+        <button class="btn btn-o" style="padding:6px 12px; font-size:12px; border-radius:6px; font-weight:700; margin:0;" onclick="logoutUser()">✕ Keluar</button>
+      </div>
+      
+      <div class="group-title manager-only">Profil Usaha</div>
+      <div class="menu-card manager-only" onclick="openSheet('sheet-profile')">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:var(--blue-light); color:var(--blue);">⚙️</div>
           <div>
@@ -313,8 +1398,8 @@
         <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
       </div>
 
-      <div class="group-title">Keamanan &amp; PIN</div>
-      <div class="menu-card" onclick="openSheet('sheet-security')">
+      <div class="group-title manager-only">Keamanan &amp; PIN</div>
+      <div class="menu-card manager-only" onclick="openSheet('sheet-security')">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">🔒</div>
           <div>
@@ -325,8 +1410,8 @@
         <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
       </div>
 
-      <div class="group-title">Basis Data (Database)</div>
-      <div class="menu-card" onclick="backupData()">
+      <div class="group-title manager-only">Basis Data (Database)</div>
+      <div class="menu-card manager-only" onclick="backupData()">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:#e0f2fe; color:#0369a1;">📥</div>
           <div>
@@ -337,7 +1422,7 @@
         <div style="color:var(--text-secondary); font-weight:bold;">➔</div>
       </div>
 
-      <div class="menu-card" onclick="triggerRestore()">
+      <div class="menu-card manager-only" onclick="triggerRestore()">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:var(--green-light); color:var(--green);">📤</div>
           <div>
@@ -349,7 +1434,7 @@
       </div>
       <input type="file" id="restore-file-input" accept=".json" style="display:none" onchange="restoreData(event)">
 
-      <div class="menu-card" onclick="resetAplikasi()" style="border-color:var(--red-light);">
+      <div class="menu-card manager-only" onclick="resetAplikasi()" style="border-color:var(--red-light);">
         <div class="menu-card-left">
           <div class="menu-card-icon" style="background:var(--red-light); color:var(--red);">🗑️</div>
           <div>
@@ -399,7 +1484,7 @@
       </svg>
       <span>Transaksi</span>
     </button>
-    <button class="ni" id="tab-laporan" onclick="switchTab('laporan')">
+    <button class="ni manager-only" id="tab-laporan" onclick="switchTab('laporan')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
         <line x1="18" y1="20" x2="18" y2="10"/>
         <line x1="12" y1="20" x2="12" y2="4"/>
@@ -731,63 +1816,7 @@
   </div>
 </div>
 
-<!-- SHEET: CART OVERVIEW -->
-<div class="mo" id="sheet-cart">
-  <div class="md">
-    <div class="mh">
-      <h3 class="mt">Keranjang Belanja POS</h3>
-      <button class="mx" onclick="closeSheet('sheet-cart')">✕</button>
-    </div>
-    <div class="mb">
-      <div id="cart-items" style="max-height:280px; overflow-y:auto; margin-bottom:12px;"></div>
-      
-      <!-- Summaries -->
-      <div class="card" style="margin-bottom:0; display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; justify-content:space-between; font-size:12px;">
-          <span>Subtotal Barang</span>
-          <span id="cart-subtotal">Rp 0</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:12px; cursor:pointer;" onclick="editCartDiscount()" title="Klik untuk edit diskon">
-          <span>Potongan Diskon (Rp) ✏️</span>
-          <span id="cart-diskon-label" style="color:var(--red); font-weight:700;">Rp 0 ✏️</span>
-        </div>
-        <hr style="border:none; border-top:1px dashed var(--border);">
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; color:var(--primary);">
-          <span>Total Tagihan</span>
-          <span id="cart-modal-total">Rp 0</span>
-        </div>
-      </div>
-      
-      <!-- Identitas Pelanggan (Wajib) -->
-      <div class="card" style="padding:12px; margin-top:12px; margin-bottom:12px; border-color:var(--primary-light); background:var(--surface); text-align:left;">
-        <div style="font-family:'Outfit'; font-weight:700; font-size:12px; margin-bottom:8px; color:var(--primary);">👤 Identitas Pelanggan (Wajib diisi)</div>
-        <div class="fg" style="margin-bottom:8px;">
-          <label style="font-size:10px; margin-bottom:2px; display:block;">Nama Lengkap</label>
-          <input type="text" id="cart-cust-nama" placeholder="Masukkan nama pelanggan" style="height:36px; font-size:12px;" oninput="syncCustomerData('nama', this.value)">
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px;">
-          <div class="fg" style="margin-bottom:0;">
-            <label style="font-size:10px; margin-bottom:2px; display:block;">No. HP/WA</label>
-            <input type="text" id="cart-cust-wa" placeholder="0812..." style="height:36px; font-size:12px;" oninput="syncCustomerData('wa', this.value)">
-          </div>
-          <div class="fg" style="margin-bottom:0;">
-            <label style="font-size:10px; margin-bottom:2px; display:block;">Alamat Rumah</label>
-            <input type="text" id="cart-cust-alamat" placeholder="Alamat lengkap" style="height:36px; font-size:12px;" oninput="syncCustomerData('alamat', this.value)">
-          </div>
-        </div>
-      </div>
-      
-      <div class="fg" style="margin-top:10px;">
-        <label>Catatan Transaksi</label>
-        <input type="text" id="cart-catatan" placeholder="Contoh: Kirim jam 3 sore" oninput="updateCartCatatan()">
-      </div>
-    </div>
-    <div class="mf">
-      <button class="btn btn-s" style="flex:1;" onclick="clearCart()">Kosongkan</button>
-      <button class="btn btn-g" style="flex:2;" onclick="openCheckout()">Lanjutkan Pembayaran ➔</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- SHEET: CHECKOUT OPTIONS (TUNAI/HUTANG) -->
 <div class="mo" id="sheet-checkout">
@@ -1230,7 +2259,8 @@
     <div class="mf" style="gap:8px;">
       <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-labarugi')">✕ Tutup</button>
       <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-labarugi')">🖨️ Cetak PDF</button>
-      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('labarugi')">💾 Unduh JPG</button>
+      <button class="btn" style="flex:1.2; background:#22c55e; color:#fff;" onclick="shareReportWA('labarugi')">📲 WA Bagikan</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('labarugi')">💾 Unduh JPG</button>
     </div>
   </div>
 </div>
@@ -1288,7 +2318,8 @@
     <div class="mf" style="gap:8px;">
       <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-neraca')">✕ Tutup</button>
       <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-neraca')">🖨️ Cetak PDF</button>
-      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('neraca')">💾 Unduh JPG</button>
+      <button class="btn" style="flex:1.2; background:#22c55e; color:#fff;" onclick="shareReportWA('neraca')">📲 WA Bagikan</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('neraca')">💾 Unduh JPG</button>
     </div>
   </div>
 </div>
@@ -1356,7 +2387,8 @@
     <div class="mf" style="gap:8px;">
       <button class="btn btn-s" style="flex:1" onclick="closeSheet('sheet-lap-aruskas')">✕ Tutup</button>
       <button class="btn btn-y" style="flex:1" onclick="printReport('sheet-lap-aruskas')">🖨️ Cetak PDF</button>
-      <button class="btn btn-o" style="flex:1.2" onclick="downloadReportImage('aruskas')">💾 Unduh JPG</button>
+      <button class="btn" style="flex:1.2; background:#22c55e; color:#fff;" onclick="shareReportWA('aruskas')">📲 WA Bagikan</button>
+      <button class="btn btn-o" style="flex:1" onclick="downloadReportImage('aruskas')">💾 Unduh JPG</button>
     </div>
   </div>
 </div>
@@ -1486,7 +2518,9 @@
 <div id="print-section"></div>
 
 <!-- ===================== PERSISTENT AUDIO / SCRIPTS ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="app.js"></script>
 <script src="faktur.js"></script>
+<script src="supabase-sync.js"></script>
 </body>
 </html>
