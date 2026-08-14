@@ -1253,26 +1253,7 @@ body {
     gap: 16px !important;
   }
   
-  /* Layout Grid 2 Kolom Menu Utama & Pengaturan */
-  #view-dashboard, #view-pengaturan {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    align-content: start;
-  }
-  
-  #view-dashboard .group-title, 
-  #view-dashboard h3,
-  #view-dashboard .sg,
-  #view-pengaturan .group-title,
-  #view-pengaturan h3,
-  #view-pengaturan #profile-box {
-    grid-column: 1 / -1;
-  }
-  
-  .menu-card {
-    margin-bottom: 0 !important;
-  }
+
 
   /* Modal Dialogs Lebih Lebar */
   .md {
@@ -1280,7 +1261,7 @@ body {
   }
 
   /* Split Screen POS Layout for Cashier (POS View) */
-  #view-kasir {
+  #view-kasir.active {
     display: grid !important;
     grid-template-columns: 1.5fr 1.1fr !important;
     gap: 20px !important;
@@ -1325,7 +1306,7 @@ body {
   }
 
   /* Split Screen POS History */
-  #view-riwayat {
+  #view-riwayat.active {
     display: grid !important;
     grid-template-columns: 1.15fr 1.85fr !important;
     gap: 20px !important;
