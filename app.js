@@ -28,10 +28,10 @@ var cartCatatan = '';
 /* ====== INITIAL DATA (Penyediaan Awal UMKM) ====== */
 function loadInitialDummyData() {
   S.produk = [
-    { id: 'P-1', nama: 'Galon + Air', hargaHpp: 45000, hargaJual: 65000, stok: 50, satuan: 'Galon', kategori: 'Galon', expiredDate: '' },
-    { id: 'P-2', nama: 'Ukuran 220ml (GELAS)', hargaHpp: 25000, hargaJual: 33000, stok: 100, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' },
-    { id: 'P-3', nama: 'Ukuran 330ml (BOTOL)', hargaHpp: 40000, hargaJual: 51000, stok: 80, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' },
-    { id: 'P-4', nama: 'Tukar Air Galon', hargaHpp: 5000, hargaJual: 15000, stok: 200, satuan: 'Galon', kategori: 'Jasa', expiredDate: '' },
+    { id: 'P-1', nama: 'Galon + Air', hargaHpp: 55000, hargaJual: 65000, stok: 50, satuan: 'Galon', kategori: 'Galon', expiredDate: '' },
+    { id: 'P-2', nama: 'Ukuran 220ml (GELAS)', hargaHpp: 29000, hargaJual: 33000, stok: 100, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' },
+    { id: 'P-3', nama: 'Ukuran 330ml (BOTOL)', hargaHpp: 37500, hargaJual: 51000, stok: 80, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' },
+    { id: 'P-4', nama: 'Tukar Air Galon', hargaHpp: 8000, hargaJual: 15000, stok: 200, satuan: 'Galon', kategori: 'Jasa', expiredDate: '' },
     { id: 'P-5', nama: 'Ukuran 600ml (BOTOL)', hargaHpp: 35000, hargaJual: 45000, stok: 60, satuan: 'Karton', kategori: 'Air Kemasan', expiredDate: '' }
   ];
   
@@ -184,6 +184,32 @@ function esc(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function formatRibuan(el) {
+  var pos = el.selectionStart;
+  var oldLen = el.value.length;
+  var raw = el.value.replace(/[^0-9]/g, '');
+  if (raw === '') { el.value = ''; return; }
+  el.value = Number(raw).toLocaleString('id-ID');
+  var newLen = el.value.length;
+  var newPos = pos + (newLen - oldLen);
+  if (newPos < 0) newPos = 0;
+  el.setSelectionRange(newPos, newPos);
+}
+
+function parseRibuan(id) {
+  var el = document.getElementById(id);
+  if (!el) return 0;
+  var raw = el.value.replace(/[^0-9]/g, '');
+  return Number(raw) || 0;
+}
+
+function setRibuan(id, val) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var n = Number(val) || 0;
+  el.value = n > 0 ? n.toLocaleString('id-ID') : '';
+}
+
 /* ====== NAVIGATION TABS ====== */
 function switchTab(t) {
   // Tutup sidebar di mobile jika sedang terbuka
@@ -266,7 +292,7 @@ function openSheet(id) {
     // Auto-trigger rendering lists inside modals on open
     if (id === 'sheet-profile') {
       document.getElementById('set-nama').value = S.config.namaKios || '';
-      document.getElementById('set-modal').value = S.config.modalAwal || '';
+      setRibuan('set-modal', S.config.modalAwal || 0);
       tempLogoBase64 = null;
       var lp = document.getElementById('logo-preview');
       if (S.config.logo) {
@@ -410,8 +436,8 @@ function openProdukSheet(pid) {
     document.getElementById('produk-title').textContent = 'Edit Produk';
     document.getElementById('fp-id').value = p.id;
     document.getElementById('fp-nama').value = p.nama || '';
-    document.getElementById('fp-hpp').value = p.hargaHpp || 0;
-    document.getElementById('fp-jual').value = p.hargaJual || 0;
+    setRibuan('fp-hpp', p.hargaHpp || 0);
+    setRibuan('fp-jual', p.hargaJual || 0);
     document.getElementById('fp-stok').value = p.stok != null ? p.stok : (p.stokAwal || 0);
     document.getElementById('fp-satuan').value = p.satuan || 'pcs';
     document.getElementById('fp-kategori').value = p.kategori || '';
@@ -441,8 +467,8 @@ function openProdukSheet(pid) {
 function simpanProduk() {
   var id = document.getElementById('fp-id').value;
   var nama = document.getElementById('fp-nama').value.trim();
-  var hpp = Number(document.getElementById('fp-hpp').value || 0);
-  var jual = Number(document.getElementById('fp-jual').value || 0);
+  var hpp = parseRibuan('fp-hpp');
+  var jual = parseRibuan('fp-jual');
   var stok = Number(document.getElementById('fp-stok').value || 0);
   var satuan = document.getElementById('fp-satuan').value.trim() || 'pcs';
   var kategori = document.getElementById('fp-kategori').value.trim() || 'Lain-lain';
@@ -832,7 +858,7 @@ function openCheckout() {
   if (totalBill < 0) totalBill = 0;
   
   document.getElementById('co-total').textContent = fR(totalBill);
-  document.getElementById('co-bayar').value = totalBill;
+  setRibuan('co-bayar', totalBill);
   
   // Pre-fill from start-of-transaction customer inputs
   document.getElementById('co-nama-hutang').value = custNama;
@@ -846,7 +872,7 @@ function openCheckout() {
 }
 
 function setQC(val) {
-  document.getElementById('co-bayar').value = val;
+  setRibuan('co-bayar', val);
   hitungKembalian();
 }
 
@@ -854,7 +880,7 @@ function setUangPas() {
   var subtotal = S.cart.reduce(function(s, i) { return s + (i.qty * i.hargaJual) }, 0);
   var totalBill = subtotal - cartDiskon;
   if (totalBill < 0) totalBill = 0;
-  document.getElementById('co-bayar').value = totalBill;
+  setRibuan('co-bayar', totalBill);
   hitungKembalian();
 }
 
@@ -862,7 +888,7 @@ function hitungKembalian() {
   var subtotal = S.cart.reduce(function(s, i) { return s + (i.qty * i.hargaJual) }, 0);
   var totalBill = subtotal - cartDiskon;
   if (totalBill < 0) totalBill = 0;
-  var bayar = Number(document.getElementById('co-bayar').value || 0);
+  var bayar = parseRibuan('co-bayar');
   var kem = bayar - totalBill;
   
   document.getElementById('co-kembalian').textContent = fR(kem > 0 ? kem : 0);
@@ -889,7 +915,7 @@ function selesaikanTransaksi() {
   var alamatHutang = document.getElementById('co-alamat-hutang').value.trim() || (posAlamat ? posAlamat.value.trim() : '');
   
   if (currentPaymentMethod === 'tunai' || currentPaymentMethod === 'transfer') {
-    bayar = Number(document.getElementById('co-bayar').value || 0);
+    bayar = parseRibuan('co-bayar');
     if (bayar < totalBill) { alert('Jumlah pembayaran kurang!'); return; }
     kembalian = bayar - totalBill;
     metode = currentPaymentMethod === 'transfer' ? 'Transfer' : 'Tunai';
@@ -1253,7 +1279,7 @@ function simpanHutang() {
   var nama = document.getElementById('h-nama').value.trim();
   var wa = document.getElementById('h-wa').value.trim();
   var alamat = document.getElementById('h-alamat').value.trim();
-  var jumlah = Number(document.getElementById('h-jumlah').value || 0);
+  var jumlah = parseRibuan('h-jumlah');
   var ket = document.getElementById('h-ket').value.trim();
   
   if (!nama || jumlah <= 0) { alert('Nama dan jumlah wajib diisi!'); return; }
@@ -1376,7 +1402,7 @@ function renderPengeluaranList() {
 
 function tambahPengeluaran() {
   var kat = document.getElementById('exp-kategori').value;
-  var jum = Number(document.getElementById('exp-jumlah').value || 0);
+  var jum = parseRibuan('exp-jumlah');
   var ket = document.getElementById('exp-keterangan').value.trim();
   
   if (jum <= 0) { alert('Jumlah pengeluaran harus lebih besar dari 0!'); return; }
@@ -1595,7 +1621,7 @@ function exportCSV() {
 /* ====== SETTINGS, BACKUP & RESTORE ====== */
 function simpanConfig() {
   S.config.namaKios = document.getElementById('set-nama').value.trim() || 'Uncen Fresh';
-  S.config.modalAwal = Number(document.getElementById('set-modal').value || 0);
+  S.config.modalAwal = parseRibuan('set-modal');
   if (tempLogoBase64) S.config.logo = tempLogoBase64;
   
   applyHeader();
@@ -1610,6 +1636,7 @@ function simpanKeamanan() {
   S.config.security.pass = document.getElementById('sec-pass').value.trim();
   
   saveState();
+  updateSidebarUserFooter();
   closeSheet('sheet-security');
   alert('PIN Keamanan berhasil disimpan!');
 }
@@ -2440,16 +2467,44 @@ function renderBiayaPage() {
 }
 
 function updateSidebarUserFooter() {
+  var userName = S.config.security ? (S.config.security.user || 'Operator') : 'Operator';
+  if (S.currentUser && S.currentUser.nama) userName = S.currentUser.nama;
+  var initial = userName.charAt(0).toUpperCase();
+
+  // Sidebar footer
   var elName = document.getElementById('sb-user-name');
   var elAvatar = document.getElementById('sb-avatar-letter');
-  if (S.currentUser) {
-    if (elName) elName.textContent = S.currentUser.nama || 'Operator';
-    if (elAvatar) elAvatar.textContent = (S.currentUser.nama || 'O').charAt(0).toUpperCase();
-  } else {
-    if (elName) elName.textContent = 'Operator';
-    if (elAvatar) elAvatar.textContent = 'O';
-  }
+  if (elName) elName.textContent = userName;
+  if (elAvatar) elAvatar.textContent = initial;
+
+  // Header dropdown (kanan atas)
+  var hdrLabel = document.getElementById('hdr-user-label');
+  var hdrAvatar = document.getElementById('hdr-avatar-letter');
+  var hdrDdName = document.getElementById('hdr-dd-name');
+  var hdrDdAvatar = document.getElementById('hdr-dd-avatar');
+  if (hdrLabel) hdrLabel.textContent = userName;
+  if (hdrAvatar) hdrAvatar.textContent = initial;
+  if (hdrDdName) hdrDdName.textContent = userName;
+  if (hdrDdAvatar) hdrDdAvatar.textContent = initial;
 }
+
+function toggleHeaderDropdown(e) {
+  if (e) e.stopPropagation();
+  var menu = document.getElementById('hdr-dropdown-menu');
+  if (!menu) return;
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+// Close header dropdown when clicking elsewhere
+document.addEventListener('click', function(e) {
+  var menu = document.getElementById('hdr-dropdown-menu');
+  if (menu && menu.style.display === 'block') {
+    var dropdown = document.querySelector('.hdr-user-dropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  }
+});
 
 /* ======================================================== */
 /* NEW SAAS ERP VIEWS GENERATORS (KLEDO STYLE) */
@@ -2639,11 +2694,11 @@ function renderAkunPage() {
     { code: '1-10003', name: 'Giro Bisnis', category: 'Kas & Bank', balance: 0 },
     { code: '1-10100', name: 'Piutang Usaha Pelanggan', category: 'Akun Piutang', balance: saldoPiutang },
     { code: '1-10200', name: 'Persediaan Barang Dagangan', category: 'Persediaan', balance: totalHPPValue },
-    { code: '1-10700', name: 'Aset Tetap - Tanah', category: 'Aktiva Tetap', balance: 150000000 },
-    { code: '1-10701', name: 'Aset Tetap - Bangunan', category: 'Aktiva Tetap', balance: 75000000 },
-    { code: '2-20100', name: 'Hutang Usaha Supplier', category: 'Akun Hutang', balance: saldoHutangSupplier + totalExpensesUnpaid },
-    { code: '3-30000', name: 'Modal Saham', category: 'Ekuitas', balance: 250000000 },
-    { code: '3-30100', name: 'Laba Ditahan', category: 'Ekuitas', balance: (totalRevenue - totalCostSold - totalExpensesPaid) > 0 ? (totalRevenue - totalCostSold - totalExpensesPaid) : 0 },
+    { code: '1-10700', name: 'Aset Tetap - Tanah', category: 'Aset Tetap BLU', balance: 150000000 },
+    { code: '1-10701', name: 'Aset Tetap - Bangunan', category: 'Aset Tetap BLU', balance: 75000000 },
+    { code: '2-20100', name: 'Utang Usaha / Vendor', category: 'Kewajiban Jangka Pendek', balance: saldoHutangSupplier + totalExpensesUnpaid },
+    { code: '3-30000', name: 'Ekuitas Awal Kelolaan BLU', category: 'Ekuitas', balance: 250000000 },
+    { code: '3-30100', name: 'Surplus/Defisit Akumulasian LO', category: 'Ekuitas', balance: (totalRevenue - totalCostSold - totalExpensesPaid) > 0 ? (totalRevenue - totalCostSold - totalExpensesPaid) : 0 },
     { code: '4-40000', name: 'Pendapatan Penjualan POS', category: 'Pendapatan', balance: totalRevenue },
     { code: '5-50000', name: 'Beban Pokok Pendapatan (HPP)', category: 'Harga Pokok Penjualan', balance: totalCostSold },
     { code: '6-60101', name: 'Beban Gaji & Upah', category: 'Beban', balance: totalExpensesPaid * 0.4 },
@@ -2675,8 +2730,8 @@ function renderAkunPage() {
     'Kas & Bank': '#ff5c8a',
     'Akun Piutang': '#ffb703',
     'Persediaan': '#2a9d8f',
-    'Aktiva Tetap': '#8d99ae',
-    'Akun Hutang': '#7209b7',
+    'Aset Tetap BLU': '#8d99ae',
+    'Kewajiban Jangka Pendek': '#7209b7',
     'Ekuitas': '#f77f00',
     'Pendapatan': '#d62828',
     'Harga Pokok Penjualan': '#5c0d24',
